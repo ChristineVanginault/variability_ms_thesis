@@ -566,7 +566,6 @@ aci_data_id4_31 = subset(aci_data, id == 4 & set_leafT == 31)
 aci_data_id4_31[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
-aci_data_id4_31 = subset(aci_data, id == 4 & set_leafT == 31 & Ci < 1000)
 plot(Adyn ~ Ci, data = aci_data_id4_31)
 #### fit aci curve
 fit_aci_id4_31 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -906,6 +905,8 @@ aci_data_id7_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
 plot(Adyn ~ Ci, data = aci_data_id7_20)
+aci_data_id7_20 = subset(aci_data, id == 7 & set_leafT == 20 & Ci < 800)
+plot(Adyn ~ Ci, data = aci_data_id7_20)
 #### fit aci curve
 fit_aci_id7_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
                         # citransition = 200,
@@ -1193,7 +1194,6 @@ aci_data_id9_20 = subset(aci_data, id == 9 & set_leafT == 20)
 aci_data_id9_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
-aci_data_id9_20 = subset(aci_data, id == 9 & set_leafT == 20 & Ci < 1000)
 plot(Adyn ~ Ci, data = aci_data_id9_20)
 #### fit aci curve
 fit_aci_id9_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -1338,7 +1338,8 @@ aci_data_id10_20 = subset(aci_data, id == 10 & set_leafT == 20)
 aci_data_id10_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
-aci_data_id10_20 = subset(aci_data, id == 10 & set_leafT == 20 & Ci < 800)
+plot(Adyn ~ Ci, data = aci_data_id10_20)
+aci_data_id10_20 = subset(aci_data, id == 10 & set_leafT == 20 & Ci < 600)
 plot(Adyn ~ Ci, data = aci_data_id10_20)
 #### fit aci curve
 fit_aci_id10_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -1388,6 +1389,8 @@ aci_data_id10_25[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
 plot(Adyn ~ Ci, data = aci_data_id10_25)
+aci_data_id10_25 = subset(aci_data, id == 10 & set_leafT == 25 & Ci < 800)
+plot(Adyn ~ Ci, data = aci_data_id10_25)
 #### fit aci curve
 fit_aci_id10_25 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
                          # citransition = 300,
@@ -1435,6 +1438,8 @@ aci_data_id10_31 = subset(aci_data, id == 10 & set_leafT == 31)
 aci_data_id10_31[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
+plot(Adyn ~ Ci, data = aci_data_id10_31)
+aci_data_id10_31 = subset(aci_data, id == 10 & set_leafT == 31 & Ci < 800)
 plot(Adyn ~ Ci, data = aci_data_id10_31)
 #### fit aci curve
 fit_aci_id10_31 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -1724,6 +1729,8 @@ aci_data_id12_31[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
 plot(Adyn ~ Ci, data = aci_data_id12_31)
+aci_data_id12_31 = subset(aci_data, id == 12 & set_leafT == 31 & Ci < 700)
+plot(Adyn ~ Ci, data = aci_data_id12_31)
 #### fit aci curve
 fit_aci_id12_31 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
                          # citransition = 325,
@@ -1771,6 +1778,8 @@ aci_data_id13_20 = subset(aci_data, id == 13 & set_leafT == 20)
 aci_data_id13_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
+plot(Adyn ~ Ci, data = aci_data_id13_20)
+aci_data_id13_20 = subset(aci_data, id == 13 & set_leafT == 20 & Ci < 1200)
 plot(Adyn ~ Ci, data = aci_data_id13_20)
 #### fit aci curve
 fit_aci_id13_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -2059,6 +2068,7 @@ aci_data_id15_20 = subset(aci_data, id == 15 & set_leafT == 20)
 aci_data_id15_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
+plot(Adyn ~ Ci, data = aci_data_id15_20)
 aci_data_id15_20 = subset(aci_data, id == 15 & set_leafT == 20 & Ci < 1300)
 plot(Adyn ~ Ci, data = aci_data_id15_20)
 #### fit aci curve
@@ -2204,6 +2214,7 @@ aci_data_id16_20 = subset(aci_data, id == 16 & set_leafT == 20)
 aci_data_id16_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
+plot(Adyn ~ Ci, data = aci_data_id16_20)
 aci_data_id16_20 = subset(aci_data, id == 16 & set_leafT == 20 & Ci <800)
 plot(Adyn ~ Ci, data = aci_data_id16_20)
 #### fit aci curve
@@ -2926,6 +2937,8 @@ aci_data_id21_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
 plot(Adyn ~ Ci, data = aci_data_id21_20)
+aci_data_id21_20 = subset(aci_data, id == 21 & set_leafT == 20 & Ci < 1000)
+plot(Adyn ~ Ci, data = aci_data_id21_20)
 #### fit aci curve
 fit_aci_id21_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
                          # citransition = 300,
@@ -2974,6 +2987,8 @@ aci_data_id21_25[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
 plot(Adyn ~ Ci, data = aci_data_id21_25)
+aci_data_id21_25 = subset(aci_data, id == 21 & set_leafT == 25 & Ci < 700)
+plot(Adyn ~ Ci, data = aci_data_id21_25)
 #### fit aci curve
 fit_aci_id21_25 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
                          # citransition = 300,
@@ -3021,6 +3036,8 @@ aci_data_id21_31 = subset(aci_data, id == 21 & set_leafT == 31)
 aci_data_id21_31[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
+plot(Adyn ~ Ci, data = aci_data_id21_31)
+aci_data_id21_31 = subset(aci_data, id == 21 & set_leafT == 31 & Ci < 700)
 plot(Adyn ~ Ci, data = aci_data_id21_31)
 #### fit aci curve
 fit_aci_id21_31 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -3165,6 +3182,8 @@ aci_data_id22_31 = subset(aci_data, id == 22 & set_leafT == 31)
 aci_data_id22_31[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
+plot(Adyn ~ Ci, data = aci_data_id22_31)
+aci_data_id22_31 = subset(aci_data, id == 22 & set_leafT == 31 & Ci < 1200)
 plot(Adyn ~ Ci, data = aci_data_id22_31)
 #### fit aci curve
 fit_aci_id22_31 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -3358,6 +3377,8 @@ aci_data_id24_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
 plot(Adyn ~ Ci, data = aci_data_id24_20)
+aci_data_id24_20 = subset(aci_data, id == 24 & set_leafT == 20 & Ci < 500)
+plot(Adyn ~ Ci, data = aci_data_id24_20)
 #### fit aci curve
 fit_aci_id24_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
                          # citransition = 300,
@@ -3405,6 +3426,8 @@ aci_data_id24_25 = subset(aci_data, id == 24 & set_leafT == 25)
 aci_data_id24_25[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
+plot(Adyn ~ Ci, data = aci_data_id24_25)
+aci_data_id24_25 = subset(aci_data, id == 24 & set_leafT == 25 & Ci < 600)
 plot(Adyn ~ Ci, data = aci_data_id24_25)
 #### fit aci curve
 fit_aci_id24_25 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -3454,6 +3477,8 @@ aci_data_id24_31[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
 plot(Adyn ~ Ci, data = aci_data_id24_31)
+aci_data_id24_31 = subset(aci_data, id == 24 & set_leafT == 31 & Ci < 650)
+plot(Adyn ~ Ci, data = aci_data_id24_31)
 #### fit aci curve
 fit_aci_id24_31 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
                          # citransition = 300,
@@ -3502,6 +3527,8 @@ aci_data_id25_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
 plot(Adyn ~ Ci, data = aci_data_id25_20)
+aci_data_id25_20 = subset(aci_data, id == 25 & set_leafT == 20 & Ci < 550)
+plot(Adyn ~ Ci, data = aci_data_id25_20)
 #### fit aci curve
 fit_aci_id25_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
                          # citransition = 300,
@@ -3549,6 +3576,8 @@ aci_data_id25_25 = subset(aci_data, id == 25 & set_leafT == 25)
 aci_data_id25_25[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
+plot(Adyn ~ Ci, data = aci_data_id25_25)
+aci_data_id25_25 = subset(aci_data, id == 25 & set_leafT == 25 & Ci < 600)
 plot(Adyn ~ Ci, data = aci_data_id25_25)
 #### fit aci curve
 fit_aci_id25_25 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -3943,7 +3972,6 @@ fit_aci_id28_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "
                          fitmethod = 'bilinear',
                          data = aci_data_id28_20)
 summary(fit_aci_id28_20)
-
 coef_id28_20 <- coef(fit_aci_id28_20)
 #### plot
 plot(fit_aci_id28_20)
@@ -3982,6 +4010,8 @@ aci_data_id28_25 = subset(aci_data, id == 28 & set_leafT == 25)
 aci_data_id28_25[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
+plot(Adyn ~ Ci, data = aci_data_id28_25)
+aci_data_id28_25 = subset(aci_data, id == 28 & set_leafT == 25 & Ci < 1200)
 plot(Adyn ~ Ci, data = aci_data_id28_25)
 #### fit aci curve
 fit_aci_id28_25 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -4228,6 +4258,8 @@ aci_data_id30_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
 plot(Adyn ~ Ci, data = aci_data_id30_20)
+aci_data_id30_20 = subset(aci_data, id == 30 & set_leafT == 20 & Ci < 800)
+plot(Adyn ~ Ci, data = aci_data_id30_20)
 #### fit aci curve
 fit_aci_id30_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
                          # citransition = 300,
@@ -4374,6 +4406,8 @@ aci_data_id31_20 = subset(aci_data, id == 31 & set_leafT == 20)
 aci_data_id31_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
+plot(Adyn ~ Ci, data = aci_data_id31_20)
+aci_data_id31_20 = subset(aci_data, id == 31 & set_leafT == 20 & Ci < 600)
 plot(Adyn ~ Ci, data = aci_data_id31_20)
 #### fit aci curve
 fit_aci_id31_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -4666,6 +4700,8 @@ aci_data_id33_20 = subset(aci_data, id == 33 & set_leafT == 20)
 aci_data_id33_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
+plot(Adyn ~ Ci, data = aci_data_id33_20)
+aci_data_id33_20 = subset(aci_data, id == 33 & set_leafT == 20 & Ci < 1200)
 plot(Adyn ~ Ci, data = aci_data_id33_20)
 #### fit aci curve
 fit_aci_id33_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -5243,6 +5279,8 @@ aci_data_id37_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
 plot(Adyn ~ Ci, data = aci_data_id37_20)
+aci_data_id37_20 = subset(aci_data, id == 37 & set_leafT == 20 & Ci < 600)
+plot(Adyn ~ Ci, data = aci_data_id37_20)
 #### fit aci curve
 fit_aci_id37_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
                          # citransition = 300,
@@ -5532,6 +5570,8 @@ aci_data_id39_20 = subset(aci_data, id == 39 & set_leafT == 20)
 aci_data_id39_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
+plot(Adyn ~ Ci, data = aci_data_id39_20)
+aci_data_id39_20 = subset(aci_data, id == 39 & set_leafT == 20 & Ci < 800)
 plot(Adyn ~ Ci, data = aci_data_id39_20)
 #### fit aci curve
 fit_aci_id39_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
@@ -7981,6 +8021,8 @@ aci_data_id56_20[, c(4, 7:9)]
 
 #### plot raw data and remove values if needed
 plot(Adyn ~ Ci, data = aci_data_id56_20)
+aci_data_id56_20 = subset(aci_data, id == 56 & set_leafT == 20 & Ci < 1000)
+plot(Adyn ~ Ci, data = aci_data_id56_20)
 #### fit aci curve
 fit_aci_id56_20 = fitaci(varnames = list(ALEAF = 'Adyn', Tleaf = "Tleaf", Ci = "Ci", PPFD = "Qin"),
                          # citransition = 500,
@@ -8698,3 +8740,4 @@ colnames(aci_data_id60_31_data) <- c('averaging', 'machine', 'id', 'set_leafT', 
                                      'aci_tcorrect', 'aci_fittpu')
 curve_fits <- rbind(curve_fits, aci_data_id60_31_data)
 
+################################################################################
