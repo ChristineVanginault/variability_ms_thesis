@@ -9,24 +9,11 @@ library(R.utils)
 sourceDirectory('functions')
 
 ## load data
-aci_data <- read.csv("C:/Users/tineb/OneDrive/Desktop/Experiment Data/LICOR data/merged_licor_curve_data.csv")
+aci_data <- read.csv("C:/Users/tineb/OneDrive/Desktop/Git/variability_ms_thesis/Data/licor/merged_licor_curve_data.csv")
 head(aci_data)
 colnames(aci_data)
 
 ## start visualization, curve fitting, and data frame creation
-
-# Ignore this below; documenting thought process
-# ids <- levels(as.factor(aci_data$id))
-# Tleaf <- levels(as.factor(aci_data$set_leafT))
-# ids_Tleaf <- paste(ids, Tleaf, sep = "-")
-# ids_Tleaf
-# [1] "6-20"  "12-25" "6-31" 
-# not sure why it produces these values
-
-# id_Tleaf <- levels(as.factor(paste(aci_data$id, aci_data$set_leafT, sep = "," )))
-# id_Tleaf
-#[1] "12,20" "12,25" "12,31" "6,20"  "6,25"  "6,31" 
-# when using the ids above, I wouldnt any data from aci_data...
 
 curve_fits <- c()
 
@@ -8741,3 +8728,5 @@ colnames(aci_data_id60_31_data) <- c('averaging', 'machine', 'id', 'set_leafT', 
 curve_fits <- rbind(curve_fits, aci_data_id60_31_data)
 
 ################################################################################
+### Write csv file of curve fit data frame
+write.csv(curve_fits, file = "C:/Users/tineb/OneDrive/Desktop/Git/variability_ms_thesis/Analysis/curve_fits/curve_fits.csv", row.names = FALSE)
