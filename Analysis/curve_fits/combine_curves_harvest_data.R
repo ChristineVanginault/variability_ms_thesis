@@ -18,6 +18,3 @@ all_data <- left_join(all_data, curve_fit_25[,-c(1, 2, 4)], join_by(unique_id ==
 all_data <- left_join(all_data, curve_fit_31[,-c(1, 2, 4)], join_by(unique_id == id))
 
 write.csv(all_data, "Git/variability_ms_thesis/Data/structural_curve_data.csv")
-
-
-## can do row.names = F to remove x coloumn
