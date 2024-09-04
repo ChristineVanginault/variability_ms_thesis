@@ -1,9 +1,30 @@
 ## script to calculate chlorophyll
 
 library(tidyr)
+library(dplyr)
 
 ## load in data
-plate_1 <- read.csv("Git/variability_ms_thesis/Data/chlorophyll/Christine_variability_plate1_SPL1-SPL31.csv")
+plate_1 <- data.frame(read.csv("Git/variability_ms_thesis/Data/chlorophyll/plate1_chlorophyll_cleaned.csv"))
+plate_2 <- data.frame(read.csv("Git/variability_ms_thesis/Data/chlorophyll/plate2_chlorophyll_cleaned.csv"))
+
+
+##combine both plate 1 and 2
+both_plates <- rbind(plate_1, plate_2)
+
+## Get average and one row per id
+chlor.df <- (both_plates) %>%
+  filter(id != "blank") %>%
+  dplyr::select(rep = id, everything()) %>%
+  group_by(rep) %>%
+  summarize(abs.649 = mean(abs_649, na.rm = TRUE),
+            cv.649 = (sd(abs_649, na.rm = TRUE) / abs.649) * 100,
+            abs.665 = mean(abs_665, na.rm = TRUE),
+            cv.665 = (sd(abs_665, na.rm = TRUE) / abs.665) * 100) %>%
+  mutate(abs.649 = ifelse(abs.649 < 0, 0, abs.649),
+         abs.665 = ifelse(abs.665 < 0, 0, abs.665))
+
+## isolate disc area
+harvest_data <- 
 
 ## calculate chlorophyll using Wellburn (1994) equations
 data$avg_649 <- (data$A6491 + data$A6491.1 + data$A6491.2)/3
