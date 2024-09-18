@@ -1,5 +1,20 @@
 # placeholder for description
 
+# TO DOs:
+## graphs to summarize how light is changing and temperature
+## aggregate PAR data over a larger time window
+
+
+# different sections of code
+## Photosynthesis traits
+## Multispeq
+## Chlorophyll
+## Structural Traits
+## 13C and 15N
+## Dark Respiration
+# **high significance
+# **significance
+
 ## load libraries
 library(lme4)
 library(car)
@@ -29,7 +44,8 @@ all_data$chamber_fac <- as.factor(all_data$chamber)
 ## Photosynthesis traits
 ### vcmax_tleaf_20
 hist(all_data$vcmax_tleaf_20)
-vcmax_tleaf_20_lmer <- lmer(vcmax_tleaf_20 ~ TV*LV + (1|chamber_fac), data = all_data)
+hist(log(all_data$vcmax_tleaf_20))
+vcmax_tleaf_20_lmer <- lmer(log(vcmax_tleaf_20) ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(vcmax_tleaf_20_lmer) ~ fitted(vcmax_tleaf_20_lmer))
 summary(vcmax_tleaf_20_lmer)
 Anova(vcmax_tleaf_20_lmer)
@@ -37,7 +53,9 @@ emmeans(vcmax_tleaf_20_lmer, ~TV)
 emmeans(vcmax_tleaf_20_lmer, ~TV*LV)
 
 ### vcmax_tleaf_25
-vcmax_tleaf_25_lmer <- lmer(vcmax_tleaf_25 ~ TV*LV + (1|chamber_fac), data = all_data)
+hist(all_data$vcmax_tleaf_25)
+hist(log(all_data$vcmax_tleaf_25))
+vcmax_tleaf_25_lmer <- lmer(log(vcmax_tleaf_25) ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(vcmax_tleaf_25_lmer) ~ fitted(vcmax_tleaf_25_lmer))
 summary(vcmax_tleaf_25_lmer)
 Anova(vcmax_tleaf_25_lmer)
@@ -45,6 +63,8 @@ emmeans(vcmax_tleaf_25_lmer, ~TV)
 emmeans(vcmax_tleaf_25_lmer, ~TV*LV)
 
 ### vcmax_tleaf_31
+hist(all_data$vcmax_tleaf_31)
+hist(log(all_data$vcmax_tleaf_31))
 vcmax_tleaf_31_lmer <- lmer(log(vcmax_tleaf_31) ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(vcmax_tleaf_31_lmer) ~ fitted(vcmax_tleaf_31_lmer))
 summary(vcmax_tleaf_31_lmer)
@@ -54,7 +74,9 @@ emmeans(vcmax_tleaf_31_lmer, ~TV*LV)
 
 
 ### jmax_tleaf_20
-jmax_tleaf_20_lmer <- lmer(jmax_tleaf_20 ~ TV*LV + (1|chamber_fac), data = all_data)
+hist(all_data$jmax_tleaf_20)
+hist(log(all_data$jmax_tleaf_20))
+jmax_tleaf_20_lmer <- lmer(log(jmax_tleaf_20) ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(jmax_tleaf_20_lmer) ~ fitted(jmax_tleaf_20_lmer))
 summary(jmax_tleaf_20_lmer)
 Anova(jmax_tleaf_20_lmer)
@@ -62,7 +84,9 @@ emmeans(jmax_tleaf_20_lmer, ~TV)
 emmeans(jmax_tleaf_20_lmer, ~TV*LV)
 
 ### jmax_tleaf_25
-jmax_tleaf_25_lmer <- lmer(jmax_tleaf_25 ~ TV*LV + (1|chamber_fac), data = all_data)
+hist(all_data$jmax_tleaf_25)
+hist(log(all_data$jmax_tleaf_25))
+jmax_tleaf_25_lmer <- lmer(log(jmax_tleaf_25) ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(jmax_tleaf_25_lmer) ~ fitted(jmax_tleaf_25_lmer))
 summary(jmax_tleaf_25_lmer)
 Anova(jmax_tleaf_25_lmer)
@@ -70,7 +94,9 @@ emmeans(jmax_tleaf_25_lmer, ~TV)
 emmeans(jmax_tleaf_25_lmer, ~TV*LV)
 
 ### jmax_tleaf_31
-jmax_tleaf_31_lmer <- lmer(jmax_tleaf_31 ~ TV*LV + (1|chamber_fac), data = all_data)
+hist(all_data$jmax_tleaf_31)
+hist(log(all_data$jmax_tleaf_31))
+jmax_tleaf_31_lmer <- lmer(log(jmax_tleaf_31) ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(jmax_tleaf_31_lmer) ~ fitted(jmax_tleaf_31_lmer))
 summary(jmax_tleaf_31_lmer)
 Anova(jmax_tleaf_31_lmer)
@@ -106,45 +132,9 @@ emmeans(gsw_420_31_lmer, ~TV)
 emmeans(gsw_420_31_lmer, ~TV*LV)
 
 
-### vapor pressure deficit (vpd_leaf_20)
-hist(all_data$vpd_leaf_20)
-vpd_leaf_20_lmer <- lmer(vpd_leaf_20 ~ TV*LV + (1|chamber_fac), data = all_data)
-plot(resid(vpd_leaf_20_lmer) ~ fitted(vpd_leaf_20_lmer))
-summary(vpd_leaf_20_lmer)
-Anova(vpd_leaf_20_lmer)
-emmeans(vpd_leaf_20_lmer, ~TV)
-emmeans(vpd_leaf_20_lmer, ~TV*LV)
-
-### vapor pressure deficit (vpd_leaf_25)
-hist(all_data$vpd_leaf_25)
-vpd_leaf_25_lmer <- lmer(vpd_leaf_25 ~ TV*LV + (1|chamber_fac), data = all_data)
-plot(resid(vpd_leaf_25_lmer) ~ fitted(vpd_leaf_25_lmer))
-summary(vpd_leaf_25_lmer)
-Anova(vpd_leaf_25_lmer)
-emmeans(vpd_leaf_25_lmer, ~TV)
-emmeans(vpd_leaf_25_lmer, ~TV*LV)
-
-### vapor pressure deficit (vpd_leaf_31)
-hist(all_data$vpd_leaf_31)
-hist(log(all_data$vpd_leaf_31))
-vpd_leaf_31_lmer <- lmer(log(vpd_leaf_31) ~ TV*LV + (1|chamber_fac), data = all_data)
-plot(resid(vpd_leaf_31_lmer) ~ fitted(vpd_leaf_31_lmer))
-summary(vpd_leaf_31_lmer)
-Anova(vpd_leaf_31_lmer)
-emmeans(vpd_leaf_31_lmer, ~TV)
-emmeans(vpd_leaf_31_lmer, ~TV*LV)
-
-
 
 ###############################################################################
 ## Multispeq
-### Phi2_light
-Phi2_light_lmer <- lmer(Phi2_light ~ TV*LV + (1|chamber_fac), data = all_data)
-plot(resid(Phi2_light_lmer) ~ fitted(Phi2_light_lmer))
-summary(Phi2_light_lmer)
-Anova(Phi2_light_lmer)
-emmeans(Phi2_light_lmer, ~TV)
-emmeans(Phi2_light_lmer, ~TV*LV)
 
 ### Phi2_dark
 Phi2_dark_lmer <- lmer(Phi2_dark ~ TV*LV + (1|chamber_fac), data = all_data)
@@ -153,6 +143,33 @@ summary(Phi2_dark_lmer)
 Anova(Phi2_dark_lmer)
 emmeans(Phi2_dark_lmer, ~TV)
 emmeans(Phi2_dark_lmer, ~TV*LV)
+
+### chlorophyll florescence (NPQt_dark)
+hist(all_data$NPQt_dark)
+NPQt_dark_lmer <- lmer(NPQt_dark ~ TV*LV + (1|chamber_fac), data = all_data)
+plot(resid(NPQt_dark_lmer) ~ fitted(NPQt_dark_lmer))
+summary(NPQt_dark_lmer)
+Anova(NPQt_dark_lmer)
+emmeans(NPQt_dark_lmer, ~TV)
+emmeans(NPQt_dark_lmer, ~TV*LV)
+
+### PhiNPQ_dark
+hist(all_data$PhiNPQ_dark)
+PhiNPQ_dark_lmer <- lmer(log(PhiNPQ_dark) ~ TV*LV + (1|chamber_fac), data = all_data)
+plot(resid(PhiNPQ_dark_lmer) ~ fitted(PhiNPQ_dark_lmer))
+summary(PhiNPQ_dark_lmer)
+Anova(PhiNPQ_dark_lmer)
+emmeans(PhiNPQ_dark_lmer, ~TV)
+emmeans(PhiNPQ_dark_lmer, ~TV*LV)
+
+### PhiNO_dark **significance
+hist(all_data$PhiNO_dark)
+PhiNO_dark_lmer <- lmer(log(PhiNO_dark) ~ TV*LV + (1|chamber_fac), data = all_data)
+plot(resid(PhiNO_dark_lmer) ~ fitted(PhiNO_dark_lmer))
+summary(PhiNO_dark_lmer)
+Anova(PhiNO_dark_lmer)
+emmeans(PhiNO_dark_lmer, ~TV)
+emmeans(PhiNO_dark_lmer, ~TV*LV)
 
 
 
@@ -191,20 +208,25 @@ above_biomass_dry_weight_lmer <- lmer(above_biomass_dry_weight ~ TV*LV + (1|cham
 plot(resid(above_biomass_dry_weight_lmer) ~ fitted(above_biomass_dry_weight_lmer))
 summary(above_biomass_dry_weight_lmer)
 Anova(above_biomass_dry_weight_lmer)
-
+emmeans(chlB.mmolm2_lmer, ~TV)
+emmeans(chlB.mmolm2_lmer, ~TV*LV)
 
 ### SLA_focal
 SLA_focal_lmer <- lmer(SLA_focal ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(SLA_focal_lmer) ~ fitted(SLA_focal_lmer))
 summary(SLA_focal_lmer)
 Anova(SLA_focal_lmer)
+emmeans(chlB.mmolm2_lmer, ~TV)
+emmeans(chlB.mmolm2_lmer, ~TV*LV)
+
+
+
+###############################################################################
+## Dark Respiration
 
 
 ###############################################################################
 ## 13C and 15N
 
-
-###############################################################################
-## Dark Respiration
 
 
