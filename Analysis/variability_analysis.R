@@ -10,8 +10,8 @@
 ## Multispeq
 ## Chlorophyll
 ## Structural Traits
-## 13C and 15N
 ## Dark Respiration
+## 13C and 15N
 # **high significance
 # **significance
 
@@ -191,13 +191,13 @@ Anova(chlA.mmolm2_lmer)
 emmeans(chlA.mmolm2_lmer, ~TV)
 emmeans(chlA.mmolm2_lmer, ~TV*LV)
 
-### chlorophyll B (chlB.mmolm2)
-chlB.mmolm2_lmer <- lmer(chlB.mmolm2 ~ TV*LV + (1|chamber_fac), data = all_data)
-plot(resid(chlB.mmolm2_lmer) ~ fitted(chlB.mmolm2_lmer))
-summary(chlB.mmolm2_lmer)
-Anova(chlB.mmolm2_lmer)
-emmeans(chlB.mmolm2_lmer, ~TV)
-emmeans(chlB.mmolm2_lmer, ~TV*LV)
+### chlorophyll B (resp_lmer)
+resp_lmer_lmer <- lmer(resp_lmer ~ TV*LV + (1|chamber_fac), data = all_data)
+plot(resid(resp_lmer_lmer) ~ fitted(resp_lmer_lmer))
+summary(resp_lmer_lmer)
+Anova(resp_lmer_lmer)
+emmeans(resp_lmer_lmer, ~TV)
+emmeans(resp_lmer_lmer, ~TV*LV)
 
 
 
@@ -208,22 +208,28 @@ above_biomass_dry_weight_lmer <- lmer(above_biomass_dry_weight ~ TV*LV + (1|cham
 plot(resid(above_biomass_dry_weight_lmer) ~ fitted(above_biomass_dry_weight_lmer))
 summary(above_biomass_dry_weight_lmer)
 Anova(above_biomass_dry_weight_lmer)
-emmeans(chlB.mmolm2_lmer, ~TV)
-emmeans(chlB.mmolm2_lmer, ~TV*LV)
+emmeans(above_biomass_dry_weight_lmer, ~TV)
+emmeans(above_biomass_dry_weight_lmer, ~TV*LV)
 
 ### SLA_focal
 SLA_focal_lmer <- lmer(SLA_focal ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(SLA_focal_lmer) ~ fitted(SLA_focal_lmer))
 summary(SLA_focal_lmer)
 Anova(SLA_focal_lmer)
-emmeans(chlB.mmolm2_lmer, ~TV)
-emmeans(chlB.mmolm2_lmer, ~TV*LV)
+emmeans(SLA_focal_lmer, ~TV)
+emmeans(SLA_focal_lmer, ~TV*LV)
 
 
 
 ###############################################################################
 ## Dark Respiration
-
+hist(all_data$resp)
+resp_lmer <- lmer(resp ~ TV*LV + (1|chamber_fac), data = all_data)
+plot(resid(resp_lmer) ~ fitted(resp_lmer))
+summary(resp_lmer)
+Anova(resp_lmer)
+emmeans(resp_lmer, ~TV)
+emmeans(resp_lmer, ~TV*LV)
 
 ###############################################################################
 ## 13C and 15N
