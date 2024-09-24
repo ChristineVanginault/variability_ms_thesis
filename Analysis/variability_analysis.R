@@ -3,6 +3,10 @@
 # TO DOs:
 ## graphs to summarize how light is changing and temperature
 ## aggregate PAR data over a larger time window
+## look for marginal sig less than 0.1
+## plot raw data
+## lok at carbon gain == biomass
+## compare values at different temps
 
 
 # different sections of code
@@ -19,6 +23,7 @@
 library(lme4)
 library(car)
 library(emmeans)
+library(ggplot2)
 
 
 ## load data
@@ -51,6 +56,10 @@ summary(vcmax_tleaf_20_lmer)
 Anova(vcmax_tleaf_20_lmer)
 emmeans(vcmax_tleaf_20_lmer, ~TV)
 emmeans(vcmax_tleaf_20_lmer, ~TV*LV)
+
+vcmax_tleaf_20_plot <- ggplot(aes(y=(vcmax_tleaf_20), x = treatment), data = all_data) +
+  geom_boxplot()
+vcmax_tleaf_20_plot
 
 ### vcmax_tleaf_25
 hist(all_data$vcmax_tleaf_25)
@@ -210,6 +219,10 @@ summary(above_biomass_dry_weight_lmer)
 Anova(above_biomass_dry_weight_lmer)
 emmeans(above_biomass_dry_weight_lmer, ~TV)
 emmeans(above_biomass_dry_weight_lmer, ~TV*LV)
+
+above_biomass_dry_weight_plot <- ggplot(aes(y=(above_biomass_dry_weight), x = treatment), data = all_data) +
+  geom_boxplot()
+above_biomass_dry_weight_plot
 
 ### SLA_focal
 SLA_focal_lmer <- lmer(SLA_focal ~ TV*LV + (1|chamber_fac), data = all_data)

@@ -1,8 +1,5 @@
 # script to average chamber rh & temp 
 
-# Question for Chamebr 3
-# How do I get this to select every 5th minute??
-
 ## load packages
 library(dplyr)
 library(readxl)
@@ -30,7 +27,7 @@ chamber_5_LLV <- read_excel("rh_temp/Chamber 5 LLV 2024-07-25 11_19_18 CDT (Data
 chamber_6_HLV <- read_excel("rh_temp/Chamber 6 2024-07-25 11_21_11 CDT (Data CDT)(1).xlsx")
 chamber_6_LLV <- read_excel("rh_temp/Chamber 6 LLV 2024-07-25 11_19_07 CDT (Data CDT).xlsx")
 
-
+################################################################################
 ## Separate Date-Time column
 chamber_1_HLV <- separate(data = chamber_1_HLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
 chamber_1_LLV <- separate(data = chamber_1_LLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
@@ -52,6 +49,7 @@ chamber_5_LLV <- separate(data = chamber_5_LLV, col = "Date-Time (CDT)", into = 
 chamber_6_HLV <- separate(data = chamber_6_HLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
 chamber_6_LLV <- separate(data = chamber_6_LLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
 
+################################################################################
 ## Experiment ran from June 3rd 2024 to July 17th 2024; need to filter data for
 ## those dates
 chamber_1_HLV_exp <- chamber_1_HLV %>% filter(Date >= "2024-06-03" & Date <= "2024-07-17")
@@ -77,26 +75,238 @@ chamber_6_LLV_exp <- chamber_6_LLV %>% filter(Date >= "2024-06-03" & Date <= "20
 ## Now we can merge chamber 3 HLV together
 chamber_3_HLV_exp <- full_join(chamber_3_HLV_1_exp, chamber_3_HLV_2_exp)
 chamber_3_HLV_exp <- full_join(chamber_3_HLV_exp, chamber_3_HLV_3_exp)
-# How do I get this to select every 5th minute??
 
-## Filter data for LLV treatments
+
+################################################################################
+# separate by chamber treatment
+  # High Temp Variability
+  # Chambers 1, 5, 6
+
+  # Low Temp Variability
+  # Chamber 2, 3, 4
+
+################################################################################
+# Script below aggregates by hour for each chamber
+
+# what format does R think the time is in; ask for format of time
+data$hour <- as.Time(column, "%h")
+# take an average over the largest window; aggregate
+?aggregate
+aggregate(x, by, FUN, ..., simplify = TRUE, drop = TRUE)
+# want to aggregate
+object_groupby <- group_by(chamber_1_HLV_exp, hour)
+object_hour <- summarise(object_groupby, fun = mean)
+# get mean, sd, se (have to get count)
+
+
+
+################################################################################
+#Script below finds meansa and sd for 
+################################################################################
+## Filter data for LTV treatments; then combine for each step; calc mean and sd
 # Day
-## 6am to 8am
-## 8am to 8pm
-## 8pm to 10pm
+## Step 1: 6am to 8am (20 C)
+chamber_2_LLV_exp_step1 <- chamber_2_LLV_exp %>% filter(Time >= "06:00" & Time <= "08:00")
+chamber_3_LLV_exp_step1 <- chamber_3_LLV_exp %>% filter(Time >= "06:00" & Time <= "08:00")
+chamber_4_LLV_exp_step1 <- chamber_4_LLV_exp %>% filter(Time >= "06:00" & Time <= "08:00")
+
+# Combine
+combine_LLV_step1 <- bind_rows(chamber_2_LLV_exp_step1, chamber_3_LLV_exp_step1, chamber_4_LLV_exp_step1)
+
+colnames(combine_LLV_step1)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
+# Mean & SD
+LLV_step1_stats <- combine_LLV_step1 %>% 
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
+
+## Step 2: 8am to 8pm (26 C)
+chamber_2_LLV_exp_step2 <- chamber_2_LLV_exp %>% filter(Time >= "08:00" & Time <= "20:00")
+chamber_3_LLV_exp_step2 <- chamber_3_LLV_exp %>% filter(Time >= "08:00" & Time <= "20:00")
+chamber_4_LLV_exp_step2 <- chamber_4_LLV_exp %>% filter(Time >= "08:00" & Time <= "20:00")
+# Combine
+combine_LLV_step2 <- bind_rows(chamber_2_LLV_exp_step2, 
+                               chamber_3_LLV_exp_step2, chamber_4_LLV_exp_step2)
+
+colnames(combine_LLV_step2)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
+# Mean & SD
+LLV_step2_stats <- combine_LLV_step2 %>% 
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
+
+
+## Step 3: 8pm to 10pm (20 C)
+chamber_2_LLV_exp_step3 <- chamber_2_LLV_exp %>% filter(Time >= "20:00" & Time <= "22:00")
+chamber_3_LLV_exp_step3 <- chamber_3_LLV_exp %>% filter(Time >= "20:00" & Time <= "22:00")
+chamber_4_LLV_exp_step3 <- chamber_4_LLV_exp %>% filter(Time >= "20:00" & Time <= "22:00")
+# Combine
+combine_LLV_step3 <- bind_rows(chamber_2_LLV_exp_step3, 
+                               chamber_3_LLV_exp_step3, chamber_4_LLV_exp_step3)
+
+colnames(combine_LLV_step3)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
+# Mean & SD
+LLV_step3_stats <- combine_LLV_step3 %>% 
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
 
 # Night
-## 10pm to 6am
+## Night: 10pm to 6am (18 C)
+chamber_2_LLV_exp_night <- chamber_2_LLV_exp %>% filter(Time >= "22:00" | Time <= "06:00")
+chamber_3_LLV_exp_night <- chamber_3_LLV_exp %>% filter(Time >= "22:00" | Time <= "06:00")
+chamber_4_LLV_exp_night <- chamber_4_LLV_exp %>% filter(Time >= "22:00" | Time <= "06:00")
+# Combine
+combine_LLV_night <- bind_rows(chamber_2_LLV_exp_night, 
+                               chamber_3_LLV_exp_night, chamber_4_LLV_exp_night)
 
-## Filter data for HLV treatments
+colnames(combine_LLV_night)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
+# Mean & SD
+LLV_night_stats <- combine_LLV_night %>% 
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
+
+
+################################################################################
+## Filter data for HTV treatments; combine each step; calc mean and sd
 # Day
-## 6am to 8am
-## 8am to 10am
-## 10am to 12pm
-## 12pm to 4pm
-## 4pm to 6pm
-## 6pm to 8pm
-## 8pm to 10pm
+## Step 1: 6am to 8am (20 C)
+chamber_1_HLV_exp_step1 <- chamber_1_HLV_exp %>% filter(Time >= "06:00" & Time <= "08:00")
+chamber_5_HLV_exp_step1 <- chamber_5_HLV_exp %>% filter(Time >= "06:00" & Time <= "08:00")
+chamber_6_HLV_exp_step1 <- chamber_6_HLV_exp %>% filter(Time >= "06:00" & Time <= "08:00")
+# Combine
+combine_HLV_step1 <- bind_rows(chamber_1_HLV_exp_step1, 
+                               chamber_5_HLV_exp_step1, chamber_6_HLV_exp_step1)
+
+colnames(combine_HLV_step1)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
+# Mean & SD
+HLV_step1_stats <- combine_HLV_step1 %>% 
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
+
+## Step 2: 8am to 10am (23 C)
+chamber_1_HLV_exp_step2 <- chamber_1_HLV_exp %>% filter(Time >= "08:00" & Time <= "10:00")
+chamber_5_HLV_exp_step2 <- chamber_5_HLV_exp %>% filter(Time >= "08:00" & Time <= "10:00")
+chamber_6_HLV_exp_step2 <- chamber_6_HLV_exp %>% filter(Time >= "08:00" & Time <= "10:00")
+# Combine
+combine_HLV_step2 <- bind_rows(chamber_1_HLV_exp_step2, 
+                               chamber_5_HLV_exp_step2, chamber_6_HLV_exp_step2)
+
+colnames(combine_HLV_step2)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
+# Mean & SD
+HLV_step2_stats <- combine_HLV_step2 %>% 
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
+
+## Step 3: 10am to 12pm (26 C)
+chamber_1_HLV_exp_step3 <- chamber_1_HLV_exp %>% filter(Time >= "10:00" & Time <= "12:00")
+chamber_5_HLV_exp_step3 <- chamber_5_HLV_exp %>% filter(Time >= "10:00" & Time <= "12:00")
+chamber_6_HLV_exp_step3 <- chamber_6_HLV_exp %>% filter(Time >= "10:00" & Time <= "12:00")
+# Combine
+combine_HLV_step3 <- bind_rows(chamber_1_HLV_exp_step3,
+                               chamber_5_HLV_exp_step3, chamber_6_HLV_exp_step3)
+
+colnames(combine_HLV_step3)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
+# Mean & SD
+HLV_step3_stats <- combine_HLV_step3 %>% 
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
+
+## Step 4: 12pm to 4pm (31 C)
+chamber_1_HLV_exp_step4 <- chamber_1_HLV_exp %>% filter(Time >= "12:00" & Time <= "16:00")
+chamber_5_HLV_exp_step4 <- chamber_5_HLV_exp %>% filter(Time >= "12:00" & Time <= "16:00")
+chamber_6_HLV_exp_step4 <- chamber_6_HLV_exp %>% filter(Time >= "12:00" & Time <= "16:00")
+# Combine
+combine_HLV_step4 <- bind_rows(chamber_1_HLV_exp_step4,
+                               chamber_5_HLV_exp_step4, chamber_6_HLV_exp_step4)
+
+colnames(combine_HLV_step4)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
+# Mean & SD
+HLV_step4_stats <- combine_HLV_step4 %>% 
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
+
+## Step 5: 4pm to 6pm (26 C)
+chamber_1_HLV_exp_step5 <- chamber_1_HLV_exp %>% filter(Time >= "16:00" & Time <= "18:00")
+chamber_5_HLV_exp_step5 <- chamber_5_HLV_exp %>% filter(Time >= "16:00" & Time <= "18:00")
+chamber_6_HLV_exp_step5 <- chamber_6_HLV_exp %>% filter(Time >= "16:00" & Time <= "18:00")
+# Combine
+combine_HLV_step5 <- bind_rows(chamber_1_HLV_exp_step5,
+                               chamber_5_HLV_exp_step5, chamber_6_HLV_exp_step5)
+
+colnames(combine_HLV_step5)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
+# Mean & SD
+HLV_step5_stats <- combine_HLV_step5 %>% 
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
+
+## Step 6: 6pm to 8pm (23 C)
+chamber_1_HLV_exp_step6 <- chamber_1_HLV_exp %>% filter(Time >= "18:00" & Time <= "20:00")
+chamber_5_HLV_exp_step6 <- chamber_5_HLV_exp %>% filter(Time >= "18:00" & Time <= "20:00")
+chamber_6_HLV_exp_step6 <- chamber_6_HLV_exp %>% filter(Time >= "18:00" & Time <= "20:00")
+# Combine
+combine_HLV_step6 <- bind_rows(chamber_1_HLV_exp_step6,
+                               chamber_5_HLV_exp_step6, chamber_6_HLV_exp_step6)
+
+colnames(combine_HLV_step6)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
+# Mean & SD
+HLV_step6_stats <- combine_HLV_step6 %>% 
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
+
+## Step 7: 8pm to 10pm (20 C)
+chamber_1_HLV_exp_step7 <- chamber_1_HLV_exp %>% filter(Time >= "20:00" & Time <= "22:00")
+chamber_5_HLV_exp_step7 <- chamber_5_HLV_exp %>% filter(Time >= "20:00" & Time <= "22:00")
+chamber_6_HLV_exp_step7 <- chamber_6_HLV_exp %>% filter(Time >= "20:00" & Time <= "22:00")
+# Combine
+combine_HLV_step7 <- bind_rows(chamber_1_HLV_exp_step7,
+                               chamber_5_HLV_exp_step7, chamber_6_HLV_exp_step7)
+
+colnames(combine_HLV_step7)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
+# Mean & SD
+HLV_step7_stats <- combine_HLV_step7 %>% 
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
+
 
 # Night
-## 10pm to 6am
+## 10pm to 6am (18 C)
+chamber_1_HLV_exp_night <- chamber_1_HLV_exp %>% filter(Time >= "22:00" | Time <= "06:00")
+chamber_5_HLV_exp_night <- chamber_5_HLV_exp %>% filter(Time >= "22:00" | Time <= "06:00")
+chamber_6_HLV_exp_night <- chamber_6_HLV_exp %>% filter(Time >= "22:00" | Time <= "06:00")
+# Combine
+combine_HLV_night <- bind_rows(chamber_1_HLV_exp_night, 
+                               chamber_5_HLV_exp_night, chamber_6_HLV_exp_night)
+
+colnames(combine_HLV_night)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
+# Mean & SD
+HLV_night_stats <- combine_HLV_night %>% 
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
+
+
+
+################################################################################
+# Print results for mean and SD by protocol step
+print(LLV_step1_stats)
+print(LLV_step2_stats)
+print(LLV_step3_stats)
+print(LLV_night_stats)
+
+print(HLV_step1_stats)
+print(HLV_step2_stats)
+print(HLV_step3_stats)
+print(HLV_step4_stats)
+print(HLV_step5_stats)
+print(HLV_step6_stats)
+print(HLV_step7_stats)
+print(HLV_night_stats)
