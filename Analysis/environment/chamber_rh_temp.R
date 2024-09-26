@@ -7,28 +7,28 @@ library(tidyr)
 
 
 ## load data
-chamber_1_HLV <- read_excel("rh_temp/Chamber 1 2024-07-25 11_10_01 CDT (Data CDT).xlsx")
-chamber_1_LLV <- read_excel("rh_temp/Chamber 1 LLV 2024-07-25 11_19_43 CDT (Data CDT).xlsx")
+chamber_1_HLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 1 2024-07-25 11_10_01 CDT (Data CDT).xlsx")
+chamber_1_LLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 1 LLV 2024-07-25 11_19_43 CDT (Data CDT).xlsx")
 
-chamber_2_HLV <- read_excel("rh_temp/Chamber 2 2024-07-25 11_18_53 CDT (Data CDT).xlsx")
-chamber_2_LLV <- read_excel("rh_temp/Chamber 2 LLV 2024-07-25 11_19_31 CDT (Data CDT).xlsx")
+chamber_2_HLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 2 2024-07-25 11_18_53 CDT (Data CDT).xlsx")
+chamber_2_LLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 2 LLV 2024-07-25 11_19_31 CDT (Data CDT).xlsx")
 
-chamber_3_HLV_1 <- read_excel("rh_temp/Chamber 3 2024-06-21 10_34_44 CDT (Data CDT).xlsx")
-chamber_3_HLV_2 <- read_excel("rh_temp/Chamber 3 2024-07-09 15_45_33 CDT (Data CDT).xlsx")
-chamber_3_HLV_3 <- read_excel("rh_temp/Chamber 3 2024-07-25 11_20_56 CDT (Data CDT).xlsx")
-chamber_3_LLV <-  read_excel("rh_temp/Chamber 3 LLV 2024-07-25 11_20_11 CDT (Data CDT).xlsx")
+chamber_3_HLV_1 <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 3 2024-06-21 10_34_44 CDT (Data CDT).xlsx")
+chamber_3_HLV_2 <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 3 2024-07-09 15_45_33 CDT (Data CDT).xlsx")
+chamber_3_HLV_3 <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 3 2024-07-25 11_20_56 CDT (Data CDT).xlsx")
+chamber_3_LLV <-  read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 3 LLV 2024-07-25 11_20_11 CDT (Data CDT).xlsx")
 
-chamber_4_HLV <- read_excel("rh_temp/Chamber 4 2024-07-25 11_20_23 CDT (Data CDT).xlsx")
-chamber_4_LLV <- read_excel("rh_temp/Chamber 4 LLV 2024-07-25 11_18_40 CDT (Data CDT).xlsx")
+chamber_4_HLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 4 2024-07-25 11_20_23 CDT (Data CDT).xlsx")
+chamber_4_LLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 4 LLV 2024-07-25 11_18_40 CDT (Data CDT).xlsx")
 
-chamber_5_HLV <- read_excel("rh_temp/Chamber 5 2024-07-25 11_20_00 CDT (Data CDT).xlsx")
-chamber_5_LLV <- read_excel("rh_temp/Chamber 5 LLV 2024-07-25 11_19_18 CDT (Data CDT).xlsx")
+chamber_5_HLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 5 2024-07-25 11_20_00 CDT (Data CDT).xlsx")
+chamber_5_LLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 5 LLV 2024-07-25 11_19_18 CDT (Data CDT).xlsx")
 
-chamber_6_HLV <- read_excel("rh_temp/Chamber 6 2024-07-25 11_21_11 CDT (Data CDT)(1).xlsx")
-chamber_6_LLV <- read_excel("rh_temp/Chamber 6 LLV 2024-07-25 11_19_07 CDT (Data CDT).xlsx")
+chamber_6_HLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 6 2024-07-25 11_21_11 CDT (Data CDT)(1).xlsx")
+chamber_6_LLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 6 LLV 2024-07-25 11_19_07 CDT (Data CDT).xlsx")
 
-################################################################################
-## Separate Date-Time column
+
+## Separate Date-Time column ###################################################
 chamber_1_HLV <- separate(data = chamber_1_HLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
 chamber_1_LLV <- separate(data = chamber_1_LLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
 
@@ -49,7 +49,7 @@ chamber_5_LLV <- separate(data = chamber_5_LLV, col = "Date-Time (CDT)", into = 
 chamber_6_HLV <- separate(data = chamber_6_HLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
 chamber_6_LLV <- separate(data = chamber_6_LLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
 
-################################################################################
+## Filter data for exp. dates ##################################################
 ## Experiment ran from June 3rd 2024 to July 17th 2024; need to filter data for
 ## those dates
 chamber_1_HLV_exp <- chamber_1_HLV %>% filter(Date >= "2024-06-03" & Date <= "2024-07-17")
@@ -77,17 +77,16 @@ chamber_3_HLV_exp <- full_join(chamber_3_HLV_1_exp, chamber_3_HLV_2_exp)
 chamber_3_HLV_exp <- full_join(chamber_3_HLV_exp, chamber_3_HLV_3_exp)
 
 
-################################################################################
-# separate by chamber treatment
+## Separate by chamber treatment ###############################################
   # High Temp Variability
   # Chambers 1, 5, 6
 
   # Low Temp Variability
   # Chamber 2, 3, 4
 
-################################################################################
-# Script below aggregates by hour for each chamber
-################################################################################
+
+## Script below aggregates by hour for each chamber ############################
+
 # what format does R think the time is in; ask for format of time
 data$hour <- as.Time(column, "%h")
 # take an average over the largest window; aggregate
@@ -100,9 +99,9 @@ object_hour <- summarise(object_groupby, fun = mean)
 
 
 
-################################################################################
-#Script below finds means and sd for each treatment
-################################################################################
+## Script below finds means and sd for each treatment ##########################
+
+#### LTVLLV #####################################################################
 ## Filter data for LTVLLV treatments; then combine for each step; calc mean and sd
 # Day
 ## Step 1: 6am to 8am (20 C)
@@ -167,7 +166,7 @@ LTVLLV_night_stats <- combine_LTVLLV_night %>%
   summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
             RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
 
-################################################################################
+#### LTVHLV ###################################################################
 ## Filter data for LTVHLV treatments; then combine for each step; calc mean and sd
 # Day
 ## Step 1: 6am to 8am (20 C)
@@ -233,7 +232,7 @@ LTVHLV_night_stats <- combine_LTVHLV_night %>%
             RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
 
 
-################################################################################
+#### HTVHLV ####################################################################
 ## Filter data for HTVHLV treatments; combine each step; calc mean and sd
 # Day
 ## Step 1: 6am to 8am (20 C)
@@ -358,7 +357,7 @@ HTVHLV_night_stats <- combine_HTVHLV_night %>%
   summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
             RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
 
-################################################################################
+#### HTVLLV ####################################################################
 ## Filter data for HTVLLV treatments; combine each step; calc mean and sd
 # Day
 ## Step 1: 6am to 8am (20 C)
@@ -483,8 +482,8 @@ HTVLLV_night_stats <- combine_HTVLLV_night %>%
   summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
             RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
 
-################################################################################
-# Print results for mean and SD by protocol step
+
+## Print results for mean and SD by protocol step ##############################
 print(LTVLLV_step1_stats)
 print(LTVLLV_step2_stats)
 print(LTVLLV_step3_stats)

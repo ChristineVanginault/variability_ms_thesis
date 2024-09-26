@@ -43,10 +43,9 @@ all_data$LV[all_data$treatment == 'LTVLLV'] <- 'LLV'
 class(all_data$chamber)
 all_data$chamber_fac <- as.factor(all_data$chamber)
 
-## fit lme models
+# fit lme models################################################################
 
-################################################################################
-## Photosynthesis traits
+#### Photosynthesis traits #####################################################
 ### vcmax_tleaf_20
 hist(all_data$vcmax_tleaf_20)
 hist(log(all_data$vcmax_tleaf_20))
@@ -142,8 +141,7 @@ emmeans(gsw_420_31_lmer, ~TV*LV)
 
 
 
-###############################################################################
-## Multispeq
+#### Multispeq #################################################################
 
 ### Phi2_dark
 Phi2_dark_lmer <- lmer(Phi2_dark ~ TV*LV + (1|chamber_fac), data = all_data)
@@ -182,8 +180,7 @@ emmeans(PhiNO_dark_lmer, ~TV*LV)
 
 
 
-################################################################################
-## Chlorophyll
+#### Chlorophyll ###############################################################
 ### total chlorophyll content (chl.mmolm2)
 chl.mmolm2_lmer <- lmer(chl.mmolm2 ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(chl.mmolm2_lmer) ~ fitted(chl.mmolm2_lmer))
@@ -210,8 +207,7 @@ emmeans(resp_lmer_lmer, ~TV*LV)
 
 
 
-###############################################################################
-## Structural Traits
+#### Structural Traits #########################################################
 ### above_biomass_dry_weight
 above_biomass_dry_weight_lmer <- lmer(above_biomass_dry_weight ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(above_biomass_dry_weight_lmer) ~ fitted(above_biomass_dry_weight_lmer))
@@ -234,8 +230,7 @@ emmeans(SLA_focal_lmer, ~TV*LV)
 
 
 
-###############################################################################
-## Dark Respiration
+#### Dark Respiration ##########################################################
 hist(all_data$resp)
 resp_lmer <- lmer(resp ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(resp_lmer) ~ fitted(resp_lmer))
@@ -245,9 +240,7 @@ emmeans(resp_lmer, ~TV)
 emmeans(resp_lmer, ~TV*LV)
 
 
-
-###############################################################################
-## 13C and 15N
+#### 13C and 15N ##############################################################
 
 
 
