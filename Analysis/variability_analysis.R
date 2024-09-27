@@ -9,16 +9,6 @@
 ## compare values at different temps
 
 
-# different sections of code
-## Photosynthesis traits
-## Multispeq
-## Chlorophyll
-## Structural Traits
-## Dark Respiration
-## 13C and 15N
-# **high significance
-# **significance
-
 ## load libraries
 library(lme4)
 library(car)
@@ -29,7 +19,7 @@ library(ggplot2)
 ## load data
 all_data <- read.csv('Git/variability_ms_thesis/Data/all_data.csv')
 
-## separate treatments
+## separate treatments 
 all_data$TV[all_data$treatment == 'HTVHLV'] <- 'HTV'
 all_data$TV[all_data$treatment == 'HTVLLV'] <- 'HTV'
 all_data$TV[all_data$treatment == 'LTVHLV'] <- 'LTV'

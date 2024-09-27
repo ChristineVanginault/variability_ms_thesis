@@ -4,6 +4,7 @@
 library(dplyr)
 library(readxl)
 library(tidyr)
+library(tidyverse)
 
 
 ## load data
@@ -27,27 +28,68 @@ chamber_5_LLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_tem
 chamber_6_HLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 6 2024-07-25 11_21_11 CDT (Data CDT)(1).xlsx")
 chamber_6_LLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 6 LLV 2024-07-25 11_19_07 CDT (Data CDT).xlsx")
 
+## Change column names #########################################################
+colnames(chamber_1_HLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+colnames(chamber_1_LLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+
+colnames(chamber_2_HLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+colnames(chamber_2_LLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+
+colnames(chamber_3_HLV_1)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+colnames(chamber_3_HLV_2)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+colnames(chamber_3_HLV_3)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+colnames(chamber_3_LLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+
+colnames(chamber_4_HLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+colnames(chamber_4_LLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+
+colnames(chamber_5_HLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+colnames(chamber_5_LLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+
+colnames(chamber_6_HLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+colnames(chamber_6_LLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
+
 
 ## Separate Date-Time column ###################################################
-chamber_1_HLV <- separate(data = chamber_1_HLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
-chamber_1_LLV <- separate(data = chamber_1_LLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
+chamber_1_HLV$Date <- as.Date(chamber_1_HLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_1_HLV$Time <- format(as.POSIXct(chamber_1_HLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
 
-chamber_2_HLV <- separate(data = chamber_2_HLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
-chamber_2_LLV <- separate(data = chamber_2_LLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
+chamber_1_LLV$Date <- as.Date(chamber_1_LLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_1_LLV$Time <- format(as.POSIXct(chamber_1_LLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
 
-chamber_3_HLV_1 <- separate(data = chamber_3_HLV_1, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
-chamber_3_HLV_2 <- separate(data = chamber_3_HLV_2, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
-chamber_3_HLV_3 <- separate(data = chamber_3_HLV_3, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
-chamber_3_LLV <- separate(data = chamber_3_LLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
+chamber_2_HLV$Date <- as.Date(chamber_2_HLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_2_HLV$Time <- format(as.POSIXct(chamber_2_HLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
 
-chamber_4_HLV <- separate(data = chamber_4_HLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
-chamber_4_LLV <- separate(data = chamber_4_LLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
+chamber_2_LLV$Date <- as.Date(chamber_2_LLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_2_LLV$Time <- format(as.POSIXct(chamber_2_LLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
 
-chamber_5_HLV <- separate(data = chamber_5_HLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
-chamber_5_LLV <- separate(data = chamber_5_LLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
+chamber_3_HLV_1$Date <- as.Date(chamber_3_HLV_1$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_3_HLV_1$Time <- format(as.POSIXct(chamber_3_HLV_1$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
+chamber_3_HLV_2$Date <- as.Date(chamber_3_HLV_2$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_3_HLV_2$Time <- format(as.POSIXct(chamber_3_HLV_2$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
+chamber_3_HLV_3$Date <- as.Date(chamber_3_HLV_3$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_3_HLV_3$Time <- format(as.POSIXct(chamber_3_HLV_3$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
 
-chamber_6_HLV <- separate(data = chamber_6_HLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
-chamber_6_LLV <- separate(data = chamber_6_LLV, col = "Date-Time (CDT)", into = c('Date', 'Time'), sep = ' ')
+chamber_3_LLV$Date <- as.Date(chamber_3_LLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_3_LLV$Time <- format(as.POSIXct(chamber_3_LLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
+
+chamber_4_HLV$Date <- as.Date(chamber_4_HLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_4_HLV$Time <- format(as.POSIXct(chamber_4_HLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
+
+chamber_4_LLV$Date <- as.Date(chamber_4_LLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_4_LLV$Time <- format(as.POSIXct(chamber_4_LLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
+
+chamber_5_HLV$Date <- as.Date(chamber_5_HLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_5_HLV$Time <- format(as.POSIXct(chamber_5_HLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
+
+chamber_5_LLV$Date <- as.Date(chamber_5_LLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_5_LLV$Time <- format(as.POSIXct(chamber_5_LLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
+
+chamber_6_HLV$Date <- as.Date(chamber_6_HLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_6_HLV$Time <- format(as.POSIXct(chamber_6_HLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
+
+chamber_6_LLV$Date <- as.Date(chamber_6_LLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
+chamber_6_LLV$Time <- format(as.POSIXct(chamber_6_LLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
 
 ## Filter data for exp. dates ##################################################
 ## Experiment ran from June 3rd 2024 to July 17th 2024; need to filter data for
@@ -77,30 +119,104 @@ chamber_3_HLV_exp <- full_join(chamber_3_HLV_1_exp, chamber_3_HLV_2_exp)
 chamber_3_HLV_exp <- full_join(chamber_3_HLV_exp, chamber_3_HLV_3_exp)
 
 
-## Separate by chamber treatment ###############################################
-  # High Temp Variability
-  # Chambers 1, 5, 6
+## Script below gets mean, sd, se for each hour per treatment ##################
+class(chamber_1_HLV_exp$Date.Time) # R does not recognize "Time" as time
 
-  # Low Temp Variability
-  # Chamber 2, 3, 4
+chamber_1_HLV_exp$hour <- format(as.POSIXct(chamber_1_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
+chamber_1_HLV_exp_groupby <- group_by(chamber_1_HLV_exp, hour) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_1_LLV_exp$hour <- format(as.POSIXct(chamber_1_LLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
+chamber_1_LLV_exp_groupby <- group_by(chamber_1_LLV_exp, hour) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+            
+chamber_2_HLV_exp$hour <- format(as.POSIXct(chamber_2_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
+chamber_2_HLV_exp_groupby <- group_by(chamber_2_HLV_exp, hour) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_2_LLV_exp$hour <- format(as.POSIXct(chamber_2_LLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
+chamber_2_LLV_exp_groupby <- group_by(chamber_2_LLV_exp, hour) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_3_HLV_exp$hour <- format(as.POSIXct(chamber_3_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
+chamber_3_HLV_exp_groupby <- group_by(chamber_3_HLV_exp, hour) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_3_LLV_exp$hour <- format(as.POSIXct(chamber_3_LLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
+chamber_3_LLV_exp_groupby <- group_by(chamber_3_LLV_exp, hour) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_4_HLV_exp$hour <- format(as.POSIXct(chamber_4_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
+chamber_4_HLV_exp_groupby <- group_by(chamber_4_HLV_exp, hour) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_4_LLV_exp$hour <- format(as.POSIXct(chamber_4_LLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
+chamber_4_LLV_exp_groupby <- group_by(chamber_4_LLV_exp, hour) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_5_HLV_exp$hour <- format(as.POSIXct(chamber_5_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
+chamber_5_HLV_exp_groupby <- group_by(chamber_5_HLV_exp, hour) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_5_LLV_exp$hour <- format(as.POSIXct(chamber_5_LLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
+chamber_5_LLV_exp_groupby <- group_by(chamber_5_LLV_exp, hour) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_6_HLV_exp$hour <- format(as.POSIXct(chamber_6_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
+chamber_6_HLV_exp_groupby <- group_by(chamber_6_HLV_exp, hour) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_6_LLV_exp$hour <- format(as.POSIXct(chamber_6_LLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
+chamber_6_LLV_exp_groupby <- group_by(chamber_6_LLV_exp, hour) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
 
 
-## Script below aggregates by hour for each chamber ############################
-
-# what format does R think the time is in; ask for format of time
-data$hour <- as.Time(column, "%h")
-# take an average over the largest window; aggregate
-?aggregate
-aggregate(x, by, FUN, ..., simplify = TRUE, drop = TRUE)
-# want to aggregate
-object_groupby <- group_by(chamber_1_HLV_exp, hour)
-object_hour <- summarise(object_groupby, fun = mean)
-# get mean, sd, se (have to get count)
-
+## Graph each treatment/chamber by hour ########################################
 
 
 ## Script below finds means and sd for each treatment ##########################
 
+# High Temp Variability
+# Chambers 1, 5, 6
+
+# Low Temp Variability
+# Chamber 2, 3, 4
 #### LTVLLV #####################################################################
 ## Filter data for LTVLLV treatments; then combine for each step; calc mean and sd
 # Day
