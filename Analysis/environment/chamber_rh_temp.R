@@ -7,6 +7,7 @@ library(tidyr)
 library(tidyverse)
 
 
+
 ## load data
 chamber_1_HLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 1 2024-07-25 11_10_01 CDT (Data CDT).xlsx")
 chamber_1_LLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 1 LLV 2024-07-25 11_19_43 CDT (Data CDT).xlsx")
@@ -209,6 +210,55 @@ chamber_6_LLV_exp_groupby <- group_by(chamber_6_LLV_exp, hour) %>%
 
 ## Graph each treatment/chamber by hour ########################################
 
+chamber_1_HLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_1_HLV_exp_groupby) +
+  geom_line()
+chamber_1_HLV_plot
+
+chamber_1_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_1_LLV_exp_groupby) +
+  geom_line()
+chamber_1_LLV_plot
+
+chamber_2_HLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_2_HLV_exp_groupby) +
+  geom_line()
+chamber_2_HLV_plot
+
+chamber_2_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_2_LLV_exp_groupby) +
+  geom_line()
+chamber_2_LLV_plot
+
+chamber_3_HLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_3_HLV_exp_groupby) +
+  geom_line()
+chamber_3_HLV_plot
+
+chamber_3_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_3_LLV_exp_groupby) +
+  geom_line()
+chamber_3_LLV_plot
+
+chamber_4_HLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_4_HLV_exp_groupby) +
+  geom_line()
+chamber_4_HLV_plot
+
+chamber_4_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_4_LLV_exp_groupby) +
+  geom_line()
+chamber_4_LLV_plot
+
+chamber_5_HLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_5_HLV_exp_groupby) +
+  geom_line()
+chamber_5_HLV_plot
+
+chamber_5_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_5_LLV_exp_groupby) +
+  geom_line()
+chamber_5_LLV_plot
+
+chamber_6_HLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_6_HLV_exp_groupby) +
+  geom_line()
+chamber_6_HLV_plot
+
+chamber_6_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_6_LLV_exp_groupby) +
+  geom_line()
+chamber_6_LLV_plot
+
+
 
 ## Script below finds means and sd for each treatment ##########################
 
@@ -220,7 +270,7 @@ chamber_6_LLV_exp_groupby <- group_by(chamber_6_LLV_exp, hour) %>%
 #### LTVLLV #####################################################################
 ## Filter data for LTVLLV treatments; then combine for each step; calc mean and sd
 # Day
-## Step 1: 6am to 8am (20 C)
+## Step 1: 6am to 8am (22 C)
 chamber_2_LLV_exp_step1 <- chamber_2_LLV_exp %>% filter(Time >= "06:00" & Time <= "08:00")
 chamber_3_LLV_exp_step1 <- chamber_3_LLV_exp %>% filter(Time >= "06:00" & Time <= "08:00")
 chamber_4_LLV_exp_step1 <- chamber_4_LLV_exp %>% filter(Time >= "06:00" & Time <= "08:00")
@@ -228,7 +278,6 @@ chamber_4_LLV_exp_step1 <- chamber_4_LLV_exp %>% filter(Time >= "06:00" & Time <
 # Combine
 combine_LTVLLV_step1 <- bind_rows(chamber_2_LLV_exp_step1, chamber_3_LLV_exp_step1, chamber_4_LLV_exp_step1)
 
-colnames(combine_LTVLLV_step1)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 LTVLLV_step1_stats <- combine_LTVLLV_step1 %>% 
@@ -243,7 +292,6 @@ chamber_4_LLV_exp_step2 <- chamber_4_LLV_exp %>% filter(Time >= "08:00" & Time <
 combine_LTVLLV_step2 <- bind_rows(chamber_2_LLV_exp_step2, 
                                chamber_3_LLV_exp_step2, chamber_4_LLV_exp_step2)
 
-colnames(combine_LTVLLV_step2)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 LTVLLV_step2_stats <- combine_LTVLLV_step2 %>% 
@@ -251,7 +299,7 @@ LTVLLV_step2_stats <- combine_LTVLLV_step2 %>%
             RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
 
 
-## Step 3: 8pm to 10pm (20 C)
+## Step 3: 8pm to 10pm (22 C)
 chamber_2_LLV_exp_step3 <- chamber_2_LLV_exp %>% filter(Time >= "20:00" & Time <= "22:00")
 chamber_3_LLV_exp_step3 <- chamber_3_LLV_exp %>% filter(Time >= "20:00" & Time <= "22:00")
 chamber_4_LLV_exp_step3 <- chamber_4_LLV_exp %>% filter(Time >= "20:00" & Time <= "22:00")
@@ -259,7 +307,6 @@ chamber_4_LLV_exp_step3 <- chamber_4_LLV_exp %>% filter(Time >= "20:00" & Time <
 combine_LTVLLV_step3 <- bind_rows(chamber_2_LLV_exp_step3, 
                                chamber_3_LLV_exp_step3, chamber_4_LLV_exp_step3)
 
-colnames(combine_LTVLLV_step3)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 LTVLLV_step3_stats <- combine_LTVLLV_step3 %>% 
@@ -275,7 +322,6 @@ chamber_4_LLV_exp_night <- chamber_4_LLV_exp %>% filter(Time >= "22:00" | Time <
 combine_LTVLLV_night <- bind_rows(chamber_2_LLV_exp_night, 
                                chamber_3_LLV_exp_night, chamber_4_LLV_exp_night)
 
-colnames(combine_LTVLLV_night)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 LTVLLV_night_stats <- combine_LTVLLV_night %>% 
@@ -285,7 +331,7 @@ LTVLLV_night_stats <- combine_LTVLLV_night %>%
 #### LTVHLV ###################################################################
 ## Filter data for LTVHLV treatments; then combine for each step; calc mean and sd
 # Day
-## Step 1: 6am to 8am (20 C)
+## Step 1: 6am to 8am (22 C)
 chamber_2_HLV_exp_step1 <- chamber_2_HLV_exp %>% filter(Time >= "06:00" & Time <= "08:00")
 chamber_3_HLV_exp_step1 <- chamber_3_HLV_exp %>% filter(Time >= "06:00" & Time <= "08:00")
 chamber_4_HLV_exp_step1 <- chamber_4_HLV_exp %>% filter(Time >= "06:00" & Time <= "08:00")
@@ -293,7 +339,6 @@ chamber_4_HLV_exp_step1 <- chamber_4_HLV_exp %>% filter(Time >= "06:00" & Time <
 # Combine
 combine_LTVHLV_step1 <- bind_rows(chamber_2_HLV_exp_step1, chamber_3_HLV_exp_step1, chamber_4_HLV_exp_step1)
 
-colnames(combine_LTVHLV_step1)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 LTVHLV_step1_stats <- combine_LTVHLV_step1 %>% 
@@ -308,7 +353,7 @@ chamber_4_HLV_exp_step2 <- chamber_4_HLV_exp %>% filter(Time >= "08:00" & Time <
 combine_LTVHLV_step2 <- bind_rows(chamber_2_HLV_exp_step2, 
                                   chamber_3_HLV_exp_step2, chamber_4_HLV_exp_step2)
 
-colnames(combine_LTVHLV_step2)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
 
 # Mean & SD
 LTVHLV_step2_stats <- combine_LTVHLV_step2 %>% 
@@ -316,7 +361,7 @@ LTVHLV_step2_stats <- combine_LTVHLV_step2 %>%
             RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE))
 
 
-## Step 3: 8pm to 10pm (20 C)
+## Step 3: 8pm to 10pm (22 C)
 chamber_2_HLV_exp_step3 <- chamber_2_HLV_exp %>% filter(Time >= "20:00" & Time <= "22:00")
 chamber_3_HLV_exp_step3 <- chamber_3_HLV_exp %>% filter(Time >= "20:00" & Time <= "22:00")
 chamber_4_HLV_exp_step3 <- chamber_4_HLV_exp %>% filter(Time >= "20:00" & Time <= "22:00")
@@ -324,7 +369,6 @@ chamber_4_HLV_exp_step3 <- chamber_4_HLV_exp %>% filter(Time >= "20:00" & Time <
 combine_LTVHLV_step3 <- bind_rows(chamber_2_HLV_exp_step3, 
                                   chamber_3_HLV_exp_step3, chamber_4_HLV_exp_step3)
 
-colnames(combine_LTVHLV_step3)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 LTVHLV_step3_stats <- combine_LTVHLV_step3 %>% 
@@ -340,7 +384,6 @@ chamber_4_HLV_exp_night <- chamber_4_HLV_exp %>% filter(Time >= "22:00" | Time <
 combine_LTVHLV_night <- bind_rows(chamber_2_HLV_exp_night, 
                                   chamber_3_HLV_exp_night, chamber_4_HLV_exp_night)
 
-colnames(combine_LTVHLV_night)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 LTVHLV_night_stats <- combine_LTVHLV_night %>% 
@@ -359,7 +402,7 @@ chamber_6_HLV_exp_step1 <- chamber_6_HLV_exp %>% filter(Time >= "06:00" & Time <
 combine_HTVHLV_step1 <- bind_rows(chamber_1_HLV_exp_step1, 
                                chamber_5_HLV_exp_step1, chamber_6_HLV_exp_step1)
 
-colnames(combine_HTVHLV_step1)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
 
 # Mean & SD
 HTVHLV_step1_stats <- combine_HTVHLV_step1 %>% 
@@ -374,7 +417,6 @@ chamber_6_HLV_exp_step2 <- chamber_6_HLV_exp %>% filter(Time >= "08:00" & Time <
 combine_HTVHLV_step2 <- bind_rows(chamber_1_HLV_exp_step2, 
                                chamber_5_HLV_exp_step2, chamber_6_HLV_exp_step2)
 
-colnames(combine_HTVHLV_step2)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVHLV_step2_stats <- combine_HTVHLV_step2 %>% 
@@ -389,7 +431,6 @@ chamber_6_HLV_exp_step3 <- chamber_6_HLV_exp %>% filter(Time >= "10:00" & Time <
 combine_HTVHLV_step3 <- bind_rows(chamber_1_HLV_exp_step3,
                                chamber_5_HLV_exp_step3, chamber_6_HLV_exp_step3)
 
-colnames(combine_HTVHLV_step3)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVHLV_step3_stats <- combine_HTVHLV_step3 %>% 
@@ -404,7 +445,6 @@ chamber_6_HLV_exp_step4 <- chamber_6_HLV_exp %>% filter(Time >= "12:00" & Time <
 combine_HTVHLV_step4 <- bind_rows(chamber_1_HLV_exp_step4,
                                chamber_5_HLV_exp_step4, chamber_6_HLV_exp_step4)
 
-colnames(combine_HTVHLV_step4)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVHLV_step4_stats <- combine_HTVHLV_step4 %>% 
@@ -419,7 +459,6 @@ chamber_6_HLV_exp_step5 <- chamber_6_HLV_exp %>% filter(Time >= "16:00" & Time <
 combine_HTVHLV_step5 <- bind_rows(chamber_1_HLV_exp_step5,
                                chamber_5_HLV_exp_step5, chamber_6_HLV_exp_step5)
 
-colnames(combine_HTVHLV_step5)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVHLV_step5_stats <- combine_HTVHLV_step5 %>% 
@@ -434,7 +473,7 @@ chamber_6_HLV_exp_step6 <- chamber_6_HLV_exp %>% filter(Time >= "18:00" & Time <
 combine_HTVHLV_step6 <- bind_rows(chamber_1_HLV_exp_step6,
                                chamber_5_HLV_exp_step6, chamber_6_HLV_exp_step6)
 
-colnames(combine_HTVHLV_step6)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
+
 
 # Mean & SD
 HTVHLV_step6_stats <- combine_HTVHLV_step6 %>% 
@@ -449,7 +488,6 @@ chamber_6_HLV_exp_step7 <- chamber_6_HLV_exp %>% filter(Time >= "20:00" & Time <
 combine_HTVHLV_step7 <- bind_rows(chamber_1_HLV_exp_step7,
                                chamber_5_HLV_exp_step7, chamber_6_HLV_exp_step7)
 
-colnames(combine_HTVHLV_step7)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVHLV_step7_stats <- combine_HTVHLV_step7 %>% 
@@ -466,7 +504,6 @@ chamber_6_HLV_exp_night <- chamber_6_HLV_exp %>% filter(Time >= "22:00" | Time <
 combine_HTVHLV_night <- bind_rows(chamber_1_HLV_exp_night, 
                                chamber_5_HLV_exp_night, chamber_6_HLV_exp_night)
 
-colnames(combine_HTVHLV_night)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVHLV_night_stats <- combine_HTVHLV_night %>% 
@@ -484,7 +521,6 @@ chamber_6_LLV_exp_step1 <- chamber_6_LLV_exp %>% filter(Time >= "06:00" & Time <
 combine_HTVLLV_step1 <- bind_rows(chamber_1_LLV_exp_step1, 
                                   chamber_5_LLV_exp_step1, chamber_6_LLV_exp_step1)
 
-colnames(combine_HTVLLV_step1)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVLLV_step1_stats <- combine_HTVLLV_step1 %>% 
@@ -499,7 +535,6 @@ chamber_6_LLV_exp_step2 <- chamber_6_LLV_exp %>% filter(Time >= "08:00" & Time <
 combine_HTVLLV_step2 <- bind_rows(chamber_1_LLV_exp_step2, 
                                   chamber_5_LLV_exp_step2, chamber_6_LLV_exp_step2)
 
-colnames(combine_HTVLLV_step2)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVLLV_step2_stats <- combine_HTVLLV_step2 %>% 
@@ -514,7 +549,6 @@ chamber_6_LLV_exp_step3 <- chamber_6_LLV_exp %>% filter(Time >= "10:00" & Time <
 combine_HTVLLV_step3 <- bind_rows(chamber_1_LLV_exp_step3,
                                   chamber_5_LLV_exp_step3, chamber_6_LLV_exp_step3)
 
-colnames(combine_HTVLLV_step3)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVLLV_step3_stats <- combine_HTVLLV_step3 %>% 
@@ -529,7 +563,6 @@ chamber_6_LLV_exp_step4 <- chamber_6_LLV_exp %>% filter(Time >= "12:00" & Time <
 combine_HTVLLV_step4 <- bind_rows(chamber_1_LLV_exp_step4,
                                   chamber_5_LLV_exp_step4, chamber_6_LLV_exp_step4)
 
-colnames(combine_HTVLLV_step4)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVLLV_step4_stats <- combine_HTVLLV_step4 %>% 
@@ -544,7 +577,6 @@ chamber_6_LLV_exp_step5 <- chamber_6_LLV_exp %>% filter(Time >= "16:00" & Time <
 combine_HTVLLV_step5 <- bind_rows(chamber_1_LLV_exp_step5,
                                   chamber_5_LLV_exp_step5, chamber_6_LLV_exp_step5)
 
-colnames(combine_HTVLLV_step5)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVLLV_step5_stats <- combine_HTVLLV_step5 %>% 
@@ -559,7 +591,6 @@ chamber_6_LLV_exp_step6 <- chamber_6_LLV_exp %>% filter(Time >= "18:00" & Time <
 combine_HTVLLV_step6 <- bind_rows(chamber_1_LLV_exp_step6,
                                   chamber_5_LLV_exp_step6, chamber_6_LLV_exp_step6)
 
-colnames(combine_HTVLLV_step6)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVLLV_step6_stats <- combine_HTVLLV_step6 %>% 
@@ -574,7 +605,6 @@ chamber_6_LLV_exp_step7 <- chamber_6_LLV_exp %>% filter(Time >= "20:00" & Time <
 combine_HTVLLV_step7 <- bind_rows(chamber_1_LLV_exp_step7,
                                   chamber_5_LLV_exp_step7, chamber_6_LLV_exp_step7)
 
-colnames(combine_HTVLLV_step7)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVLLV_step7_stats <- combine_HTVLLV_step7 %>% 
@@ -591,7 +621,6 @@ chamber_6_LLV_exp_night <- chamber_6_LLV_exp %>% filter(Time >= "22:00" | Time <
 combine_HTVLLV_night <- bind_rows(chamber_1_LLV_exp_night, 
                                   chamber_5_LLV_exp_night, chamber_6_LLV_exp_night)
 
-colnames(combine_HTVLLV_night)[c(4, 5, 6)] <- c("Temperature", "RH", "Dew_Point")
 
 # Mean & SD
 HTVLLV_night_stats <- combine_HTVLLV_night %>% 
@@ -628,3 +657,92 @@ print(HTVLLV_step6_stats)
 print(HTVLLV_step7_stats)
 print(HTVLLV_night_stats)
 
+### Make a table for each step #################################################
+##### LTVLLV
+LTVLLV_steps <- data.frame(step = c(1, 2, 3, 4), time = c("6:00", "8:00", "20:00", "22:00"), 
+                           temp_set = c(22, 26, 22, 18), rh_set = c(70, 70, 70, 70))
+LTVLLV_data <- data.frame(step = c(1, 2, 3, 4), actual_temp_mean = c(LTVLLV_step1_stats$Temp_Mean, 
+                                                      LTVLLV_step2_stats$Temp_Mean,
+                                                      LTVLLV_step3_stats$Temp_Mean,
+                                                      LTVLLV_night_stats$Temp_Mean),
+                          actual_temp_sd = c(LTVLLV_step1_stats$Temp_SD, 
+                                               LTVLLV_step2_stats$Temp_SD,
+                                               LTVLLV_step3_stats$Temp_SD,
+                                               LTVLLV_night_stats$Temp_SD),
+           actual_rh_mean = c(LTVLLV_step1_stats$RH_Mean, LTVLLV_step2_stats$RH_Mean,
+                              LTVLLV_step3_stats$RH_Mean, LTVLLV_night_stats$RH_Mean),
+           actual_rh_sd = c(LTVLLV_step1_stats$RH_SD, LTVLLV_step2_stats$RH_SD,
+                              LTVLLV_step3_stats$RH_SD, LTVLLV_night_stats$RH_SD))
+LTVLLV_table <- left_join(LTVLLV_steps, LTVLLV_data, join_by(step))
+
+
+#### LTVHLV
+LTVHLV_steps <- data.frame(step = c(1, 2, 3, 4), time = c("6:00", "8:00", "20:00", "22:00"), 
+                           temp_set = c(22, 26, 22, 18), rh_set = c(70, 70, 70, 70))
+LTVHLV_data <- data.frame(step = c(1, 2, 3, 4), actual_temp_mean = c(LTVHLV_step1_stats$Temp_Mean, 
+                                                                     LTVHLV_step2_stats$Temp_Mean,
+                                                                     LTVHLV_step3_stats$Temp_Mean,
+                                                                     LTVHLV_night_stats$Temp_Mean),
+                          actual_temp_sd = c(LTVHLV_step1_stats$Temp_SD, 
+                                             LTVHLV_step2_stats$Temp_SD,
+                                             LTVHLV_step3_stats$Temp_SD,
+                                             LTVHLV_night_stats$Temp_SD),
+                          actual_rh_mean = c(LTVHLV_step1_stats$RH_Mean, LTVHLV_step2_stats$RH_Mean,
+                                             LTVHLV_step3_stats$RH_Mean, LTVHLV_night_stats$RH_Mean),
+                          actual_rh_sd = c(LTVHLV_step1_stats$RH_SD, LTVHLV_step2_stats$RH_SD,
+                                           LTVHLV_step3_stats$RH_SD, LTVHLV_night_stats$RH_SD))
+LTVHLV_table <- left_join(LTVHLV_steps, LTVHLV_data, join_by(step))
+
+
+#### HTVHLV
+HTVHLV_steps <- data.frame(step = c(1, 2, 3, 4, 5, 6, 7, 8), 
+                           time = c("6:00", "8:00", "10:00", "12:00", "16:00", "18:00", "20:00", "22:00"), 
+                           temp_set = c(20, 23, 26, 31, 26, 23, 20, 18), rh_set = c(70, 70, 70, 70, 70, 70, 70, 70))
+HTVHLV_data <- data.frame(step = c(1, 2, 3, 4, 5, 6, 7, 8), actual_temp_mean = c(HTVHLV_step1_stats$Temp_Mean, 
+                                                                     HTVHLV_step2_stats$Temp_Mean,
+                                                                     HTVHLV_step3_stats$Temp_Mean,
+                                                                     HTVHLV_step4_stats$Temp_Mean,
+                                                                     HTVHLV_step5_stats$Temp_Mean,
+                                                                     HTVHLV_step6_stats$Temp_Mean,
+                                                                     HTVHLV_step7_stats$Temp_Mean,
+                                                                     HTVHLV_night_stats$Temp_Mean),
+                          actual_temp_sd = c(HTVHLV_step1_stats$Temp_SD, HTVHLV_step2_stats$Temp_SD,
+                                               HTVHLV_step3_stats$Temp_SD, HTVHLV_step4_stats$Temp_SD,
+                                               HTVHLV_step5_stats$Temp_SD, HTVHLV_step6_stats$Temp_SD,
+                                               HTVHLV_step7_stats$Temp_SD, HTVHLV_night_stats$Temp_SD),
+                          actual_rh_mean = c(HTVHLV_step1_stats$RH_Mean, HTVHLV_step2_stats$RH_Mean,
+                                             HTVHLV_step3_stats$RH_Mean, HTVHLV_step4_stats$RH_Mean,
+                                             HTVHLV_step5_stats$RH_Mean, HTVHLV_step6_stats$RH_Mean,
+                                             HTVHLV_step7_stats$RH_Mean, HTVHLV_night_stats$RH_Mean),
+                          actual_rh_sd = c(HTVHLV_step1_stats$RH_SD, HTVHLV_step2_stats$RH_SD,
+                                             HTVHLV_step3_stats$RH_SD, HTVHLV_step4_stats$RH_SD,
+                                             HTVHLV_step5_stats$RH_SD, HTVHLV_step6_stats$RH_SD,
+                                             HTVHLV_step7_stats$RH_SD, HTVHLV_night_stats$RH_SD))
+HTVHLV_table <- left_join(HTVHLV_steps, HTVHLV_data, join_by(step))
+
+
+#### HTVLLV
+HTVLLV_steps <- data.frame(step = c(1, 2, 3, 4, 5, 6, 7, 8), 
+                           time = c("6:00", "8:00", "10:00", "12:00", "16:00", "18:00", "20:00", "22:00"), 
+                           temp_set = c(20, 23, 26, 31, 26, 23, 20, 18), rh_set = c(70, 70, 70, 70, 70, 70, 70, 70))
+HTVLLV_data <- data.frame(step = c(1, 2, 3, 4, 5, 6, 7, 8), actual_temp_mean = c(HTVLLV_step1_stats$Temp_Mean, 
+                                                                                 HTVLLV_step2_stats$Temp_Mean,
+                                                                                 HTVLLV_step3_stats$Temp_Mean,
+                                                                                 HTVLLV_step4_stats$Temp_Mean,
+                                                                                 HTVLLV_step5_stats$Temp_Mean,
+                                                                                 HTVLLV_step6_stats$Temp_Mean,
+                                                                                 HTVLLV_step7_stats$Temp_Mean,
+                                                                                 HTVLLV_night_stats$Temp_Mean),
+                          actual_temp_sd = c(HTVLLV_step1_stats$Temp_SD, HTVLLV_step2_stats$Temp_SD,
+                                             HTVLLV_step3_stats$Temp_SD, HTVLLV_step4_stats$Temp_SD,
+                                             HTVLLV_step5_stats$Temp_SD, HTVLLV_step6_stats$Temp_SD,
+                                             HTVLLV_step7_stats$Temp_SD, HTVLLV_night_stats$Temp_SD),
+                          actual_rh_mean = c(HTVLLV_step1_stats$RH_Mean, HTVLLV_step2_stats$RH_Mean,
+                                             HTVLLV_step3_stats$RH_Mean, HTVLLV_step4_stats$RH_Mean,
+                                             HTVLLV_step5_stats$RH_Mean, HTVLLV_step6_stats$RH_Mean,
+                                             HTVLLV_step7_stats$RH_Mean, HTVLLV_night_stats$RH_Mean),
+                          actual_rh_sd = c(HTVLLV_step1_stats$RH_SD, HTVLLV_step2_stats$RH_SD,
+                                           HTVLLV_step3_stats$RH_SD, HTVLLV_step4_stats$RH_SD,
+                                           HTVLLV_step5_stats$RH_SD, HTVLLV_step6_stats$RH_SD,
+                                           HTVLLV_step7_stats$RH_SD, HTVLLV_night_stats$RH_SD))
+HTVLLV_table <- left_join(HTVLLV_steps, HTVLLV_data, join_by(step))
