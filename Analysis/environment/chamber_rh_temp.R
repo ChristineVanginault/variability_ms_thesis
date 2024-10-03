@@ -209,9 +209,13 @@ chamber_6_LLV_exp_groupby <- group_by(chamber_6_LLV_exp, hour) %>%
 
 
 ## Graph each treatment/chamber by hour ########################################
+# temp graph; 4 diurnal lines, 4 average lines; alpha = to change transparency of lines
+# don't graph humidity
+# two figures
 
-chamber_1_HLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_1_HLV_exp_groupby) +
-  geom_line()
+chamber_1_HLV_plot <- ggplot(chamber_1_HLV_exp_groupby, aes(x = as.numeric(hour))) + 
+  geom_line(aes(y=Temp_Mean)) + geom_line(aes(y = RH_Mean)) + 
+  scale_y_continuous(name = "Temp_Mean", sec.axis = sec_axis(~., name = "RH_Mean"))
 chamber_1_HLV_plot
 
 chamber_1_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_1_LLV_exp_groupby) +
