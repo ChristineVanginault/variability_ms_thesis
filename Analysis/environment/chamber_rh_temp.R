@@ -260,6 +260,15 @@ hour_avg <- left_join(hour_avg, LTVLLV_data[ , c(1, 20)], join_by(hour))
 #### Average daytime temp (0600-2100) ##########################################
 daytime_average <- colMeans(hour_avg[c(7:22),c(2:5)])
 daytime_average
+hour <- as.character(c(6:21))
+HTVHLV_avg <- rep(25.51657, 16)
+HTVLLV_avg <- rep(26.16934, 16)
+LTVHLV_avg <- rep(23.97929, 16)
+LTVLLV_avg <- rep(24.10097, 16)
+avg_condition <- data.frame(hour, HTVHLV_avg, HTVLLV_avg, LTVHLV_avg, LTVLLV_avg)
+avg_condition
+
+avg_condition_long <- melt(avg_condition, id = "hour", variable.name = "treatment", value.name = "daily_average")
 
 ## Graph each treatment by hour using "hour_avg" ##############################
 # temp graph; 4 diurnal lines, 4 average lines
@@ -267,11 +276,21 @@ daytime_average
 
 ##### Needs to be in long format
 hour_avg_long <- melt(hour_avg, id = "hour", variable.name = "treatment", value.name = "temp_average")
+  ## prob don't need this: all_avg <- full_join(hour_avg_long, avg_condition_long)
 
 temp_hour_avg_plot <- ggplot(hour_avg_long, aes(x = as.numeric(hour), y = temp_average, color = treatment)) + 
   geom_line() + theme_bw() + scale_y_continuous(n.breaks = 8) + scale_x_continuous(breaks = seq(0, 23, 2)) +
   labs(x = "Hours in a Day (00-23)", y = "Average Temperature (C)")
 temp_hour_avg_plot
+
+
+  # Average daily conditions by treatment
+temp_hour_avg_plot2 <- ggplot(avg_condition_long, aes(x = as.numeric(hour), y = daily_average, color = treatment)) +
+  geom_line() + theme_bw() + scale_x_continuous(breaks = seq(6, 21, 2)) +
+  scale_y_continuous(limits = c(17, 33)) +
+  labs(x = "Hours in a Day (06-21)", y = "Average Temperature (C)")
+temp_hour_avg_plot2
+
 
 ## Script below finds means and sd for each treatment ##########################
 
