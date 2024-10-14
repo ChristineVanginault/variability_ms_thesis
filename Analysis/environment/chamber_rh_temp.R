@@ -5,6 +5,7 @@ library(dplyr)
 library(readxl)
 library(tidyr)
 library(tidyverse)
+library(reshape2)
 
 
 
@@ -29,7 +30,8 @@ chamber_5_LLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_tem
 chamber_6_HLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 6 2024-07-25 11_21_11 CDT (Data CDT)(1).xlsx")
 chamber_6_LLV <- read_excel("Git/variability_ms_thesis/Data/environmental/rh_temp/Chamber 6 LLV 2024-07-25 11_19_07 CDT (Data CDT).xlsx")
 
-## Change column names #########################################################
+## Clean up data ###############################################################
+###### Change column names #########################################################
 colnames(chamber_1_HLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
 colnames(chamber_1_LLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
 
@@ -51,7 +53,7 @@ colnames(chamber_6_HLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "De
 colnames(chamber_6_LLV)[c(2, 3, 4, 5)] <- c("Date.Time","Temperature", "RH", "Dew_Point")
 
 
-## Separate Date-Time column ###################################################
+###### Separate Date-Time column ###################################################
 chamber_1_HLV$Date <- as.Date(chamber_1_HLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
 chamber_1_HLV$Time <- format(as.POSIXct(chamber_1_HLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
 
@@ -92,7 +94,7 @@ chamber_6_HLV$Time <- format(as.POSIXct(chamber_6_HLV$Date.Time, format="%Y-%m-%
 chamber_6_LLV$Date <- as.Date(chamber_6_LLV$Date.Time, format = "%Y-%m-%d %H:%M:%S")
 chamber_6_LLV$Time <- format(as.POSIXct(chamber_6_LLV$Date.Time, format="%Y-%m-%d %H:%M:%S"), "%H:%M")
 
-## Filter data for exp. dates ##################################################
+###### Filter data for exp. dates ##################################################
 ## Experiment ran from June 3rd 2024 to July 17th 2024; need to filter data for
 ## those dates
 chamber_1_HLV_exp <- chamber_1_HLV %>% filter(Date >= "2024-06-03" & Date <= "2024-07-17")
@@ -121,7 +123,7 @@ chamber_3_HLV_exp <- full_join(chamber_3_HLV_exp, chamber_3_HLV_3_exp)
 
 
 ## Script below gets mean, sd, se for each hour per treatment ##################
-class(chamber_1_HLV_exp$Date.Time) # R does not recognize "Time" as time
+class(chamber_1_HLV_exp$Date.Time) # R recognizes "Time" as time
 
 chamber_1_HLV_exp$hour <- format(as.POSIXct(chamber_1_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%H")
 chamber_1_HLV_exp_groupby <- group_by(chamber_1_HLV_exp, hour) %>%
@@ -207,62 +209,69 @@ chamber_6_LLV_exp_groupby <- group_by(chamber_6_LLV_exp, hour) %>%
             RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
             RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
 
+###### Rename columns to include "_chamber_treatment" #############################
+colnames(chamber_1_HLV_exp_groupby)[2:7] <- paste(colnames(chamber_1_HLV_exp_groupby)[2:7], "_1_HTVHLV", sep = '')
+colnames(chamber_1_LLV_exp_groupby)[2:7] <- paste(colnames(chamber_1_LLV_exp_groupby)[2:7], "_1_HTVLLV", sep = '')
 
-## Graph each treatment/chamber by hour ########################################
-# temp graph; 4 diurnal lines, 4 average lines; alpha = to change transparency of lines
-# don't graph humidity
-# two figures
+colnames(chamber_2_HLV_exp_groupby)[2:7] <- paste(colnames(chamber_2_HLV_exp_groupby)[2:7], "_2_LTVHLV", sep = '')
+colnames(chamber_2_LLV_exp_groupby)[2:7] <- paste(colnames(chamber_2_LLV_exp_groupby)[2:7], "_2_LTVLLV", sep = '')
 
-chamber_1_HLV_plot <- ggplot(chamber_1_HLV_exp_groupby, aes(x = as.numeric(hour))) + 
-  geom_line(aes(y=Temp_Mean)) + geom_line(aes(y = RH_Mean)) + 
-  scale_y_continuous(name = "Temp_Mean", sec.axis = sec_axis(~., name = "RH_Mean"))
-chamber_1_HLV_plot
+colnames(chamber_3_HLV_exp_groupby)[2:7] <- paste(colnames(chamber_3_HLV_exp_groupby)[2:7], "_3_LTVHLV", sep = '')
+colnames(chamber_3_LLV_exp_groupby)[2:7] <- paste(colnames(chamber_3_LLV_exp_groupby)[2:7], "_3_LTVLLV", sep = '')
 
-chamber_1_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_1_LLV_exp_groupby) +
-  geom_line()
-chamber_1_LLV_plot
+colnames(chamber_4_HLV_exp_groupby)[2:7] <- paste(colnames(chamber_4_HLV_exp_groupby)[2:7], "_4_LTVHLV", sep = '')
+colnames(chamber_4_LLV_exp_groupby)[2:7] <- paste(colnames(chamber_4_LLV_exp_groupby)[2:7], "_4_LTVLLV", sep = '')
 
-chamber_2_HLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_2_HLV_exp_groupby) +
-  geom_line()
-chamber_2_HLV_plot
+colnames(chamber_5_HLV_exp_groupby)[2:7] <- paste(colnames(chamber_5_HLV_exp_groupby)[2:7], "_5_HTVHLV", sep = '')
+colnames(chamber_5_LLV_exp_groupby)[2:7] <- paste(colnames(chamber_5_LLV_exp_groupby)[2:7], "_5_HTVLLV", sep = '')
 
-chamber_2_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_2_LLV_exp_groupby) +
-  geom_line()
-chamber_2_LLV_plot
+colnames(chamber_6_HLV_exp_groupby)[2:7] <- paste(colnames(chamber_6_HLV_exp_groupby)[2:7], "_6_HTVHLV", sep = '')
+colnames(chamber_6_LLV_exp_groupby)[2:7] <- paste(colnames(chamber_6_LLV_exp_groupby)[2:7], "_6_HTVLLV", sep = '')
 
-chamber_3_HLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_3_HLV_exp_groupby) +
-  geom_line()
-chamber_3_HLV_plot
+###### Create data frames to average each treatment ###############################
+### HTVHLV
+HTVHLV_data <- left_join(chamber_1_HLV_exp_groupby, chamber_5_HLV_exp_groupby, join_by(hour))
+HTVHLV_data <- left_join(HTVHLV_data, chamber_6_HLV_exp_groupby, join_by(hour))
 
-chamber_3_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_3_LLV_exp_groupby) +
-  geom_line()
-chamber_3_LLV_plot
+### HTVLLV
+HTVLLV_data <- left_join(chamber_1_LLV_exp_groupby, chamber_5_LLV_exp_groupby, join_by(hour))
+HTVLLV_data <- left_join(HTVLLV_data, chamber_6_LLV_exp_groupby, join_by(hour))
 
-chamber_4_HLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_4_HLV_exp_groupby) +
-  geom_line()
-chamber_4_HLV_plot
+### LTVHLV
+LTVHLV_data <- left_join(chamber_2_HLV_exp_groupby, chamber_3_HLV_exp_groupby, join_by(hour))
+LTVHLV_data <- left_join(LTVHLV_data, chamber_4_HLV_exp_groupby, join_by(hour))
 
-chamber_4_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_4_LLV_exp_groupby) +
-  geom_line()
-chamber_4_LLV_plot
+### LTVLLV
+LTVLLV_data <- left_join(chamber_2_LLV_exp_groupby, chamber_3_LLV_exp_groupby, join_by(hour))
+LTVLLV_data <- left_join(LTVLLV_data, chamber_4_LLV_exp_groupby, join_by(hour))
 
-chamber_5_HLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_5_HLV_exp_groupby) +
-  geom_line()
-chamber_5_HLV_plot
+###### Average per hour each treatment ############################################
+# Average per hour
+HTVHLV_data$all_temp_mean_HTVHLV <- rowMeans(HTVHLV_data[ ,c(2, 8, 14)])
+HTVLLV_data$all_temp_mean_HTVLLV <- rowMeans(HTVLLV_data[ ,c(2, 8, 14)])
+LTVHLV_data$all_temp_mean_LTVHLV <- rowMeans(LTVHLV_data[ ,c(2, 8, 14)])
+LTVLLV_data$all_temp_mean_LTVLLV <- rowMeans(LTVLLV_data[ ,c(2, 8, 14)])
 
-chamber_5_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_5_LLV_exp_groupby) +
-  geom_line()
-chamber_5_LLV_plot
+## Extract treatment averages and combine #####################################
+hour_avg <- left_join(HTVHLV_data[ , c(1, 20)], HTVLLV_data[ , c(1, 20)], join_by(hour))
+hour_avg <- left_join(hour_avg, LTVHLV_data[ , c(1, 20)], join_by(hour))
+hour_avg <- left_join(hour_avg, LTVLLV_data[ , c(1, 20)], join_by(hour))
 
-chamber_6_HLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_6_HLV_exp_groupby) +
-  geom_line()
-chamber_6_HLV_plot
+#### Average daytime temp (0600-2100) ##########################################
+daytime_average <- colMeans(hour_avg[c(7:22),c(2:5)])
+daytime_average
 
-chamber_6_LLV_plot <- ggplot(aes(y=Temp_Mean, x = as.numeric(hour)), data = chamber_6_LLV_exp_groupby) +
-  geom_line()
-chamber_6_LLV_plot
+## Graph each treatment by hour using "hour_avg" ##############################
+# temp graph; 4 diurnal lines, 4 average lines
+  # cannot figure out how to add average lines for 0600 to 2100
 
+##### Needs to be in long format
+hour_avg_long <- melt(hour_avg, id = "hour", variable.name = "treatment", value.name = "temp_average")
 
+temp_hour_avg_plot <- ggplot(hour_avg_long, aes(x = as.numeric(hour), y = temp_average, color = treatment)) + 
+  geom_line() + theme_bw() + scale_y_continuous(n.breaks = 8) + scale_x_continuous(breaks = seq(0, 23, 2)) +
+  labs(x = "Hours in a Day (00-23)", y = "Average Temperature (C)")
+temp_hour_avg_plot
 
 ## Script below finds means and sd for each treatment ##########################
 
