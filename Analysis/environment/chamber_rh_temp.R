@@ -271,7 +271,6 @@ avg_condition
 avg_condition_long <- melt(avg_condition, id = "hour", variable.name = "treatment", value.name = "daily_average")
 
 ## Graph each treatment by hour using "hour_avg" ##############################
-# temp graph; 4 diurnal lines, 4 average lines
   # cannot figure out how to add average lines for 0600 to 2100
 
 ##### Needs to be in long format
