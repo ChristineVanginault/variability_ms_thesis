@@ -59,4 +59,4 @@ par_avg_hour_plot <- ggplot(par_hour_avg_groupby, aes(x = as.numeric(hour), y = 
 par_avg_hour_plot
 
 
-## Still need to find the daily average
+## Still need to find the daily average #######################################
