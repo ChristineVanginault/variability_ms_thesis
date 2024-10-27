@@ -279,7 +279,8 @@ hour_avg_long <- melt(hour_avg, id = "hour", variable.name = "treatment", value.
 
 temp_hour_avg_plot <- ggplot(hour_avg_long, aes(x = as.numeric(hour), y = temp_average, color = treatment)) + 
   geom_line() + theme_bw() + scale_y_continuous(n.breaks = 8) + scale_x_continuous(breaks = seq(0, 23, 2)) +
-  labs(x = "Hours in a Day (00-23)", y = "Average Temperature (C)")
+  labs(x = "Hours in a Day (00-23)", y = "Average Temperature (C)") +
+  theme(legend.position = "top")
 temp_hour_avg_plot
 
 

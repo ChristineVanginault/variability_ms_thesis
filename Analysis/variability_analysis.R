@@ -46,8 +46,8 @@ Anova(vcmax_tleaf_20_lmer)
 emmeans(vcmax_tleaf_20_lmer, ~TV)
 emmeans(vcmax_tleaf_20_lmer, ~TV*LV)
 
-vcmax_tleaf_20_plot <- ggplot(aes(y=(vcmax_tleaf_20), x = treatment), data = all_data) +
-  geom_boxplot()
+vcmax_tleaf_20_plot <- ggplot(aes(y=vcmax_tleaf_20, x = treatment), data = all_data) +
+  geom_boxplot() + theme_bw()
 vcmax_tleaf_20_plot
 
 ### vcmax_tleaf_25
@@ -60,6 +60,10 @@ Anova(vcmax_tleaf_25_lmer)
 emmeans(vcmax_tleaf_25_lmer, ~TV)
 emmeans(vcmax_tleaf_25_lmer, ~TV*LV)
 
+vcmax_tleaf_25_plot <- ggplot(aes(y=vcmax_tleaf_25, x = treatment), data = all_data) +
+  geom_boxplot() + theme_bw()
+vcmax_tleaf_25_plot
+
 ### vcmax_tleaf_31
 hist(all_data$vcmax_tleaf_31)
 hist(log(all_data$vcmax_tleaf_31))
@@ -69,6 +73,10 @@ summary(vcmax_tleaf_31_lmer)
 Anova(vcmax_tleaf_31_lmer)
 emmeans(vcmax_tleaf_31_lmer, ~TV)
 emmeans(vcmax_tleaf_31_lmer, ~TV*LV)
+
+vcmax_tleaf_31_plot <- ggplot(aes(y=vcmax_tleaf_31, x = treatment), data = all_data) +
+  geom_boxplot() + theme_bw()
+vcmax_tleaf_31_plot
 
 
 ### jmax_tleaf_20
@@ -81,6 +89,10 @@ Anova(jmax_tleaf_20_lmer)
 emmeans(jmax_tleaf_20_lmer, ~TV)
 emmeans(jmax_tleaf_20_lmer, ~TV*LV)
 
+jmax_tleaf_20_plot <- ggplot(aes(y=vcmax_tleaf_20, x = treatment), data = all_data) +
+  geom_boxplot() + theme_bw()
+jmax_tleaf_20_plot
+
 ### jmax_tleaf_25
 hist(all_data$jmax_tleaf_25)
 hist(log(all_data$jmax_tleaf_25))
@@ -91,6 +103,11 @@ Anova(jmax_tleaf_25_lmer)
 emmeans(jmax_tleaf_25_lmer, ~TV)
 emmeans(jmax_tleaf_25_lmer, ~TV*LV)
 
+jmax_tleaf_25_plot <- ggplot(aes(y=vcmax_tleaf_25, x = treatment), data = all_data) +
+  geom_boxplot() + theme_bw()
+jmax_tleaf_25_plot
+
+
 ### jmax_tleaf_31
 hist(all_data$jmax_tleaf_31)
 hist(log(all_data$jmax_tleaf_31))
@@ -100,6 +117,10 @@ summary(jmax_tleaf_31_lmer)
 Anova(jmax_tleaf_31_lmer)
 emmeans(jmax_tleaf_31_lmer, ~TV)
 emmeans(jmax_tleaf_31_lmer, ~TV*LV)
+
+jmax_tleaf_31_plot <- ggplot(aes(y=vcmax_tleaf_31, x = treatment), data = all_data) +
+  geom_boxplot() + theme_bw()
+jmax_tleaf_31_plot
 
 ### stomatal conductance (gsw_420_20)
 hist(all_data$gsw_420_20)
@@ -179,6 +200,10 @@ Anova(chl.mmolm2_lmer)
 emmeans(chl.mmolm2_lmer, ~TV)
 emmeans(chl.mmolm2_lmer, ~TV*LV)
 
+chl.mmolm2_lmer_plot <- ggplot(aes(y=chl.mmolm2, x = treatment), data = all_data) +
+  geom_boxplot() + theme_bw()
+chl.mmolm2_lmer_plot
+
 ### chlorophyll A (chlA.mmolm2)
 chlA.mmolm2_lmer <- lmer(chlA.mmolm2 ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(chlA.mmolm2_lmer) ~ fitted(chlA.mmolm2_lmer))
@@ -206,8 +231,8 @@ Anova(above_biomass_dry_weight_lmer)
 emmeans(above_biomass_dry_weight_lmer, ~TV)
 emmeans(above_biomass_dry_weight_lmer, ~TV*LV)
 
-above_biomass_dry_weight_plot <- ggplot(aes(y=(above_biomass_dry_weight), x = treatment), data = all_data) +
-  geom_boxplot()
+above_biomass_dry_weight_plot <- ggplot(aes(y=above_biomass_dry_weight, x = treatment), data = all_data) +
+  geom_boxplot() + theme_bw()
 above_biomass_dry_weight_plot
 
 ### SLA_focal
