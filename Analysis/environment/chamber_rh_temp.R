@@ -778,3 +778,4 @@ HTVLLV_data <- data.frame(step = c(1, 2, 3, 4, 5, 6, 7, 8), actual_temp_mean = c
                                            HTVLLV_step5_stats$RH_SD, HTVLLV_step6_stats$RH_SD,
                                            HTVLLV_step7_stats$RH_SD, HTVLLV_night_stats$RH_SD))
 HTVLLV_table <- left_join(HTVLLV_steps, HTVLLV_data, join_by(step))
+
