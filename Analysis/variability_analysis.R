@@ -19,6 +19,9 @@ library(ggplot2)
 ## load data
 all_data <- read.csv('Git/variability_ms_thesis/Data/all_data.csv')
 
+  # for carbon and nitrogen use data below
+all_data2 <- read.csv("Git/variability_ms_thesis/Data/all_data2.csv")
+
 ## separate treatments 
 all_data$TV[all_data$treatment == 'HTVHLV'] <- 'HTV'
 all_data$TV[all_data$treatment == 'HTVLLV'] <- 'HTV'
@@ -32,6 +35,20 @@ all_data$LV[all_data$treatment == 'LTVLLV'] <- 'LLV'
 
 class(all_data$chamber)
 all_data$chamber_fac <- as.factor(all_data$chamber)
+
+## seperate treatments for all_data2
+all_data2$TV[all_data2$treatment == 'HTVHLV'] <- 'HTV'
+all_data2$TV[all_data2$treatment == 'HTVLLV'] <- 'HTV'
+all_data2$TV[all_data2$treatment == 'LTVHLV'] <- 'LTV'
+all_data2$TV[all_data2$treatment == 'LTVLLV'] <- 'LTV'
+
+all_data2$LV[all_data2$treatment == 'HTVHLV'] <- 'HLV'
+all_data2$LV[all_data2$treatment == 'HTVLLV'] <- 'LLV'
+all_data2$LV[all_data2$treatment == 'LTVHLV'] <- 'HLV'
+all_data2$LV[all_data2$treatment == 'LTVLLV'] <- 'LLV'
+
+class(all_data2$chamber)
+all_data2$chamber_fac <- as.factor(all_data2$chamber)
 
 # fit lme models################################################################
 
@@ -50,7 +67,7 @@ vcmax_tleaf_20_plot <- ggplot(aes(y=vcmax_tleaf_20, x = treatment), data = all_d
   geom_boxplot() + theme_bw()
 vcmax_tleaf_20_plot
 
-### vcmax_tleaf_25
+### vcmax_tleaf_25 
 hist(all_data$vcmax_tleaf_25)
 hist(log(all_data$vcmax_tleaf_25))
 vcmax_tleaf_25_lmer <- lmer(log(vcmax_tleaf_25) ~ TV*LV + (1|chamber_fac), data = all_data)
@@ -89,7 +106,7 @@ Anova(jmax_tleaf_20_lmer)
 emmeans(jmax_tleaf_20_lmer, ~TV)
 emmeans(jmax_tleaf_20_lmer, ~TV*LV)
 
-jmax_tleaf_20_plot <- ggplot(aes(y=vcmax_tleaf_20, x = treatment), data = all_data) +
+jmax_tleaf_20_plot <- ggplot(aes(y=jmax_tleaf_20, x = treatment), data = all_data) +
   geom_boxplot() + theme_bw()
 jmax_tleaf_20_plot
 
@@ -103,7 +120,7 @@ Anova(jmax_tleaf_25_lmer)
 emmeans(jmax_tleaf_25_lmer, ~TV)
 emmeans(jmax_tleaf_25_lmer, ~TV*LV)
 
-jmax_tleaf_25_plot <- ggplot(aes(y=vcmax_tleaf_25, x = treatment), data = all_data) +
+jmax_tleaf_25_plot <- ggplot(aes(y=jmax_tleaf_25, x = treatment), data = all_data) +
   geom_boxplot() + theme_bw()
 jmax_tleaf_25_plot
 
@@ -118,7 +135,7 @@ Anova(jmax_tleaf_31_lmer)
 emmeans(jmax_tleaf_31_lmer, ~TV)
 emmeans(jmax_tleaf_31_lmer, ~TV*LV)
 
-jmax_tleaf_31_plot <- ggplot(aes(y=vcmax_tleaf_31, x = treatment), data = all_data) +
+jmax_tleaf_31_plot <- ggplot(aes(y=jmax_tleaf_31, x = treatment), data = all_data) +
   geom_boxplot() + theme_bw()
 jmax_tleaf_31_plot
 
@@ -256,6 +273,36 @@ emmeans(resp_lmer, ~TV*LV)
 
 
 #### 13C and 15N ##############################################################
+### carbon 13 (c13)
+c13_lmer <- lmer(c13 ~ TV*LV + (1|chamber_fac), data = all_data2)
+plot(resid(c13_lmer) ~ fitted(c13_lmer))
+summary(c13_lmer)
+Anova(c13_lmer)
+emmeans(c13_lmer, ~TV)
+emmeans(c13_lmer, ~TV*LV)
+
+### nitrogen 15 (n15)
+n15_lmer <- lmer(n15 ~ TV*LV + (1|chamber_fac), data = all_data2)
+plot(resid(n15_lmer) ~ fitted(n15_lmer))
+summary(n15_lmer)
+Anova(n15_lmer)
+emmeans(n15_lmer, ~TV)
+emmeans(n15_lmer, ~TV*LV)
 
 
+#### Total carbon and nitrogen ################################################
+### total carbon (total_c)
+total_c_lmer <- lmer(total_c ~ TV*LV + (1|chamber_fac), data = all_data2)
+plot(resid(total_c_lmer) ~ fitted(total_c_lmer))
+summary(total_c_lmer)
+Anova(total_c_lmer)
+emmeans(total_c_lmer, ~TV)
+emmeans(total_c_lmer, ~TV*LV)
 
+### total nitrogen (total_n)
+total_n_lmer <- lmer(total_n ~ TV*LV + (1|chamber_fac), data = all_data2)
+plot(resid(total_n_lmer) ~ fitted(total_n_lmer))
+summary(total_n_lmer)
+Anova(total_n_lmer)
+emmeans(total_n_lmer, ~TV)
+emmeans(total_n_lmer, ~TV*LV)
