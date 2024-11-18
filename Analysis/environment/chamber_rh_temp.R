@@ -209,6 +209,104 @@ chamber_6_LLV_exp_groupby <- group_by(chamber_6_LLV_exp, hour) %>%
             RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
             RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
 
+## Script below gets mean, sd, se for each day per treatment ##################
+  # only want daytime between 6am and 10pm
+chamber_1_HLV_exp$day <- format(as.POSIXct(chamber_1_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%m-%d")
+chamber_1_HLV_exp_daytime <- chamber_1_HLV_exp %>% filter(Time >= "06:00" & Time <= "22:00")
+chamber_1_HLV_exp_day <- group_by(chamber_1_HLV_exp_daytime, day) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_1_LLV_exp$day <- format(as.POSIXct(chamber_1_LLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%m-%d")
+chamber_1_LLV_exp_daytime <- chamber_1_LLV_exp %>% filter(Time >= "06:00" & Time <= "22:00")
+chamber_1_LLV_exp_day <- group_by(chamber_1_LLV_exp_daytime, day) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_2_HLV_exp$day <- format(as.POSIXct(chamber_2_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%m-%d")
+chamber_2_HLV_exp_daytime <- chamber_2_HLV_exp %>% filter(Time >= "06:00" & Time <= "22:00")
+chamber_2_HLV_exp_day <- group_by(chamber_2_HLV_exp_daytime, day) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_2_LLV_exp$day <- format(as.POSIXct(chamber_2_LLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%m-%d")
+chamber_2_LLV_exp_daytime <- chamber_2_LLV_exp %>% filter(Time >= "06:00" & Time <= "22:00")
+chamber_2_LLV_exp_day <- group_by(chamber_2_LLV_exp_daytime, day) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_3_HLV_exp$day <- format(as.POSIXct(chamber_3_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%m-%d")
+chamber_3_HLV_exp_daytime <- chamber_3_HLV_exp %>% filter(Time >= "06:00" & Time <= "22:00")
+chamber_3_HLV_exp_day <- group_by(chamber_3_HLV_exp_daytime, day) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_3_LLV_exp$day <- format(as.POSIXct(chamber_3_LLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%m-%d")
+chamber_3_LLV_exp_daytime <- chamber_3_LLV_exp %>% filter(Time >= "06:00" & Time <= "22:00")
+chamber_3_LLV_exp_day <- group_by(chamber_3_LLV_exp_daytime, day) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_4_HLV_exp$day <- format(as.POSIXct(chamber_4_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%m-%d")
+chamber_4_HLV_exp_daytime <- chamber_4_HLV_exp %>% filter(Time >= "06:00" & Time <= "22:00")
+chamber_4_HLV_exp_day <- group_by(chamber_4_HLV_exp_daytime, day) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_4_LLV_exp$day <- format(as.POSIXct(chamber_4_LLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%m-%d")
+chamber_4_LLV_exp_daytime <- chamber_4_LLV_exp %>% filter(Time >= "06:00" & Time <= "22:00")
+chamber_4_LLV_exp_day <- group_by(chamber_4_LLV_exp_daytime, day) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_5_HLV_exp$day <- format(as.POSIXct(chamber_5_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%m-%d")
+chamber_5_HLV_exp_daytime <- chamber_5_HLV_exp %>% filter(Time >= "06:00" & Time <= "22:00")
+chamber_5_HLV_exp_day <- group_by(chamber_5_HLV_exp_daytime, day) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_5_LLV_exp$day <- format(as.POSIXct(chamber_5_LLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%m-%d")
+chamber_5_LLV_exp_daytime <- chamber_5_LLV_exp %>% filter(Time >= "06:00" & Time <= "22:00")
+chamber_5_LLV_exp_day <- group_by(chamber_5_LLV_exp_daytime, day) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_6_HLV_exp$day <- format(as.POSIXct(chamber_6_HLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%m-%d")
+chamber_6_HLV_exp_daytime <- chamber_6_HLV_exp %>% filter(Time >= "06:00" & Time <= "22:00")
+chamber_6_HLV_exp_day <- group_by(chamber_6_HLV_exp_daytime, day) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
+chamber_6_LLV_exp$day <- format(as.POSIXct(chamber_6_LLV_exp$Date.Time, format = "%Y-%m-%d %H:%M:%S"), "%m-%d")
+chamber_6_LLV_exp_daytime <- chamber_6_LLV_exp %>% filter(Time >= "06:00" & Time <= "22:00")
+chamber_6_LLV_exp_day <- group_by(chamber_6_LLV_exp_daytime, day) %>%
+  summarise(Temp_Mean = mean(Temperature, na.rm = TRUE), Temp_SD = sd(Temperature, na.rm = TRUE), 
+            Temp_SE = sd(Temperature, na.rm = T)/sqrt(length(Temperature)),
+            RH_Mean = mean(RH, na.rm = TRUE), RH_SD = sd(RH, na.rm = TRUE),
+            RH_SE = sd(RH, na.rm = T)/sqrt(length(RH)))
+
 ###### Rename columns to include "_chamber_treatment" #############################
 colnames(chamber_1_HLV_exp_groupby)[2:7] <- paste(colnames(chamber_1_HLV_exp_groupby)[2:7], "_1_HTVHLV", sep = '')
 colnames(chamber_1_LLV_exp_groupby)[2:7] <- paste(colnames(chamber_1_LLV_exp_groupby)[2:7], "_1_HTVLLV", sep = '')
@@ -228,47 +326,92 @@ colnames(chamber_5_LLV_exp_groupby)[2:7] <- paste(colnames(chamber_5_LLV_exp_gro
 colnames(chamber_6_HLV_exp_groupby)[2:7] <- paste(colnames(chamber_6_HLV_exp_groupby)[2:7], "_6_HTVHLV", sep = '')
 colnames(chamber_6_LLV_exp_groupby)[2:7] <- paste(colnames(chamber_6_LLV_exp_groupby)[2:7], "_6_HTVLLV", sep = '')
 
+colnames(chamber_1_HLV_exp_day)[2:7] <- paste(colnames(chamber_1_HLV_exp_day)[2:7], "_1_HTVHLV", sep = '')
+colnames(chamber_1_LLV_exp_day)[2:7] <- paste(colnames(chamber_1_LLV_exp_day)[2:7], "_1_HTVLLV", sep = '')
+
+colnames(chamber_2_HLV_exp_day)[2:7] <- paste(colnames(chamber_2_HLV_exp_day)[2:7], "_2_LTVHLV", sep = '')
+colnames(chamber_2_LLV_exp_day)[2:7] <- paste(colnames(chamber_2_LLV_exp_day)[2:7], "_2_LTVLLV", sep = '')
+
+colnames(chamber_3_HLV_exp_day)[2:7] <- paste(colnames(chamber_3_HLV_exp_day)[2:7], "_3_LTVHLV", sep = '')
+colnames(chamber_3_LLV_exp_day)[2:7] <- paste(colnames(chamber_3_LLV_exp_day)[2:7], "_3_LTVLLV", sep = '')
+
+colnames(chamber_4_HLV_exp_day)[2:7] <- paste(colnames(chamber_4_HLV_exp_day)[2:7], "_4_LTVHLV", sep = '')
+colnames(chamber_4_LLV_exp_day)[2:7] <- paste(colnames(chamber_4_LLV_exp_day)[2:7], "_4_LTVLLV", sep = '')
+
+colnames(chamber_5_HLV_exp_day)[2:7] <- paste(colnames(chamber_5_HLV_exp_day)[2:7], "_5_HTVHLV", sep = '')
+colnames(chamber_5_LLV_exp_day)[2:7] <- paste(colnames(chamber_5_LLV_exp_day)[2:7], "_5_HTVLLV", sep = '')
+
+colnames(chamber_6_HLV_exp_day)[2:7] <- paste(colnames(chamber_6_HLV_exp_day)[2:7], "_6_HTVHLV", sep = '')
+colnames(chamber_6_LLV_exp_day)[2:7] <- paste(colnames(chamber_6_LLV_exp_day)[2:7], "_6_HTVLLV", sep = '')
+
 ###### Create data frames to average each treatment ###############################
 ### HTVHLV
-HTVHLV_data <- left_join(chamber_1_HLV_exp_groupby, chamber_5_HLV_exp_groupby, join_by(hour))
-HTVHLV_data <- left_join(HTVHLV_data, chamber_6_HLV_exp_groupby, join_by(hour))
+HTVHLV_data_hour <- left_join(chamber_1_HLV_exp_groupby, chamber_5_HLV_exp_groupby, join_by(hour))
+HTVHLV_data_hour <- left_join(HTVHLV_data_hour, chamber_6_HLV_exp_groupby, join_by(hour))
 
 ### HTVLLV
-HTVLLV_data <- left_join(chamber_1_LLV_exp_groupby, chamber_5_LLV_exp_groupby, join_by(hour))
-HTVLLV_data <- left_join(HTVLLV_data, chamber_6_LLV_exp_groupby, join_by(hour))
+HTVLLV_data_hour <- left_join(chamber_1_LLV_exp_groupby, chamber_5_LLV_exp_groupby, join_by(hour))
+HTVLLV_data_hour <- left_join(HTVLLV_data_hour, chamber_6_LLV_exp_groupby, join_by(hour))
 
 ### LTVHLV
-LTVHLV_data <- left_join(chamber_2_HLV_exp_groupby, chamber_3_HLV_exp_groupby, join_by(hour))
-LTVHLV_data <- left_join(LTVHLV_data, chamber_4_HLV_exp_groupby, join_by(hour))
+LTVHLV_data_hour <- left_join(chamber_2_HLV_exp_groupby, chamber_3_HLV_exp_groupby, join_by(hour))
+LTVHLV_data_hour <- left_join(LTVHLV_data_hour, chamber_4_HLV_exp_groupby, join_by(hour))
 
 ### LTVLLV
-LTVLLV_data <- left_join(chamber_2_LLV_exp_groupby, chamber_3_LLV_exp_groupby, join_by(hour))
-LTVLLV_data <- left_join(LTVLLV_data, chamber_4_LLV_exp_groupby, join_by(hour))
+LTVLLV_data_hour <- left_join(chamber_2_LLV_exp_groupby, chamber_3_LLV_exp_groupby, join_by(hour))
+LTVLLV_data_hour <- left_join(LTVLLV_data_hour, chamber_4_LLV_exp_groupby, join_by(hour))
+
+### HTVHLV
+HTVHLV_data_day <- left_join(chamber_1_HLV_exp_day, chamber_5_HLV_exp_day, join_by(day))
+HTVHLV_data_day <- left_join(HTVHLV_data_day, chamber_6_HLV_exp_day, join_by(day))
+
+### HTVLLV
+HTVLLV_data_day <- left_join(chamber_1_LLV_exp_day, chamber_5_LLV_exp_day, join_by(day))
+HTVLLV_data_day <- left_join(HTVLLV_data_day, chamber_6_LLV_exp_day, join_by(day))
+
+### LTVHLV
+LTVHLV_data_day <- left_join(chamber_2_HLV_exp_day, chamber_3_HLV_exp_day, join_by(day))
+LTVHLV_data_day <- left_join(LTVHLV_data_day, chamber_4_HLV_exp_day, join_by(day))
+
+### LTVLLV
+LTVLLV_data_day <- left_join(chamber_2_LLV_exp_day, chamber_3_LLV_exp_day, join_by(day))
+LTVLLV_data_day <- left_join(LTVLLV_data_day, chamber_4_LLV_exp_day, join_by(day))
 
 ###### Average per hour each treatment ############################################
 # Average per hour
-HTVHLV_data$all_temp_mean_HTVHLV <- rowMeans(HTVHLV_data[ ,c(2, 8, 14)])
-HTVLLV_data$all_temp_mean_HTVLLV <- rowMeans(HTVLLV_data[ ,c(2, 8, 14)])
-LTVHLV_data$all_temp_mean_LTVHLV <- rowMeans(LTVHLV_data[ ,c(2, 8, 14)])
-LTVLLV_data$all_temp_mean_LTVLLV <- rowMeans(LTVLLV_data[ ,c(2, 8, 14)])
+HTVHLV_data_hour$all_temp_mean_HTVHLV <- rowMeans(HTVHLV_data_hour[ ,c(2, 8, 14)])
+HTVLLV_data_hour$all_temp_mean_HTVLLV <- rowMeans(HTVLLV_data_hour[ ,c(2, 8, 14)])
+LTVHLV_data_hour$all_temp_mean_LTVHLV <- rowMeans(LTVHLV_data_hour[ ,c(2, 8, 14)])
+LTVLLV_data_hour$all_temp_mean_LTVLLV <- rowMeans(LTVLLV_data_hour[ ,c(2, 8, 14)])
 
-## Extract treatment averages and combine #####################################
-hour_avg <- left_join(HTVHLV_data[ , c(1, 20)], HTVLLV_data[ , c(1, 20)], join_by(hour))
-hour_avg <- left_join(hour_avg, LTVHLV_data[ , c(1, 20)], join_by(hour))
-hour_avg <- left_join(hour_avg, LTVLLV_data[ , c(1, 20)], join_by(hour))
+#### Extract treatment averages and combine #####################################
+hour_avg <- left_join(HTVHLV_data_hour[ , c(1, 20)], HTVLLV_data_hour[ , c(1, 20)], join_by(hour))
+hour_avg <- left_join(hour_avg, LTVHLV_data_hour[ , c(1, 20)], join_by(hour))
+hour_avg <- left_join(hour_avg, LTVLLV_data_hour[ , c(1, 20)], join_by(hour))
 
-#### Average daytime temp (0600-2100) ##########################################
-daytime_average <- colMeans(hour_avg[c(7:22),c(2:5)])
-daytime_average
-hour <- as.character(c(6:21))
-HTVHLV_avg <- rep(25.51657, 16)
-HTVLLV_avg <- rep(26.16934, 16)
-LTVHLV_avg <- rep(23.97929, 16)
-LTVLLV_avg <- rep(24.10097, 16)
-avg_condition <- data.frame(hour, HTVHLV_avg, HTVLLV_avg, LTVHLV_avg, LTVLLV_avg)
-avg_condition
+#### Average daytime temp (0600-2200) ##########################################
+# average per day
+HTVHLV_data_day$day_temp_mean_HTVHLV <- rowMeans(HTVHLV_data_day[ ,c(2, 8, 14)])
+HTVLLV_data_day$day_temp_mean_HTVLLV <- rowMeans(HTVLLV_data_day[ ,c(2, 8, 14)])
+LTVHLV_data_day$day_temp_mean_LTVHLV <- rowMeans(LTVHLV_data_day[ ,c(2, 8, 14)])
+LTVLLV_data_day$day_temp_mean_LTVLLV <- rowMeans(LTVLLV_data_day[ ,c(2, 8, 14)])
 
-avg_condition_long <- melt(avg_condition, id = "hour", variable.name = "treatment", value.name = "daily_average")
+# average across all days
+HTVHLV.mean <- mean(HTVHLV_data_day$day_temp_mean_HTVHLV)
+HTVHLV.sd <- sd(HTVHLV_data_day$day_temp_mean_HTVHLV)
+HTVHLV.se <- sd(HTVHLV_data_day$day_temp_mean_HTVHLV)/sqrt(length(HTVHLV_data_day$day_temp_mean_HTVHLV))
+
+HTVLLV.mean <- mean(HTVLLV_data_day$day_temp_mean_HTVLLV)
+HTVLLV.sd <- sd(HTVLLV_data_day$day_temp_mean_HTVLLV)
+HTVLLV.se <- sd(HTVLLV_data_day$day_temp_mean_HTVLLV)/sqrt(length(HTVLLV_data_day$day_temp_mean_HTVLLV))
+
+LTVHLV.mean <- mean(LTVHLV_data_day$day_temp_mean_LTVHLV)
+LTVHLV.sd <- sd(LTVHLV_data_day$day_temp_mean_LTVHLV)
+LTVHLV.se <- sd(LTVHLV_data_day$day_temp_mean_LTVHLV)/sqrt(length(LTVHLV_data_day$day_temp_mean_LTVHLV))
+
+LTVLLV.mean <- mean(LTVLLV_data_day$day_temp_mean_LTVLLV)
+LTVLLV.sd <- sd(LTVLLV_data_day$day_temp_mean_LTVLLV)
+LTVLLV.se <- sd(LTVLLV_data_day$day_temp_mean_LTVLLV)/sqrt(length(LTVLLV_data_day$day_temp_mean_LTVLLV))
 
 ## Graph each treatment by hour using "hour_avg" ##############################
   # cannot figure out how to add average lines for 0600 to 2100

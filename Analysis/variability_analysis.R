@@ -5,7 +5,6 @@
 ## aggregate PAR data over a larger time window
 ## look for marginal sig less than 0.1
 ## plot raw data
-## lok at carbon gain == biomass
 ## compare values at different temps
 
 
@@ -14,6 +13,7 @@ library(lme4)
 library(car)
 library(emmeans)
 library(ggplot2)
+library(ggpubr)
 
 
 ## load data
@@ -62,6 +62,10 @@ summary(vcmax_tleaf_20_lmer)
 Anova(vcmax_tleaf_20_lmer)
 emmeans(vcmax_tleaf_20_lmer, ~TV)
 emmeans(vcmax_tleaf_20_lmer, ~TV*LV)
+vcmax_20_means <- data.frame(emmeans(vcmax_tleaf_20_lmer, ~TV*LV))
+vcmax_20_means$treatment <- paste(vcmax_20_means$TV, vcmax_20_means$LV, sep = "")
+vcmax_20_means
+
 
 vcmax_tleaf_20_plot <- ggplot(aes(y=vcmax_tleaf_20, x = treatment), data = all_data) +
   geom_boxplot() + theme_bw()
@@ -76,6 +80,9 @@ summary(vcmax_tleaf_25_lmer)
 Anova(vcmax_tleaf_25_lmer)
 emmeans(vcmax_tleaf_25_lmer, ~TV)
 emmeans(vcmax_tleaf_25_lmer, ~TV*LV)
+vcmax_25_means <- data.frame(emmeans(vcmax_tleaf_25_lmer, ~TV*LV))
+vcmax_25_means$treatment <- paste(vcmax_25_means$TV, vcmax_25_means$LV, sep = "")
+vcmax_25_means
 
 vcmax_tleaf_25_plot <- ggplot(aes(y=vcmax_tleaf_25, x = treatment), data = all_data) +
   geom_boxplot() + theme_bw()
@@ -90,6 +97,10 @@ summary(vcmax_tleaf_31_lmer)
 Anova(vcmax_tleaf_31_lmer)
 emmeans(vcmax_tleaf_31_lmer, ~TV)
 emmeans(vcmax_tleaf_31_lmer, ~TV*LV)
+vcmax_31_means <- data.frame(emmeans(vcmax_tleaf_31_lmer, ~TV*LV))
+vcmax_31_means$treatment <- paste(vcmax_31_means$TV, vcmax_31_means$LV, sep = "")
+vcmax_31_means
+
 
 vcmax_tleaf_31_plot <- ggplot(aes(y=vcmax_tleaf_31, x = treatment), data = all_data) +
   geom_boxplot() + theme_bw()
@@ -274,7 +285,9 @@ plot(resid(above_biomass_dry_weight_lmer) ~ fitted(above_biomass_dry_weight_lmer
 summary(above_biomass_dry_weight_lmer)
 Anova(above_biomass_dry_weight_lmer)
 emmeans(above_biomass_dry_weight_lmer, ~TV)
-emmeans(above_biomass_dry_weight_lmer, ~TV*LV)
+biomass_means <- data.frame(emmeans(above_biomass_dry_weight_lmer, ~TV*LV))
+biomass_means$treatment <- paste(biomass_means$TV, biomass_means$LV, sep = "")
+biomass_means
 
 above_biomass_dry_weight_plot <- ggplot(aes(y=above_biomass_dry_weight, x = treatment), data = all_data) +
   geom_boxplot() + theme_bw()
@@ -334,3 +347,60 @@ summary(total_n_lmer)
 Anova(total_n_lmer)
 emmeans(total_n_lmer, ~TV)
 emmeans(total_n_lmer, ~TV*LV)
+
+# graph results ###############################################################
+### biomass ####
+above_biomass_plot <- ggplot(aes(x = treatment, y = emmean), 
+                             data = biomass_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_point(aes(y=above_biomass_dry_weight, x = treatment, 
+                color = treatment), data = all_data) +
+  geom_jitter(aes(y=above_biomass_dry_weight, x = treatment, 
+                  color = treatment), data = all_data) +
+  theme_bw() + theme(legend.position="none") +
+  labs(x = "Treatment", y = "Aboveground Biomass Dry Weight (g)")
+above_biomass_plot
+
+### vcmax #####
+vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
+                             data = vcmax_20_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(lower.CL), ymax = exp(upper.CL)), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_point(aes(y=vcmax_tleaf_20, x = treatment, 
+                 color = treatment), data = all_data) +
+  geom_jitter(aes(y=vcmax_tleaf_20, x = treatment, 
+                  color = treatment), data = all_data) +
+  theme_bw() + theme(legend.position="none") +
+  labs(x = "Treatment", y = "Vcmax at 20??C (??mol m-2 s-1)")
+vcmax_20_plot
+
+vcmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
+                        data = vcmax_25_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(lower.CL), ymax = exp(upper.CL)), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_point(aes(y=vcmax_tleaf_25, x = treatment, 
+                 color = treatment), data = all_data) +
+  geom_jitter(aes(y=vcmax_tleaf_25, x = treatment, 
+                  color = treatment), data = all_data) +
+  theme_bw() + theme(legend.position="none") +
+  labs(x = "Treatment", y = "Vcmax at 25??C (??mol m-2 s-1)")
+vcmax_25_plot
+
+vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
+                        data = vcmax_31_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(lower.CL), ymax = exp(upper.CL)), width = 0.31,
+                position = position_dodge(width = 0.5)) +
+  geom_point(aes(y=vcmax_tleaf_31, x = treatment, 
+                 color = treatment), data = all_data) +
+  geom_jitter(aes(y=vcmax_tleaf_31, x = treatment, 
+                  color = treatment), data = all_data) +
+  theme_bw() + theme(legend.position="none") +
+  labs(x = "Treatment", y = "Vcmax at 31??C (??mol m-2 s-1)")
+vcmax_31_plot
+
+ggarrange(vcmax_20_plot, vcmax_25_plot, vcmax_31_plot, ncol = 3)

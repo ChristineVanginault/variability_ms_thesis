@@ -52,11 +52,51 @@ par_hour_avg_groupby <- par_hour_avg_long %>%
             par_se = sd(par_value, na.rm = T)/sqrt(length(par_value)))
 par_hour_avg_groupby
 
+
 ## Graph each treatment ########################################################
 par_avg_hour_plot <- ggplot(par_hour_avg_groupby, aes(x = as.numeric(hour), y = par_mean, color = treatment)) + 
   geom_line() + theme_bw() + scale_x_continuous(breaks = seq(0, 23, 2)) +
   labs(x = "Hours in a Day (00-23)", y = "Average PAR")
 par_avg_hour_plot
 
-## Still need to find the daily average #######################################
+
+
+
+
+
+
+##############################################################################
+# data for average by day ######
+pre_par <- read.csv("Git/variability_ms_thesis/Data/environmental/par_sensors/pre_switch_cleaned_par.csv")
+post_par <- read.csv("Git/variability_ms_thesis/Data/environmental/par_sensors/post_switch_cleaned_par.csv")
+# Script below gets mean, sd, se for each day per treatment ##################
+# add day and hour column
+pre_par$day <- format(as.POSIXct(pre_par$date.time.pre, format = "%m/%d/%Y %H:%M"), "%m/%d")
+pre_par$hour <- format(as.POSIXct(pre_par$date.time.pre, format = "%m/%d/%Y %H:%M"), "%H")
+pre_par_daytime <- pre_par %>% filter(hour >= "06" & hour <= "22")
+
+post_par$day <- format(as.POSIXct(post_par$date.time.post, format = "%m/%d/%Y %H:%M"), "%m/%d")
+post_par$hour <- format(as.POSIXct(post_par$date.time.post, format = "%m/%d/%Y %H:%M"), "%H")
+post_par_daytime <- post_par %>% filter(hour >= "06" & hour <= "22")
+
+# long format
+select_pre_par <- pre_par_daytime[ , c(2:10)]
+pre_par_long <- melt(select_pre_par, id = "day", variable.name = "treatment", value.name = "par_value")
+
+pre_par_day_groupby <- pre_par_long %>%
+  group_by(day, treatment) %>%
+  summarise(par_mean = mean(par_value, na.rm = TRUE), par_sd = sd(par_value, na.rm = TRUE), 
+            par_se = sd(par_value, na.rm = T)/sqrt(length(par_value)))
+pre_par_day_groupby
+
+select_post_par <- post_par_daytime[ , c(2:6)]
+post_par_long <- melt(select_post_par, id = "day", variable.name = "treatment", value.name = "par_value")
+post_par_day_groupby <- post_par_long %>%
+  group_by(day, treatment) %>%
+  summarise(par_mean = mean(par_value, na.rm = TRUE), par_sd = sd(par_value, na.rm = TRUE), 
+            par_se = sd(par_value, na.rm = T)/sqrt(length(par_value)))
+post_par_day_groupby
+
+# now need to average by day
+
 
