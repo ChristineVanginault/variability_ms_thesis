@@ -97,6 +97,52 @@ post_par_day_groupby <- post_par_long %>%
             par_se = sd(par_value, na.rm = T)/sqrt(length(par_value)))
 post_par_day_groupby
 
-# now need to average by day
+# now need to average by day for each treatment ##########
+daytime_par <- full_join(pre_par_day_groupby, post_par_day_groupby)
+daytime_par
 
+# separate by treatment and get average, sd, and se
+  # HTVHLV (chambers 1, 5, 6)
+htvhlv_par1 <- daytime_par[grep("ppf1.ch5.hlv", daytime_par$treatment), ]
+htvhlv_par2 <- daytime_par[grep("ppf2.ch6.hlv", daytime_par$treatment), ]
+htvhlv_par3 <- daytime_par[grep("ppf5.ch1.hlv", daytime_par$treatment), ]
+htvhlv_par <- full_join(htvhlv_par1, htvhlv_par2)
+htvhlv_par <- full_join(htvhlv_par, htvhlv_par3)
+
+HTVHLV.par.mean <- mean(htvhlv_par$par_mean)
+HTVHLV.par.sd <- sd(htvhlv_par$par_mean)
+HTVHLV.par.se <- sd(htvhlv_par$par_mean)/sqrt(length(htvhlv_par$par_mean))
+
+  # HTVLLV (chambers 1, 5, 6)
+htvllv_par1 <- daytime_par[grep("ppf1.ch1.llv", daytime_par$treatment), ]
+htvllv_par2 <- daytime_par[grep("ppf3.ch6.llv", daytime_par$treatment), ]
+htvllv_par3 <- daytime_par[grep("ppf5.ch5.llv", daytime_par$treatment), ]
+htvllv_par <- full_join(htvllv_par1, htvllv_par2)
+htvllv_par <- full_join(htvllv_par, htvllv_par3)
+
+HTVLLV.par.mean <- mean(htvllv_par$par_mean)
+HTVLLV.par.sd <- sd(htvllv_par$par_mean)
+HTVLLV.par.se <- sd(htvllv_par$par_mean)/sqrt(length(htvllv_par$par_mean))
+
+  # LTVHLV (chambers 2, 3, 4)
+ltvhlv_par1 <- daytime_par[grep("ppf6.ch2.hlv", daytime_par$treatment), ]
+ltvhlv_par2 <- daytime_par[grep("ppf7.ch3.hlv", daytime_par$treatment), ]
+ltvhlv_par3 <- daytime_par[grep("ppf6.ch4.hlv", daytime_par$treatment), ]
+ltvhlv_par <- full_join(ltvhlv_par1, ltvhlv_par2)
+ltvhlv_par <- full_join(ltvhlv_par, ltvhlv_par3)
+
+LTVHLV.par.mean <- mean(ltvhlv_par$par_mean)
+LTVHLV.par.sd <- sd(ltvhlv_par$par_mean)
+LTVHLV.par.se <- sd(ltvhlv_par$par_mean)/sqrt(length(ltvhlv_par$par_mean))
+
+  # LTVLLV (chambers 2, 3, 4)
+ltvllv_par1 <- daytime_par[grep("ppf4.ch2.llv", daytime_par$treatment), ]
+ltvllv_par2 <- daytime_par[grep("ppf8.ch3.llv", daytime_par$treatment), ]
+ltvllv_par3 <- daytime_par[grep("ppf4.ch4.llv", daytime_par$treatment), ]
+ltvllv_par <- full_join(ltvllv_par1, ltvllv_par2)
+ltvllv_par <- full_join(ltvllv_par, ltvllv_par3)
+
+LTVLLV.par.mean <- mean(ltvllv_par$par_mean)
+LTVLLV.par.sd <- sd(ltvllv_par$par_mean)
+LTVLLV.par.se <- sd(ltvllv_par$par_mean)/sqrt(length(ltvllv_par$par_mean))
 
