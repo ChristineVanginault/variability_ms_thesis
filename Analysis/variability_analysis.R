@@ -355,10 +355,8 @@ above_biomass_plot <- ggplot(aes(x = treatment, y = emmean),
   geom_point() +
   geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_point(aes(y=above_biomass_dry_weight, x = treatment, 
-                color = treatment), data = all_data) +
   geom_jitter(aes(y=above_biomass_dry_weight, x = treatment, 
-                  color = treatment), data = all_data) +
+                  color = treatment), data = all_data, alpha = 0.5) +
   theme_bw() + theme(legend.position="none") +
   labs(x = "Treatment", y = "Aboveground Biomass Dry Weight (g)")
 above_biomass_plot
@@ -369,10 +367,8 @@ vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(lower.CL), ymax = exp(upper.CL)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_point(aes(y=vcmax_tleaf_20, x = treatment, 
-                 color = treatment), data = all_data) +
   geom_jitter(aes(y=vcmax_tleaf_20, x = treatment, 
-                  color = treatment), data = all_data) +
+                  color = treatment), data = all_data, alpha = 0.5) +
   theme_bw() + theme(legend.position="none") +
   labs(x = "Treatment", y = "Vcmax at 20??C (??mol m-2 s-1)")
 vcmax_20_plot
@@ -382,10 +378,8 @@ vcmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(lower.CL), ymax = exp(upper.CL)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_point(aes(y=vcmax_tleaf_25, x = treatment, 
-                 color = treatment), data = all_data) +
   geom_jitter(aes(y=vcmax_tleaf_25, x = treatment, 
-                  color = treatment), data = all_data) +
+                  color = treatment), data = all_data, alpha = 0.5) +
   theme_bw() + theme(legend.position="none") +
   labs(x = "Treatment", y = "Vcmax at 25??C (??mol m-2 s-1)")
 vcmax_25_plot
@@ -395,12 +389,11 @@ vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(lower.CL), ymax = exp(upper.CL)), width = 0.31,
                 position = position_dodge(width = 0.5)) +
-  geom_point(aes(y=vcmax_tleaf_31, x = treatment, 
-                 color = treatment), data = all_data) +
   geom_jitter(aes(y=vcmax_tleaf_31, x = treatment, 
-                  color = treatment), data = all_data) +
+                  color = treatment), data = all_data, alpha = 0.5) +
   theme_bw() + theme(legend.position="none") +
   labs(x = "Treatment", y = "Vcmax at 31??C (??mol m-2 s-1)")
 vcmax_31_plot
 
 ggarrange(vcmax_20_plot, vcmax_25_plot, vcmax_31_plot, ncol = 3)
+
