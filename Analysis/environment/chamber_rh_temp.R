@@ -427,15 +427,6 @@ temp_hour_avg_plot <- ggplot(hour_avg_long, aes(x = as.numeric(hour), y = temp_a
   scale_color_hue(labels = c("HTVHLV", "HTVLLV", "LTVHLV", "LTVLLV"))
 temp_hour_avg_plot
 
-
-  # Average daily conditions by treatment
-temp_hour_avg_plot2 <- ggplot(avg_condition_long, aes(x = as.numeric(hour), y = daily_average, color = treatment)) +
-  geom_line() + theme_bw() + scale_x_continuous(breaks = seq(6, 21, 2)) +
-  scale_y_continuous(limits = c(17, 33)) +
-  labs(x = "Hours in a Day (06-21)", y = "Average Temperature (C)")
-temp_hour_avg_plot2
-
-
 ## Script below finds means and sd for each treatment ##########################
 
 # High Temp Variability

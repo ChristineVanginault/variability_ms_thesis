@@ -370,7 +370,7 @@ vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_jitter(aes(y=vcmax_tleaf_20, x = treatment, 
                   color = treatment), data = all_data, alpha = 0.5) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = "Treatment", y = "Vcmax at 20??C (??mol m-2 s-1)")
+  labs(x = "Treatment", y = expression(italic("V")["cmax20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 vcmax_20_plot
 
 vcmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
@@ -381,7 +381,7 @@ vcmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_jitter(aes(y=vcmax_tleaf_25, x = treatment, 
                   color = treatment), data = all_data, alpha = 0.5) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = "Treatment", y = "Vcmax at 25??C (??mol m-2 s-1)")
+  labs(x = "Treatment", y = expression(italic("V")["cmax25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 vcmax_25_plot
 
 vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
@@ -392,7 +392,7 @@ vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_jitter(aes(y=vcmax_tleaf_31, x = treatment, 
                   color = treatment), data = all_data, alpha = 0.5) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = "Treatment", y = "Vcmax at 31??C (??mol m-2 s-1)")
+  labs(x = "Treatment", y = expression(italic("V")["cmax31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 vcmax_31_plot
 
 ggarrange(vcmax_20_plot, vcmax_25_plot, vcmax_31_plot, ncol = 3)
