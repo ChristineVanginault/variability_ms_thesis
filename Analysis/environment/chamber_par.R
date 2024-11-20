@@ -37,10 +37,12 @@ par_avg_hour_cham_plot
 
 
 ## Combine treatment averages per hour #########################################
-select_par_data$all_par_mean_HLV <- rowMeans(select_par_data[ ,c(1, 2, 6, 7, 11, 12)])
-select_par_data$all_par_mean_LLV <- rowMeans(select_par_data[ ,c(3, 4, 5, 8, 9, 10)])
+select_par_data$all_par_mean_HTVHLV <- rowMeans(select_par_data[ ,c(1, 2, 11)])
+select_par_data$all_par_mean_HTVLLV <- rowMeans(select_par_data[ ,c(3, 5, 9)])
+select_par_data$all_par_mean_LTVHLV <- rowMeans(select_par_data[ ,c(6, 7, 12)])
+select_par_data$all_par_mean_LTVLLV <- rowMeans(select_par_data[ ,c(4, 8, 9)])
 
-par_hour_avg <- select_par_data[, c(13:15)]
+par_hour_avg <- select_par_data[, c(13:17)]
 par_hour_avg
 
 par_hour_avg_long <- melt(par_hour_avg, id = "hour", variable.name = "treatment", value.name = "par_value")
@@ -56,13 +58,11 @@ par_hour_avg_groupby
 ## Graph each treatment ########################################################
 par_avg_hour_plot <- ggplot(par_hour_avg_groupby, aes(x = as.numeric(hour), y = par_mean, color = treatment)) + 
   geom_line() + theme_bw() + scale_x_continuous(breaks = seq(0, 23, 2)) +
-  labs(x = "Hours in a Day (00-23)", y = "Average PAR")
+  labs(x = "Hours in a Day (00-23)", y = "Average PAR" ~ (µmol/m^{2}/s), color = "Treatments") +
+  scale_y_continuous(breaks = seq(0, 800, by = 100)) +
+  scale_color_hue(labels = c("HTVHLV", "HTVLLV", "LTVHLV", "LTVLLV"))+
+  theme(legend.position = "top")
 par_avg_hour_plot
-
-
-
-
-
 
 
 ##############################################################################
