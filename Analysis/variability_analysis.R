@@ -362,6 +362,8 @@ above_biomass_plot <- ggplot(aes(x = treatment, y = emmean),
 above_biomass_plot
 
 ### vcmax #####
+
+## change cl to se +-mean
 vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                              data = vcmax_20_means) +
   geom_point() +

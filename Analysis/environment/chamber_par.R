@@ -40,7 +40,7 @@ par_avg_hour_cham_plot
 select_par_data$all_par_mean_HTVHLV <- rowMeans(select_par_data[ ,c(1, 2, 11)])
 select_par_data$all_par_mean_HTVLLV <- rowMeans(select_par_data[ ,c(3, 5, 9)])
 select_par_data$all_par_mean_LTVHLV <- rowMeans(select_par_data[ ,c(6, 7, 12)])
-select_par_data$all_par_mean_LTVLLV <- rowMeans(select_par_data[ ,c(4, 8, 9)])
+select_par_data$all_par_mean_LTVLLV <- rowMeans(select_par_data[ ,c(4, 8, 10)])
 
 par_hour_avg <- select_par_data[, c(13:17)]
 par_hour_avg
@@ -54,8 +54,20 @@ par_hour_avg_groupby <- par_hour_avg_long %>%
             par_se = sd(par_value, na.rm = T)/sqrt(length(par_value)))
 par_hour_avg_groupby
 
+# seperate hours for use in FvCB
+HTVHLV_hour <- par_hour_avg_groupby %>% filter(grepl("all_par_mean_HTVHLV", treatment))
+write.csv(HTVHLV_hour, "Git/variability_ms_thesis/Data/environmental/par_sensors/HTVHLV_hour.csv")
 
-## Graph each treatment ########################################################
+HTVLLV_hour <- par_hour_avg_groupby %>% filter(grepl("all_par_mean_HTVLLV", treatment))
+write.csv(HTVLLV_hour, "Git/variability_ms_thesis/Data/environmental/par_sensors/HTVLLV_hour.csv")
+
+LTVHLV_hour <- par_hour_avg_groupby %>% filter(grepl("all_par_mean_LTVHLV", treatment))
+write.csv(LTVHLV_hour, "Git/variability_ms_thesis/Data/environmental/par_sensors/LTVHLV_hour.csv")
+
+LTVLLV_hour <- par_hour_avg_groupby %>% filter(grepl("all_par_mean_LTVLLV", treatment))
+write.csv(LTVLLV_hour, "Git/variability_ms_thesis/Data/environmental/par_sensors/LTVLLV_hour.csv")
+
+#filter#melt## Graph each treatment ########################################################
 par_avg_hour_plot <- ggplot(par_hour_avg_groupby, aes(x = as.numeric(hour), y = par_mean, color = treatment)) + 
   geom_line() + theme_bw() + scale_x_continuous(breaks = seq(0, 23, 2)) +
   labs(x = "Hours in a Day (00-23)", y = "Average PAR" ~ (µmol/m^{2}/s), color = "Treatments") +
