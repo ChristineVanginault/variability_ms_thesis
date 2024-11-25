@@ -71,6 +71,7 @@ vcmax_tleaf_20_plot <- ggplot(aes(y=vcmax_tleaf_20, x = treatment), data = all_d
   geom_boxplot() + theme_bw()
 vcmax_tleaf_20_plot
 
+
 ### vcmax_tleaf_25 
 hist(all_data$vcmax_tleaf_25)
 hist(log(all_data$vcmax_tleaf_25))
@@ -162,16 +163,17 @@ emmeans(gsw_420_20_lmer, ~TV*LV)
 
 ### stomatal conductance (gsw_420_25)
 hist(all_data$gsw_420_25)
-gsw_420_25_lmer <- lmer(gsw_420_25 ~ TV*LV + (1|chamber_fac), data = all_data)
+gsw_420_25_lmer <- lmer(log(gsw_420_25) ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(gsw_420_25_lmer) ~ fitted(gsw_420_25_lmer))
 summary(gsw_420_25_lmer)
 Anova(gsw_420_25_lmer)
 emmeans(gsw_420_25_lmer, ~TV)
 emmeans(gsw_420_25_lmer, ~TV*LV)
 
+
 ### stomatal conductance (gsw_420_31)
 hist(all_data$gsw_420_31)
-gsw_420_31_lmer <- lmer(gsw_420_31 ~ TV*LV + (1|chamber_fac), data = all_data)
+gsw_420_31_lmer <- lmer(log(gsw_420_31) ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(gsw_420_31_lmer) ~ fitted(gsw_420_31_lmer))
 summary(gsw_420_31_lmer)
 Anova(gsw_420_31_lmer)
@@ -207,6 +209,37 @@ summary(anet_420_31_lmer)
 Anova(anet_420_31_lmer)
 emmeans(anet_420_31_lmer, ~TV)
 emmeans(anet_420_31_lmer, ~TV*LV)
+
+
+
+#### Dark Respiration ##########################################################
+### resp_20
+hist(all_data$resp_20)
+resp_20_lmer <- lmer(resp_20 ~ TV*LV + (1|chamber_fac), data = all_data)
+plot(resid(resp_20_lmer) ~ fitted(resp_20_lmer))
+summary(resp_20_lmer)
+Anova(resp_20_lmer)
+emmeans(resp_20_lmer, ~TV)
+emmeans(resp_20_lmer, ~TV*LV)
+
+### resp_25
+hist(all_data$resp_25)
+resp_25_lmer <- lmer(resp_25 ~ TV*LV + (1|chamber_fac), data = all_data)
+plot(resid(resp_25_lmer) ~ fitted(resp_25_lmer))
+summary(resp_25_lmer)
+Anova(resp_25_lmer)
+emmeans(resp_25_lmer, ~TV)
+emmeans(resp_25_lmer, ~TV*LV)
+
+### resp_31
+hist(all_data$resp_31)
+resp_31_lmer <- lmer(resp_31 ~ TV*LV + (1|chamber_fac), data = all_data)
+plot(resid(resp_31_lmer) ~ fitted(resp_31_lmer))
+summary(resp_31_lmer)
+Anova(resp_31_lmer)
+emmeans(resp_31_lmer, ~TV)
+emmeans(resp_31_lmer, ~TV*LV)
+
 
 #### Multispeq #################################################################
 
@@ -303,16 +336,6 @@ emmeans(SLA_focal_lmer, ~TV*LV)
 
 
 
-#### Dark Respiration ##########################################################
-hist(all_data$resp)
-resp_lmer <- lmer(resp ~ TV*LV + (1|chamber_fac), data = all_data)
-plot(resid(resp_lmer) ~ fitted(resp_lmer))
-summary(resp_lmer)
-Anova(resp_lmer)
-emmeans(resp_lmer, ~TV)
-emmeans(resp_lmer, ~TV*LV)
-
-
 #### 13C and 15N ##############################################################
 ### carbon 13 (c13)
 c13_lmer <- lmer(c13 ~ TV*LV + (1|chamber_fac), data = all_data2)
@@ -348,17 +371,157 @@ Anova(total_n_lmer)
 emmeans(total_n_lmer, ~TV)
 emmeans(total_n_lmer, ~TV*LV)
 
+
+
+
+# try new lme for photosynthesis traits #######################################
+### vcmax ** tleaf has a sig effect **
+vcmax20_df <- all_data[ , c("chamber_fac", "unique_id", "vcmax_tleaf_20", "TV", "LV")]
+vcmax20_df$tleaf <- rep(20, each = 60)
+colnames(vcmax20_df)[3] <- "vcmax"
+
+vcmax25_df <- all_data[ , c("chamber_fac", "unique_id", "vcmax_tleaf_25", "TV", "LV")]
+vcmax25_df$tleaf <- rep(25, each = 60)
+colnames(vcmax25_df)[3] <- "vcmax"
+
+vcmax31_df <- all_data[ , c("chamber_fac", "unique_id", "vcmax_tleaf_31", "TV", "LV")]
+vcmax31_df$tleaf <- rep(31, each = 60)
+colnames(vcmax31_df)[3] <- "vcmax"
+
+all_vcmax <- rbind(vcmax20_df, vcmax25_df)
+all_vcmax <- rbind(all_vcmax, vcmax31_df)
+
+all_vcmax$tleaf_fac <- as.factor(all_vcmax$tleaf)
+
+## new  vcmax lme #########
+hist(all_vcmax$vcmax)
+vcmax_lmer <- lmer(log(vcmax) ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|unique_id), data = all_vcmax)
+plot(resid(vcmax_lmer) ~ fitted(vcmax_lmer))
+summary(vcmax_lmer)
+Anova(vcmax_lmer)
+emmeans(vcmax_lmer, ~TV*LV)
+emmeans(vcmax_lmer, ~tleaf_fac)
+
+### jmax ** tleaf has a significant effect **
+jmax20_df <- all_data[ , c("chamber_fac", "unique_id", "jmax_tleaf_20", "TV", "LV")]
+jmax20_df$tleaf <- rep(20, each = 60)
+colnames(jmax20_df)[3] <- "jmax"
+
+jmax25_df <- all_data[ , c("chamber_fac", "unique_id", "jmax_tleaf_25", "TV", "LV")]
+jmax25_df$tleaf <- rep(25, each = 60)
+colnames(jmax25_df)[3] <- "jmax"
+
+jmax31_df <- all_data[ , c("chamber_fac", "unique_id", "jmax_tleaf_31", "TV", "LV")]
+jmax31_df$tleaf <- rep(31, each = 60)
+colnames(jmax31_df)[3] <- "jmax"
+
+all_jmax <- rbind(jmax20_df, jmax25_df)
+all_jmax <- rbind(all_jmax, jmax31_df)
+
+all_jmax$tleaf_fac <- as.factor(all_jmax$tleaf)
+
+## new  jmax lme #########
+hist(all_jmax$jmax)
+jmax_lmer <- lmer(log(jmax) ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|unique_id), data = all_jmax)
+plot(resid(jmax_lmer) ~ fitted(jmax_lmer))
+summary(jmax_lmer)
+Anova(jmax_lmer)
+emmeans(jmax_lmer, ~TV*LV)
+emmeans(jmax_lmer, ~tleaf_fac)
+
+### gsw_420 ** tleaf has a significant effect **
+gsw_20_df <- all_data[ , c("chamber_fac", "unique_id", "gsw_420_20", "TV", "LV")]
+gsw_20_df$tleaf <- rep(20, each = 60)
+colnames(gsw_20_df)[3] <- "gsw_420"
+
+gsw_25_df <- all_data[ , c("chamber_fac", "unique_id", "gsw_420_25", "TV", "LV")]
+gsw_25_df$tleaf <- rep(25, each = 60)
+colnames(gsw_25_df)[3] <- "gsw_420"
+
+gsw_31_df <- all_data[ , c("chamber_fac", "unique_id", "gsw_420_31", "TV", "LV")]
+gsw_31_df$tleaf <- rep(31, each = 60)
+colnames(gsw_31_df)[3] <- "gsw_420"
+
+all_gsw_420 <- rbind(gsw_20_df, gsw_25_df)
+all_gsw_420 <- rbind(all_gsw_420, gsw_31_df)
+
+all_gsw_420$tleaf_fac <- as.factor(all_gsw_420$tleaf)
+
+## new  gsw_420 lme #########
+hist(all_gsw_420$gsw_420)
+gsw_420_lmer <- lmer(log(gsw_420) ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|unique_id), data = all_gsw_420)
+plot(resid(gsw_420_lmer) ~ fitted(gsw_420_lmer))
+summary(gsw_420_lmer)
+Anova(gsw_420_lmer)
+emmeans(gsw_420_lmer, ~TV*LV)
+emmeans(gsw_420_lmer, ~tleaf_fac)
+
+### anet_420 ** tleaf has a significant effect **
+anet_20_df <- all_data[ , c("chamber_fac", "unique_id", "anet_420_20", "TV", "LV")]
+anet_20_df$tleaf <- rep(20, each = 60)
+colnames(anet_20_df)[3] <- "anet_420"
+
+anet_25_df <- all_data[ , c("chamber_fac", "unique_id", "anet_420_25", "TV", "LV")]
+anet_25_df$tleaf <- rep(25, each = 60)
+colnames(anet_25_df)[3] <- "anet_420"
+
+anet_31_df <- all_data[ , c("chamber_fac", "unique_id", "anet_420_31", "TV", "LV")]
+anet_31_df$tleaf <- rep(31, each = 60)
+colnames(anet_31_df)[3] <- "anet_420"
+
+all_anet_420 <- rbind(anet_20_df, anet_25_df)
+all_anet_420 <- rbind(all_anet_420, anet_31_df)
+
+all_anet_420$tleaf_fac <- as.factor(all_anet_420$tleaf)
+
+## new anet_420 lme #########
+hist(all_anet_420$anet_420)
+anet_420_lmer <- lmer(log(anet_420) ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|unique_id), data = all_anet_420)
+plot(resid(anet_420_lmer) ~ fitted(anet_420_lmer))
+summary(anet_420_lmer)
+Anova(anet_420_lmer)
+emmeans(anet_420_lmer, ~TV*LV)
+emmeans(anet_420_lmer, ~tleaf_fac)
+
+### resp ** tleaf has significant impact **
+resp_20_df <- all_data[ , c("chamber_fac", "unique_id", "resp_20", "TV", "LV")]
+resp_20_df$tleaf <- rep(20, each = 60)
+colnames(resp_20_df)[3] <- "resp"
+
+resp_25_df <- all_data[ , c("chamber_fac", "unique_id", "resp_25", "TV", "LV")]
+resp_25_df$tleaf <- rep(25, each = 60)
+colnames(resp_25_df)[3] <- "resp"
+
+resp_31_df <- all_data[ , c("chamber_fac", "unique_id", "resp_31", "TV", "LV")]
+resp_31_df$tleaf <- rep(31, each = 60)
+colnames(resp_31_df)[3] <- "resp"
+
+all_resp <- rbind(resp_20_df, resp_25_df)
+all_resp <- rbind(all_resp, resp_31_df)
+
+all_resp$tleaf_fac <- as.factor(all_resp$tleaf)
+
+## new resp lme #########
+hist(all_resp$resp)
+resp_lmer <- lmer(resp ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|unique_id), data = all_resp)
+plot(resid(resp_lmer) ~ fitted(resp_lmer))
+summary(resp_lmer)
+Anova(resp_lmer)
+emmeans(resp_lmer, ~TV*LV)
+emmeans(resp_lmer, ~tleaf_fac)
+
+
 # graph results ###############################################################
 ### biomass ####
 above_biomass_plot <- ggplot(aes(x = treatment, y = emmean), 
                              data = biomass_means) +
   geom_point() +
-  geom_errorbar(aes(ymin = lower.CL, ymax = upper.CL), width = 0.25,
+  geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
                 position = position_dodge(width = 0.5)) +
   geom_jitter(aes(y=above_biomass_dry_weight, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.5) +
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = "Treatment", y = "Aboveground Biomass Dry Weight (g)")
+  labs(x = expression(bold("Treatment")), y = expression(bold("Aboveground Biomass Dry Weight (g)")))
 above_biomass_plot
 
 ### vcmax #####
@@ -367,34 +530,37 @@ above_biomass_plot
 vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                              data = vcmax_20_means) +
   geom_point() +
-  geom_errorbar(aes(ymin = exp(lower.CL), ymax = exp(upper.CL)), width = 0.25,
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
   geom_jitter(aes(y=vcmax_tleaf_20, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.5) +
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = "Treatment", y = expression(italic("V")["cmax20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
+  theme(axis.text = element_text(size = 7)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
 vcmax_20_plot
 
 vcmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                         data = vcmax_25_means) +
   geom_point() +
-  geom_errorbar(aes(ymin = exp(lower.CL), ymax = exp(upper.CL)), width = 0.25,
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
   geom_jitter(aes(y=vcmax_tleaf_25, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.5) +
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = "Treatment", y = expression(italic("V")["cmax25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
+  theme(axis.text = element_text(size = 7)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")), size = 25)
 vcmax_25_plot
 
 vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                         data = vcmax_31_means) +
   geom_point() +
-  geom_errorbar(aes(ymin = exp(lower.CL), ymax = exp(upper.CL)), width = 0.31,
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31,
                 position = position_dodge(width = 0.5)) +
   geom_jitter(aes(y=vcmax_tleaf_31, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.5) +
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = "Treatment", y = expression(italic("V")["cmax31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
+  theme(axis.text = element_text(size = 7)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")), size = 5)
 vcmax_31_plot
 
 ggarrange(vcmax_20_plot, vcmax_25_plot, vcmax_31_plot, ncol = 3)
