@@ -117,6 +117,9 @@ summary(jmax_tleaf_20_lmer)
 Anova(jmax_tleaf_20_lmer)
 emmeans(jmax_tleaf_20_lmer, ~TV)
 emmeans(jmax_tleaf_20_lmer, ~TV*LV)
+jmax_20_means <- data.frame(emmeans(jmax_tleaf_20_lmer, ~TV*LV))
+jmax_20_means$treatment <- paste(jmax_20_means$TV, jmax_20_means$LV, sep = "")
+jmax_20_means
 
 jmax_tleaf_20_plot <- ggplot(aes(y=jmax_tleaf_20, x = treatment), data = all_data) +
   geom_boxplot() + theme_bw()
@@ -131,6 +134,9 @@ summary(jmax_tleaf_25_lmer)
 Anova(jmax_tleaf_25_lmer)
 emmeans(jmax_tleaf_25_lmer, ~TV)
 emmeans(jmax_tleaf_25_lmer, ~TV*LV)
+jmax_25_means <- data.frame(emmeans(jmax_tleaf_25_lmer, ~TV*LV))
+jmax_25_means$treatment <- paste(jmax_25_means$TV, jmax_25_means$LV, sep = "")
+jmax_25_means
 
 jmax_tleaf_25_plot <- ggplot(aes(y=jmax_tleaf_25, x = treatment), data = all_data) +
   geom_boxplot() + theme_bw()
@@ -146,6 +152,9 @@ summary(jmax_tleaf_31_lmer)
 Anova(jmax_tleaf_31_lmer)
 emmeans(jmax_tleaf_31_lmer, ~TV)
 emmeans(jmax_tleaf_31_lmer, ~TV*LV)
+jmax_31_means <- data.frame(emmeans(jmax_tleaf_31_lmer, ~TV*LV))
+jmax_31_means$treatment <- paste(jmax_31_means$TV, jmax_31_means$LV, sep = "")
+jmax_31_means
 
 jmax_tleaf_31_plot <- ggplot(aes(y=jmax_tleaf_31, x = treatment), data = all_data) +
   geom_boxplot() + theme_bw()
@@ -375,6 +384,9 @@ emmeans(total_n_lmer, ~TV*LV)
 
 
 # try new lme for photosynthesis traits #######################################
+  # trait increased/decreased with increasing temperature but no significance in treatments
+  # at each temperature
+
 ### vcmax ** tleaf has a sig effect **
 vcmax20_df <- all_data[ , c("chamber_fac", "unique_id", "vcmax_tleaf_20", "TV", "LV")]
 vcmax20_df$tleaf <- rep(20, each = 60)
@@ -501,9 +513,10 @@ all_resp <- rbind(all_resp, resp_31_df)
 
 all_resp$tleaf_fac <- as.factor(all_resp$tleaf)
 
-## new resp lme #########
+## new resp lme ######### 
+# if I want to log transform here do I need to take absolute value and then log??
 hist(all_resp$resp)
-resp_lmer <- lmer(resp ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|unique_id), data = all_resp)
+resp_lmer <- lmer(log(abs(resp)) ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|unique_id), data = all_resp)
 plot(resid(resp_lmer) ~ fitted(resp_lmer))
 summary(resp_lmer)
 Anova(resp_lmer)
@@ -524,9 +537,8 @@ above_biomass_plot <- ggplot(aes(x = treatment, y = emmean),
   labs(x = expression(bold("Treatment")), y = expression(bold("Aboveground Biomass Dry Weight (g)")))
 above_biomass_plot
 
-### vcmax #####
+### vcmax ##### (make same y axis; seperate temp and light variability)
 
-## change cl to se +-mean
 vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                              data = vcmax_20_means) +
   geom_point() +
@@ -536,6 +548,8 @@ vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
                   color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(20, 180)) +
+  scale_y_continuous(breaks = seq(20, 180, by = 20)) +
   labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
 vcmax_20_plot
 
@@ -548,6 +562,8 @@ vcmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
                   color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(20, 180)) +
+  scale_y_continuous(breaks = seq(20, 180, by = 20)) +
   labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")), size = 25)
 vcmax_25_plot
 
@@ -560,8 +576,11 @@ vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
                   color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(20, 180)) +
+  scale_y_continuous(breaks = seq(20, 180, by = 20)) +
   labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")), size = 5)
 vcmax_31_plot
 
 ggarrange(vcmax_20_plot, vcmax_25_plot, vcmax_31_plot, ncol = 3)
 
+### jmax ########
