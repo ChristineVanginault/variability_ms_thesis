@@ -60,6 +60,9 @@ vcmax_tleaf_20_lmer <- lmer(log(vcmax_tleaf_20) ~ TV*LV + (1|chamber_fac), data 
 plot(resid(vcmax_tleaf_20_lmer) ~ fitted(vcmax_tleaf_20_lmer))
 summary(vcmax_tleaf_20_lmer)
 Anova(vcmax_tleaf_20_lmer)
+vcmax_20_anova <- data.frame(Anova(vcmax_tleaf_20_lmer))
+vcmax_20_anova
+write.csv(vcmax_20_anova, "Git/variability_ms_thesis/Tables/vcmax20.csv")
 emmeans(vcmax_tleaf_20_lmer, ~TV)
 emmeans(vcmax_tleaf_20_lmer, ~TV*LV)
 vcmax_20_means <- data.frame(emmeans(vcmax_tleaf_20_lmer, ~TV*LV))
@@ -79,6 +82,9 @@ vcmax_tleaf_25_lmer <- lmer(log(vcmax_tleaf_25) ~ TV*LV + (1|chamber_fac), data 
 plot(resid(vcmax_tleaf_25_lmer) ~ fitted(vcmax_tleaf_25_lmer))
 summary(vcmax_tleaf_25_lmer)
 Anova(vcmax_tleaf_25_lmer)
+vcmax_25_anova <- data.frame(Anova(vcmax_tleaf_25_lmer))
+vcmax_25_anova
+write.csv(vcmax_25_anova, "Git/variability_ms_thesis/Tables/vcmax25.csv")
 emmeans(vcmax_tleaf_25_lmer, ~TV)
 emmeans(vcmax_tleaf_25_lmer, ~TV*LV)
 vcmax_25_means <- data.frame(emmeans(vcmax_tleaf_25_lmer, ~TV*LV))
@@ -96,6 +102,9 @@ vcmax_tleaf_31_lmer <- lmer(log(vcmax_tleaf_31) ~ TV*LV + (1|chamber_fac), data 
 plot(resid(vcmax_tleaf_31_lmer) ~ fitted(vcmax_tleaf_31_lmer))
 summary(vcmax_tleaf_31_lmer)
 Anova(vcmax_tleaf_31_lmer)
+vcmax_31_anova <- data.frame(Anova(vcmax_tleaf_31_lmer))
+vcmax_31_anova
+write.csv(vcmax_31_anova, "Git/variability_ms_thesis/Tables/vcmax31.csv")
 emmeans(vcmax_tleaf_31_lmer, ~TV)
 emmeans(vcmax_tleaf_31_lmer, ~TV*LV)
 vcmax_31_means <- data.frame(emmeans(vcmax_tleaf_31_lmer, ~TV*LV))
@@ -115,6 +124,9 @@ jmax_tleaf_20_lmer <- lmer(log(jmax_tleaf_20) ~ TV*LV + (1|chamber_fac), data = 
 plot(resid(jmax_tleaf_20_lmer) ~ fitted(jmax_tleaf_20_lmer))
 summary(jmax_tleaf_20_lmer)
 Anova(jmax_tleaf_20_lmer)
+jmax_20_anova <- data.frame(Anova(jmax_tleaf_20_lmer))
+jmax_20_anova
+write.csv(jmax_20_anova, "Git/variability_ms_thesis/Tables/jmax20.csv")
 emmeans(jmax_tleaf_20_lmer, ~TV)
 emmeans(jmax_tleaf_20_lmer, ~TV*LV)
 jmax_20_means <- data.frame(emmeans(jmax_tleaf_20_lmer, ~TV*LV))
@@ -132,6 +144,9 @@ jmax_tleaf_25_lmer <- lmer(log(jmax_tleaf_25) ~ TV*LV + (1|chamber_fac), data = 
 plot(resid(jmax_tleaf_25_lmer) ~ fitted(jmax_tleaf_25_lmer))
 summary(jmax_tleaf_25_lmer)
 Anova(jmax_tleaf_25_lmer)
+jmax_25_anova <- data.frame(Anova(jmax_tleaf_25_lmer))
+jmax_25_anova
+write.csv(jmax_25_anova, "Git/variability_ms_thesis/Tables/jmax25.csv")
 emmeans(jmax_tleaf_25_lmer, ~TV)
 emmeans(jmax_tleaf_25_lmer, ~TV*LV)
 jmax_25_means <- data.frame(emmeans(jmax_tleaf_25_lmer, ~TV*LV))
@@ -150,6 +165,9 @@ jmax_tleaf_31_lmer <- lmer(log(jmax_tleaf_31) ~ TV*LV + (1|chamber_fac), data = 
 plot(resid(jmax_tleaf_31_lmer) ~ fitted(jmax_tleaf_31_lmer))
 summary(jmax_tleaf_31_lmer)
 Anova(jmax_tleaf_31_lmer)
+jmax_31_anova <- data.frame(Anova(jmax_tleaf_31_lmer))
+jmax_31_anova
+write.csv(jmax_31_anova, "Git/variability_ms_thesis/Tables/jmax31.csv")
 emmeans(jmax_tleaf_31_lmer, ~TV)
 emmeans(jmax_tleaf_31_lmer, ~TV*LV)
 jmax_31_means <- data.frame(emmeans(jmax_tleaf_31_lmer, ~TV*LV))
@@ -314,8 +332,14 @@ chl.mmolm2_lmer <- lmer(chl.mmolm2 ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(chl.mmolm2_lmer) ~ fitted(chl.mmolm2_lmer))
 summary(chl.mmolm2_lmer)
 Anova(chl.mmolm2_lmer)
+total_chloro_anova <- data.frame(Anova(chl.mmolm2_lmer))
+total_chloro_anova
+write.csv(vcmax_20_anova, "Git/variability_ms_thesis/Tables/total_chloro_anova.csv")
 emmeans(chl.mmolm2_lmer, ~TV)
 emmeans(chl.mmolm2_lmer, ~TV*LV)
+total_chloro_means <- data.frame(emmeans(chl.mmolm2_lmer, ~TV*LV))
+total_chloro_means$treatment <- paste(total_chloro_means$TV, total_chloro_means$LV, sep = "")
+total_chloro_means
 
 chl.mmolm2_lmer_plot <- ggplot(aes(y=chl.mmolm2, x = treatment), data = all_data) +
   geom_boxplot() + theme_bw()
@@ -345,6 +369,9 @@ above_biomass_dry_weight_lmer <- lmer(above_biomass_dry_weight ~ TV*LV + (1|cham
 plot(resid(above_biomass_dry_weight_lmer) ~ fitted(above_biomass_dry_weight_lmer))
 summary(above_biomass_dry_weight_lmer)
 Anova(above_biomass_dry_weight_lmer)
+biomass_anova <- data.frame(Anova(above_biomass_dry_weight_lmer))
+biomass_anova
+write.csv(vcmax_20_anova, "Git/variability_ms_thesis/Tables/biomass_anova.csv")
 emmeans(above_biomass_dry_weight_lmer, ~TV)
 biomass_means <- data.frame(emmeans(above_biomass_dry_weight_lmer, ~TV*LV))
 biomass_means$treatment <- paste(biomass_means$TV, biomass_means$LV, sep = "")
@@ -359,8 +386,14 @@ SLA_focal_lmer <- lmer(SLA_focal ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(SLA_focal_lmer) ~ fitted(SLA_focal_lmer))
 summary(SLA_focal_lmer)
 Anova(SLA_focal_lmer)
+sla_anova <- data.frame(Anova(SLA_focal_lmer))
+sla_anova
+write.csv(vcmax_20_anova, "Git/variability_ms_thesis/Tables/sla_anova.csv")
 emmeans(SLA_focal_lmer, ~TV)
 emmeans(SLA_focal_lmer, ~TV*LV)
+sla_means <- data.frame(emmeans(SLA_focal_lmer, ~TV*LV))
+sla_means$treatment <- paste(sla_means$TV, sla_means$LV, sep = "")
+sla_means
 
 
 
@@ -370,8 +403,14 @@ c13_lmer <- lmer(c13 ~ TV*LV + (1|chamber_fac), data = all_data2)
 plot(resid(c13_lmer) ~ fitted(c13_lmer))
 summary(c13_lmer)
 Anova(c13_lmer)
+c13_anova <- data.frame(Anova(c13_lmer))
+c13_anova
+write.csv(vcmax_20_anova, "Git/variability_ms_thesis/Tables/c13_anova.csv")
 emmeans(c13_lmer, ~TV)
 emmeans(c13_lmer, ~TV*LV)
+c13_means <- data.frame(emmeans(c13_lmer, ~TV*LV))
+c13_means$treatment <- paste(c13_means$TV, c13_means$LV, sep = "")
+c13_means
 
 ### nitrogen 15 (n15)
 n15_lmer <- lmer(n15 ~ TV*LV + (1|chamber_fac), data = all_data2)
@@ -396,10 +435,14 @@ total_n_lmer <- lmer(total_n ~ TV*LV + (1|chamber_fac), data = all_data2)
 plot(resid(total_n_lmer) ~ fitted(total_n_lmer))
 summary(total_n_lmer)
 Anova(total_n_lmer)
+total_n_anova <- data.frame(Anova(total_n_lmer))
+total_n_anova
+write.csv(vcmax_20_anova, "Git/variability_ms_thesis/Tables/total_n_anova.csv")
 emmeans(total_n_lmer, ~TV)
 emmeans(total_n_lmer, ~TV*LV)
-
-
+total_n_means <- data.frame(emmeans(total_n_lmer, ~TV*LV))
+total_n_means$treatment <- paste(total_n_means$TV, total_n_means$LV, sep = "")
+total_n_means
 
 
 # try new lme for photosynthesis traits #######################################
@@ -430,7 +473,8 @@ vcmax_lmer <- lmer(log(vcmax) ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|unique_id
 plot(resid(vcmax_lmer) ~ fitted(vcmax_lmer))
 summary(vcmax_lmer)
 Anova(vcmax_lmer)
-emmeans(vcmax_lmer, ~TV*LV)
+all_vcmax_means <- data.frame(emmeans(vcmax_lmer, ~TV*LV))
+all_vcmax_means
 emmeans(vcmax_lmer, ~tleaf_fac)
 
 ### jmax ** tleaf has a significant effect **
@@ -556,10 +600,73 @@ above_biomass_plot <- ggplot(aes(x = treatment, y = emmean),
   labs(x = expression(bold("Treatment")), y = expression(bold("Aboveground Biomass Dry Weight (g)")))
 above_biomass_plot
 
+### biomass 2 #####
+biomass_plot2 <- ggplot(aes(x = treatment, y = emmean), 
+                             data = biomass_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=above_biomass_dry_weight, x = treatment, 
+                  color = LV), data = all_data, alpha = 0.6, size = 2) +
+  theme_bw() + scale_x_discrete(labels = c("HTV", "HTV", "LTV", "LTV")) +
+  labs(x = expression(bold("Temperature Variability")), y = expression(bold("Aboveground Biomass Dry Weight (g)")), 
+       col = "Light Variability")
+biomass_plot2
+
+### sla #####
+sla_plot <- ggplot(aes(x = treatment, y = emmean), 
+                             data = sla_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=SLA_focal, x = treatment, 
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  labs(x = expression(bold("Treatment")), y = expression(bold("SLA (cm"^"2"*"/g)")))
+sla_plot
+
+### total chlorophyll ####
+total_chloro_plot <- ggplot(aes(x = treatment, y = emmean), 
+                   data = total_chloro_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=chl.mmolm2, x = treatment, 
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("Chl")["area"]*" (mmol m"^"-2"*")")))
+total_chloro_plot
+
+### carbon 13 #########
+c13_plot <- ggplot(aes(x = treatment, y = emmean), 
+                            data = c13_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=c13, x = treatment, 
+                  color = treatment), data = all_data2, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  labs(x = expression(bold("Treatment")), y = expression(bold("13 C")*" ("*mu*"g"*")"))
+c13_plot
+
+### total nitrogen #########
+total_n_plot <- ggplot(aes(x = treatment, y = emmean), 
+                   data = total_n_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=total_n, x = treatment, 
+                  color = treatment), data = all_data2, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  labs(x = expression(bold("Treatment")), y = expression(bold("N")["total"]*" ("*mu*"g"*")"))
+total_n_plot
+
+graph1 <- ggarrange(c13_plot, total_n_plot, total_chloro_plot, sla_plot, labels = c("a)", "b)", "c)", "d)"))
+graph1
 
 # photosynthesis graph #######################################################
 ### vcmax ##### 
-# (make same y axis; seperate temp and light variability)
+# (make same y axis; separate temp and light variability)
 
 vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                              data = vcmax_20_means) +
@@ -603,7 +710,18 @@ vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
 vcmax_31_plot
 
-ggarrange(vcmax_20_plot, vcmax_25_plot, vcmax_31_plot, ncol = 3)
+vcmax <- ggarrange(vcmax_20_plot, vcmax_25_plot, vcmax_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
+
+## vcmax plot 2 ####### NOT GOOD
+vcmax_plot <- ggplot(aes(x = TV, y = exp(emmean)),
+                     data = all_vcmax_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31) +
+  geom_jitter(aes(y=vcmax, x = TV, 
+                  color = LV), data = all_vcmax, alpha = 0.6, size = 1.5) +
+  theme_bw()
+  
+vcmax_plot
 
 ### jmax ########
 jmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
@@ -648,7 +766,7 @@ jmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   labs(x = expression(bold("Treatment")), y = expression(bold(italic("J")["max31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
 jmax_31_plot
 
-ggarrange(jmax_20_plot, jmax_25_plot, jmax_31_plot, ncol = 3)
+jmax <- ggarrange(jmax_20_plot, jmax_25_plot, jmax_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
 
 ## gsw_420 ########
 gsw_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
@@ -693,7 +811,7 @@ gsw_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   labs(x = expression(bold("Treatment")), y = expression(bold(italic("gsw")["420_31"]*" (mol m"^"-2"*" s"^"-1"*")")))
 gsw_31_plot
 
-ggarrange(gsw_20_plot, gsw_25_plot, gsw_31_plot, ncol = 3)
+gsw <- ggarrange(gsw_20_plot, gsw_25_plot, gsw_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
 
 ## anet_420 ########
 anet_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
@@ -738,4 +856,5 @@ anet_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   labs(x = expression(bold("Treatment")), y = expression(bold(italic("anet")["420_31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
 anet_31_plot
 
-ggarrange(anet_20_plot, anet_25_plot, anet_31_plot, ncol = 3)
+anet <- ggarrange(anet_20_plot, anet_25_plot, anet_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
+
