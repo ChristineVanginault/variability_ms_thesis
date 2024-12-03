@@ -169,6 +169,9 @@ summary(gsw_420_20_lmer)
 Anova(gsw_420_20_lmer)
 emmeans(gsw_420_20_lmer, ~TV)
 emmeans(gsw_420_20_lmer, ~TV*LV)
+gsw_20_means <- data.frame(emmeans(gsw_420_20_lmer, ~TV*LV))
+gsw_20_means$treatment <- paste(gsw_20_means$TV, gsw_20_means$LV, sep = "")
+gsw_20_means
 
 ### stomatal conductance (gsw_420_25)
 hist(all_data$gsw_420_25)
@@ -178,6 +181,9 @@ summary(gsw_420_25_lmer)
 Anova(gsw_420_25_lmer)
 emmeans(gsw_420_25_lmer, ~TV)
 emmeans(gsw_420_25_lmer, ~TV*LV)
+gsw_25_means <- data.frame(emmeans(gsw_420_25_lmer, ~TV*LV))
+gsw_25_means$treatment <- paste(gsw_25_means$TV, gsw_25_means$LV, sep = "")
+gsw_25_means
 
 
 ### stomatal conductance (gsw_420_31)
@@ -188,6 +194,9 @@ summary(gsw_420_31_lmer)
 Anova(gsw_420_31_lmer)
 emmeans(gsw_420_31_lmer, ~TV)
 emmeans(gsw_420_31_lmer, ~TV*LV)
+gsw_31_means <- data.frame(emmeans(gsw_420_31_lmer, ~TV*LV))
+gsw_31_means$treatment <- paste(gsw_31_means$TV, gsw_31_means$LV, sep = "")
+gsw_31_means
 
 ### net photosynthesis (anet_420_20)
 hist(all_data$anet_420_20)
@@ -198,6 +207,9 @@ summary(anet_420_20_lmer)
 Anova(anet_420_20_lmer)
 emmeans(anet_420_20_lmer, ~TV)
 emmeans(anet_420_20_lmer, ~TV*LV)
+anet_20_means <- data.frame(emmeans(anet_420_20_lmer, ~TV*LV))
+anet_20_means$treatment <- paste(anet_20_means$TV, anet_20_means$LV, sep = "")
+anet_20_means
 
 ### net photosynthesis (anet_420_25)
 hist(all_data$anet_420_25)
@@ -208,6 +220,9 @@ summary(anet_420_25_lmer)
 Anova(anet_420_25_lmer)
 emmeans(anet_420_25_lmer, ~TV)
 emmeans(anet_420_25_lmer, ~TV*LV)
+anet_25_means <- data.frame(emmeans(anet_420_25_lmer, ~TV*LV))
+anet_25_means$treatment <- paste(anet_25_means$TV, anet_25_means$LV, sep = "")
+anet_25_means
 
 ### net photosynthesis (anet_420_31)
 hist(all_data$anet_420_31)
@@ -218,6 +233,10 @@ summary(anet_420_31_lmer)
 Anova(anet_420_31_lmer)
 emmeans(anet_420_31_lmer, ~TV)
 emmeans(anet_420_31_lmer, ~TV*LV)
+anet_31_means <- data.frame(emmeans(anet_420_31_lmer, ~TV*LV))
+anet_31_means$treatment <- paste(anet_31_means$TV, anet_31_means$LV, sep = "")
+anet_31_means
+
 
 
 
@@ -537,7 +556,10 @@ above_biomass_plot <- ggplot(aes(x = treatment, y = emmean),
   labs(x = expression(bold("Treatment")), y = expression(bold("Aboveground Biomass Dry Weight (g)")))
 above_biomass_plot
 
-### vcmax ##### (make same y axis; seperate temp and light variability)
+
+# photosynthesis graph #######################################################
+### vcmax ##### 
+# (make same y axis; seperate temp and light variability)
 
 vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                              data = vcmax_20_means) +
@@ -564,7 +586,7 @@ vcmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(20, 180)) +
   scale_y_continuous(breaks = seq(20, 180, by = 20)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")), size = 25)
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
 vcmax_25_plot
 
 vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
@@ -578,9 +600,142 @@ vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(20, 180)) +
   scale_y_continuous(breaks = seq(20, 180, by = 20)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")), size = 5)
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
 vcmax_31_plot
 
 ggarrange(vcmax_20_plot, vcmax_25_plot, vcmax_31_plot, ncol = 3)
 
 ### jmax ########
+jmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
+                        data = jmax_20_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=jmax_tleaf_20, x = treatment, 
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(35, 195)) +
+  scale_y_continuous(breaks = seq(35, 195, by = 20)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("J")["max20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+jmax_20_plot
+
+jmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
+                        data = jmax_25_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=jmax_tleaf_25, x = treatment, 
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(35, 195)) +
+  scale_y_continuous(breaks = seq(35, 195, by = 20)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("J")["mmax25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+jmax_25_plot
+
+jmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
+                        data = jmax_31_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=jmax_tleaf_31, x = treatment, 
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(35, 195)) +
+  scale_y_continuous(breaks = seq(35, 195, by = 20)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("J")["max31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+jmax_31_plot
+
+ggarrange(jmax_20_plot, jmax_25_plot, jmax_31_plot, ncol = 3)
+
+## gsw_420 ########
+gsw_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
+                       data = gsw_20_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=gsw_420_20, x = treatment, 
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(0, 0.8)) +
+  scale_y_continuous(breaks = seq(0, 0.8, by = 0.2)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("gsw")["420_20"]*" (mol m"^"-2"*" s"^"-1"*")")))
+gsw_20_plot
+
+gsw_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
+                      data = gsw_25_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=gsw_420_25, x = treatment, 
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(0, 0.8)) +
+  scale_y_continuous(breaks = seq(0, 0.8, by = 0.2)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("gsw")["420_25"]*" (mol m"^"-2"*" s"^"-1"*")")))
+gsw_25_plot
+
+gsw_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
+                      data = gsw_31_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=gsw_420_31, x = treatment, 
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(0, 0.8)) +
+  scale_y_continuous(breaks = seq(0, 0.8, by = 0.2)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("gsw")["420_31"]*" (mol m"^"-2"*" s"^"-1"*")")))
+gsw_31_plot
+
+ggarrange(gsw_20_plot, gsw_25_plot, gsw_31_plot, ncol = 3)
+
+## anet_420 ########
+anet_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
+                      data = anet_20_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=anet_420_20, x = treatment, 
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(0, 25)) +
+  scale_y_continuous(breaks = seq(0, 25, by = 5)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("anet")["420_20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+anet_20_plot
+
+anet_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
+                      data = anet_25_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=anet_420_25, x = treatment, 
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(0, 25)) +
+  scale_y_continuous(breaks = seq(0, 25, by = 5)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("anet")["420_25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+anet_25_plot
+
+anet_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
+                      data = anet_31_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=anet_420_31, x = treatment, 
+                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(0, 25)) +
+  scale_y_continuous(breaks = seq(0, 25, by = 5)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("anet")["420_31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+anet_31_plot
+
+ggarrange(anet_20_plot, anet_25_plot, anet_31_plot, ncol = 3)
