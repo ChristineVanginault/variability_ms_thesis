@@ -60,9 +60,7 @@ vcmax_tleaf_20_lmer <- lmer(log(vcmax_tleaf_20) ~ TV*LV + (1|chamber_fac), data 
 plot(resid(vcmax_tleaf_20_lmer) ~ fitted(vcmax_tleaf_20_lmer))
 summary(vcmax_tleaf_20_lmer)
 Anova(vcmax_tleaf_20_lmer)
-vcmax_20_anova <- data.frame(Anova(vcmax_tleaf_20_lmer))
-vcmax_20_anova
-write.csv(vcmax_20_anova, "Git/variability_ms_thesis/Tables/vcmax20.csv")
+
 emmeans(vcmax_tleaf_20_lmer, ~TV)
 emmeans(vcmax_tleaf_20_lmer, ~TV*LV)
 vcmax_20_means <- data.frame(emmeans(vcmax_tleaf_20_lmer, ~TV*LV))
@@ -82,9 +80,7 @@ vcmax_tleaf_25_lmer <- lmer(log(vcmax_tleaf_25) ~ TV*LV + (1|chamber_fac), data 
 plot(resid(vcmax_tleaf_25_lmer) ~ fitted(vcmax_tleaf_25_lmer))
 summary(vcmax_tleaf_25_lmer)
 Anova(vcmax_tleaf_25_lmer)
-vcmax_25_anova <- data.frame(Anova(vcmax_tleaf_25_lmer))
-vcmax_25_anova
-write.csv(vcmax_25_anova, "Git/variability_ms_thesis/Tables/vcmax25.csv")
+
 emmeans(vcmax_tleaf_25_lmer, ~TV)
 emmeans(vcmax_tleaf_25_lmer, ~TV*LV)
 vcmax_25_means <- data.frame(emmeans(vcmax_tleaf_25_lmer, ~TV*LV))
@@ -102,9 +98,7 @@ vcmax_tleaf_31_lmer <- lmer(log(vcmax_tleaf_31) ~ TV*LV + (1|chamber_fac), data 
 plot(resid(vcmax_tleaf_31_lmer) ~ fitted(vcmax_tleaf_31_lmer))
 summary(vcmax_tleaf_31_lmer)
 Anova(vcmax_tleaf_31_lmer)
-vcmax_31_anova <- data.frame(Anova(vcmax_tleaf_31_lmer))
-vcmax_31_anova
-write.csv(vcmax_31_anova, "Git/variability_ms_thesis/Tables/vcmax31.csv")
+
 emmeans(vcmax_tleaf_31_lmer, ~TV)
 emmeans(vcmax_tleaf_31_lmer, ~TV*LV)
 vcmax_31_means <- data.frame(emmeans(vcmax_tleaf_31_lmer, ~TV*LV))
@@ -124,9 +118,7 @@ jmax_tleaf_20_lmer <- lmer(log(jmax_tleaf_20) ~ TV*LV + (1|chamber_fac), data = 
 plot(resid(jmax_tleaf_20_lmer) ~ fitted(jmax_tleaf_20_lmer))
 summary(jmax_tleaf_20_lmer)
 Anova(jmax_tleaf_20_lmer)
-jmax_20_anova <- data.frame(Anova(jmax_tleaf_20_lmer))
-jmax_20_anova
-write.csv(jmax_20_anova, "Git/variability_ms_thesis/Tables/jmax20.csv")
+
 emmeans(jmax_tleaf_20_lmer, ~TV)
 emmeans(jmax_tleaf_20_lmer, ~TV*LV)
 jmax_20_means <- data.frame(emmeans(jmax_tleaf_20_lmer, ~TV*LV))
@@ -144,9 +136,7 @@ jmax_tleaf_25_lmer <- lmer(log(jmax_tleaf_25) ~ TV*LV + (1|chamber_fac), data = 
 plot(resid(jmax_tleaf_25_lmer) ~ fitted(jmax_tleaf_25_lmer))
 summary(jmax_tleaf_25_lmer)
 Anova(jmax_tleaf_25_lmer)
-jmax_25_anova <- data.frame(Anova(jmax_tleaf_25_lmer))
-jmax_25_anova
-write.csv(jmax_25_anova, "Git/variability_ms_thesis/Tables/jmax25.csv")
+
 emmeans(jmax_tleaf_25_lmer, ~TV)
 emmeans(jmax_tleaf_25_lmer, ~TV*LV)
 jmax_25_means <- data.frame(emmeans(jmax_tleaf_25_lmer, ~TV*LV))
@@ -165,9 +155,7 @@ jmax_tleaf_31_lmer <- lmer(log(jmax_tleaf_31) ~ TV*LV + (1|chamber_fac), data = 
 plot(resid(jmax_tleaf_31_lmer) ~ fitted(jmax_tleaf_31_lmer))
 summary(jmax_tleaf_31_lmer)
 Anova(jmax_tleaf_31_lmer)
-jmax_31_anova <- data.frame(Anova(jmax_tleaf_31_lmer))
-jmax_31_anova
-write.csv(jmax_31_anova, "Git/variability_ms_thesis/Tables/jmax31.csv")
+
 emmeans(jmax_tleaf_31_lmer, ~TV)
 emmeans(jmax_tleaf_31_lmer, ~TV*LV)
 jmax_31_means <- data.frame(emmeans(jmax_tleaf_31_lmer, ~TV*LV))
@@ -334,7 +322,7 @@ summary(chl.mmolm2_lmer)
 Anova(chl.mmolm2_lmer)
 total_chloro_anova <- data.frame(Anova(chl.mmolm2_lmer))
 total_chloro_anova
-write.csv(vcmax_20_anova, "Git/variability_ms_thesis/Tables/total_chloro_anova.csv")
+write.csv(total_chloro_anova, "Git/variability_ms_thesis/Tables/total_chloro_anova.csv")
 emmeans(chl.mmolm2_lmer, ~TV)
 emmeans(chl.mmolm2_lmer, ~TV*LV)
 total_chloro_means <- data.frame(emmeans(chl.mmolm2_lmer, ~TV*LV))
@@ -371,7 +359,7 @@ summary(above_biomass_dry_weight_lmer)
 Anova(above_biomass_dry_weight_lmer)
 biomass_anova <- data.frame(Anova(above_biomass_dry_weight_lmer))
 biomass_anova
-write.csv(vcmax_20_anova, "Git/variability_ms_thesis/Tables/biomass_anova.csv")
+write.csv(biomass_anova, "Git/variability_ms_thesis/Tables/biomass_anova.csv")
 emmeans(above_biomass_dry_weight_lmer, ~TV)
 biomass_means <- data.frame(emmeans(above_biomass_dry_weight_lmer, ~TV*LV))
 biomass_means$treatment <- paste(biomass_means$TV, biomass_means$LV, sep = "")
@@ -388,7 +376,7 @@ summary(SLA_focal_lmer)
 Anova(SLA_focal_lmer)
 sla_anova <- data.frame(Anova(SLA_focal_lmer))
 sla_anova
-write.csv(vcmax_20_anova, "Git/variability_ms_thesis/Tables/sla_anova.csv")
+write.csv(sla_anova, "Git/variability_ms_thesis/Tables/sla_anova.csv")
 emmeans(SLA_focal_lmer, ~TV)
 emmeans(SLA_focal_lmer, ~TV*LV)
 sla_means <- data.frame(emmeans(SLA_focal_lmer, ~TV*LV))
@@ -405,7 +393,7 @@ summary(c13_lmer)
 Anova(c13_lmer)
 c13_anova <- data.frame(Anova(c13_lmer))
 c13_anova
-write.csv(vcmax_20_anova, "Git/variability_ms_thesis/Tables/c13_anova.csv")
+write.csv(c13_anova, "Git/variability_ms_thesis/Tables/c13_anova.csv")
 emmeans(c13_lmer, ~TV)
 emmeans(c13_lmer, ~TV*LV)
 c13_means <- data.frame(emmeans(c13_lmer, ~TV*LV))
@@ -430,14 +418,14 @@ Anova(total_c_lmer)
 emmeans(total_c_lmer, ~TV)
 emmeans(total_c_lmer, ~TV*LV)
 
-### total nitrogen (total_n)
-total_n_lmer <- lmer(total_n ~ TV*LV + (1|chamber_fac), data = all_data2)
+### nitrogen g/g (nitrogen_g.g)
+total_n_lmer <- lmer(nitrogen_g.g ~ TV*LV + (1|chamber_fac), data = all_data2)
 plot(resid(total_n_lmer) ~ fitted(total_n_lmer))
 summary(total_n_lmer)
 Anova(total_n_lmer)
 total_n_anova <- data.frame(Anova(total_n_lmer))
 total_n_anova
-write.csv(vcmax_20_anova, "Git/variability_ms_thesis/Tables/total_n_anova.csv")
+write.csv(total_n_anova, "Git/variability_ms_thesis/Tables/total_n_anova.csv")
 emmeans(total_n_lmer, ~TV)
 emmeans(total_n_lmer, ~TV*LV)
 total_n_means <- data.frame(emmeans(total_n_lmer, ~TV*LV))
@@ -473,6 +461,9 @@ vcmax_lmer <- lmer(log(vcmax) ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|unique_id
 plot(resid(vcmax_lmer) ~ fitted(vcmax_lmer))
 summary(vcmax_lmer)
 Anova(vcmax_lmer)
+vcmax_anova <- data.frame(Anova(vcmax_lmer))
+vcmax_anova
+write.csv(vcmax_anova, "Git/variability_ms_thesis/Tables/vcmax_anova.csv")
 all_vcmax_means <- data.frame(emmeans(vcmax_lmer, ~TV*LV))
 all_vcmax_means
 emmeans(vcmax_lmer, ~tleaf_fac)
@@ -501,6 +492,9 @@ jmax_lmer <- lmer(log(jmax) ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|unique_id),
 plot(resid(jmax_lmer) ~ fitted(jmax_lmer))
 summary(jmax_lmer)
 Anova(jmax_lmer)
+jmax_anova <- data.frame(Anova(jmax_lmer))
+jmax_anova
+write.csv(jmax_anova, "Git/variability_ms_thesis/Tables/jmax_anova.csv")
 emmeans(jmax_lmer, ~TV*LV)
 emmeans(jmax_lmer, ~tleaf_fac)
 
@@ -528,6 +522,9 @@ gsw_420_lmer <- lmer(log(gsw_420) ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|uniqu
 plot(resid(gsw_420_lmer) ~ fitted(gsw_420_lmer))
 summary(gsw_420_lmer)
 Anova(gsw_420_lmer)
+gsw_anova <- data.frame(Anova(gsw_420_lmer))
+gsw_anova
+write.csv(gsw_anova, "Git/variability_ms_thesis/Tables/gsw_anova.csv")
 emmeans(gsw_420_lmer, ~TV*LV)
 emmeans(gsw_420_lmer, ~tleaf_fac)
 
@@ -555,6 +552,9 @@ anet_420_lmer <- lmer(log(anet_420) ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|uni
 plot(resid(anet_420_lmer) ~ fitted(anet_420_lmer))
 summary(anet_420_lmer)
 Anova(anet_420_lmer)
+anet_anova <- data.frame(Anova(anet_420_lmer))
+anet_anova
+write.csv(anet_anova, "Git/variability_ms_thesis/Tables/anet_anova.csv")
 emmeans(anet_420_lmer, ~TV*LV)
 emmeans(anet_420_lmer, ~tleaf_fac)
 
@@ -583,6 +583,9 @@ resp_lmer <- lmer(log(abs(resp)) ~ TV*LV*tleaf_fac + (1|chamber_fac) + (1|unique
 plot(resid(resp_lmer) ~ fitted(resp_lmer))
 summary(resp_lmer)
 Anova(resp_lmer)
+resp_anova <- data.frame(Anova(resp_lmer))
+resp_anova
+write.csv(resp_anova, "Git/variability_ms_thesis/Tables/resp_anova.csv")
 emmeans(resp_lmer, ~TV*LV)
 emmeans(resp_lmer, ~tleaf_fac)
 
@@ -655,10 +658,10 @@ total_n_plot <- ggplot(aes(x = treatment, y = emmean),
   geom_point() +
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=total_n, x = treatment, 
+  geom_jitter(aes(y=nitrogen_g.g, x = treatment, 
                   color = treatment), data = all_data2, alpha = 0.6, size = 1.5) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = expression(bold("Treatment")), y = expression(bold("N")["total"]*" ("*mu*"g"*")"))
+  labs(x = expression(bold("Treatment")), y = expression(bold("N")["mass"]*" ("*"gN g"^"-1"*")"))
 total_n_plot
 
 graph1 <- ggarrange(c13_plot, total_n_plot, total_chloro_plot, sla_plot, labels = c("a)", "b)", "c)", "d)"))

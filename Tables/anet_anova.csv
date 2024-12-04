@@ -1,0 +1,8 @@
+,Chisq,Df,Pr..Chisq.
+TV,0.254,1,0.614
+LV,0.000,1,0.991
+tleaf_fac,98.050,2,5.115E-22
+TV:LV,0.164,1,0.685
+TV:tleaf_fac,1.431,2,0.489
+LV:tleaf_fac,0.209,2,0.901
+TV:LV:tleaf_fac,0.020,2,0.990
