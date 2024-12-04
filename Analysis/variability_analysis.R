@@ -14,7 +14,7 @@ library(car)
 library(emmeans)
 library(ggplot2)
 library(ggpubr)
-
+library(grid)
 
 ## load data
 all_data <- read.csv('Git/variability_ms_thesis/Data/all_data.csv')
@@ -682,19 +682,31 @@ vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
 vcmax_20_plot
 
+jpeg(filename = "Git/variability_ms_thesis/Graphs/vcmax20.jpg",
+     width = 3, height = 3, units = "in", res = 300)
+grid.newpage()
+grid.draw(vcmax_20_plot)
+dev.off()
+
 vcmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                         data = vcmax_25_means) +
-  geom_point() +
+  geom_point(size = 2) +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
   geom_jitter(aes(y=vcmax_tleaf_25, x = treatment, 
                   color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
-  coord_cartesian(ylim = c(20, 180)) +
-  scale_y_continuous(breaks = seq(20, 180, by = 20)) +
+  coord_cartesian(ylim = c(20, 140)) +
+  scale_y_continuous(breaks = seq(20, 140, by = 20)) +
   labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
 vcmax_25_plot
+
+jpeg(filename = "Git/variability_ms_thesis/Graphs/vcmax25.jpg",
+     width = 3, height = 3, units = "in", res = 300)
+grid.newpage()
+grid.draw(vcmax_25_plot)
+dev.off()
 
 vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                         data = vcmax_31_means) +
@@ -710,18 +722,51 @@ vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
 vcmax_31_plot
 
-vcmax <- ggarrange(vcmax_20_plot, vcmax_25_plot, vcmax_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
+jpeg(filename = "Git/variability_ms_thesis/Graphs/vcmax31.jpg",
+     width = 3, height = 3, units = "in", res = 300)
+grid.newpage()
+grid.draw(vcmax_31_plot)
+dev.off()
 
-## vcmax plot 2 ####### NOT GOOD
-vcmax_plot <- ggplot(aes(x = TV, y = exp(emmean)),
-                     data = all_vcmax_means) +
-  geom_point() +
-  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31) +
-  geom_jitter(aes(y=vcmax, x = TV, 
-                  color = LV), data = all_vcmax, alpha = 0.6, size = 1.5) +
+vcmax <- ggarrange(vcmax_20_plot, vcmax_25_plot, vcmax_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
+vcmax
+jpeg(filename = "Git/variability_ms_thesis/Graphs/3vcmax.jpg",
+     width = 8, height = 3, units = "in", res = 300)
+grid.newpage()
+grid.draw(vcmax)
+dev.off()
+
+## vcmax 25 plot 2 #######
+vcmax_25_plot2 <- ggplot(aes(x = TV, y = exp(emmean)),
+                     data = vcmax_25_means) +
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.4,
+                size = .7, position = position_dodge2()) +
+  geom_point(aes(shape = LV), size = 2, position = position_dodge2(width = .4)) +
+  
+  geom_jitter(aes(x = TV, y=vcmax_tleaf_25,
+                  color = TV, shape = LV), data =  all_data, alpha = 0.6, size = 1.5) +
+  
+  scale_shape_manual(values = c(17, 19)) +
+  scale_fill_manual(values = c("red", "blue")) +
+  theme(legend.title = element_text(size = 1)) +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(20, 140)) +
+  scale_y_continuous(breaks = seq(20, 140, by = 20)) +
+  
+  labs(x = expression(bold("Temperature Variability Treatment")), 
+       y = expression(bold(italic("V")["cmax25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")),
+       color = "Temperature Variability", shape = "Light Variability") +
   theme_bw()
   
-vcmax_plot
+vcmax_25_plot2
+
+jpeg(filename = "Git/variability_ms_thesis/Graphs/vcmax25_2.jpg",
+     width = 5, height = 3, units = "in", res = 300)
+grid.newpage()
+grid.draw(vcmax_25_plot2)
+dev.off()
+
+theme(legend.title = element_text(size))
 
 ### jmax ########
 jmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
