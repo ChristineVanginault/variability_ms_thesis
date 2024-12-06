@@ -414,7 +414,6 @@ LTVLLV.sd <- sd(LTVLLV_data_day$day_temp_mean_LTVLLV)
 LTVLLV.se <- sd(LTVLLV_data_day$day_temp_mean_LTVLLV)/sqrt(length(LTVLLV_data_day$day_temp_mean_LTVLLV))
 
 ## Graph each treatment by hour using "hour_avg" ##############################
-  # cannot figure out how to add average lines for 0600 to 2100
 
 ##### Needs to be in long format
 hour_avg_long <- melt(hour_avg, id = "hour", variable.name = "treatment", value.name = "temp_average")
@@ -423,9 +422,16 @@ hour_avg_long <- melt(hour_avg, id = "hour", variable.name = "treatment", value.
 temp_hour_avg_plot <- ggplot(hour_avg_long, aes(x = as.numeric(hour), y = temp_average, color = treatment)) + 
   geom_line() + theme_bw() + scale_y_continuous(n.breaks = 8) + scale_x_continuous(breaks = seq(0, 23, 2)) +
   labs(x = "Hours in a Day (00-23)", y = "Average Temperature (C)", color = "Treatments") +
-  theme(legend.position = "top") + 
-  scale_color_hue(labels = c("HTVHLV", "HTVLLV", "LTVHLV", "LTVLLV"))
+  scale_color_hue(labels = c("HTVHLV", "HTVLLV", "LTVHLV", "LTVLLV")) +
+  theme(legend.title  = element_text(size = 7))+
+  theme(legend.text = element_text(size = 5))
 temp_hour_avg_plot
+
+jpeg(filename = "Git/variability_ms_thesis/Graphs/temp.jpg",
+     width = 5, height = 2.7, units = "in", res = 300)
+grid.newpage()
+grid.draw(temp_hour_avg_plot)
+dev.off()
 
 ## Script below finds means and sd for each treatment ##########################
 

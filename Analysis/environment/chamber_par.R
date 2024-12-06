@@ -73,9 +73,15 @@ par_avg_hour_plot <- ggplot(par_hour_avg_groupby, aes(x = as.numeric(hour), y = 
   labs(x = "Hours in a Day (00-23)", y = "Average PAR" ~ (µmol/m^{2}/s), color = "Treatments") +
   scale_y_continuous(breaks = seq(0, 800, by = 100)) +
   scale_color_hue(labels = c("HTVHLV", "HTVLLV", "LTVHLV", "LTVLLV"))+
-  theme(legend.position = "top")
+  theme(legend.title  = element_text(size = 7))+
+  theme(legend.text = element_text(size = 5))
 par_avg_hour_plot
 
+jpeg(filename = "Git/variability_ms_thesis/Graphs/par.jpg",
+     width = 5, height = 2.7, units = "in", res = 300)
+grid.newpage()
+grid.draw(par_avg_hour_plot)
+dev.off()
 
 ##############################################################################
 # data for average by day ######
