@@ -633,11 +633,12 @@ sla_plot <- ggplot(aes(x = treatment, y = emmean),
   geom_point() +
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=SLA_focal, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=SLA_focal, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = expression(bold("Treatment")), y = expression(bold("SLA (cm"^"2"*"/g)")))
+  labs(x = expression("Treatment"), y = expression("SLA (cm"^"2"*"g"^"-1"*")"))
 sla_plot
 
 ### total chlorophyll ####chl.mmolm2
@@ -646,11 +647,12 @@ total_chloro_plot <- ggplot(aes(x = treatment, y = emmean),
   geom_point() +
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=chl.mmolm2, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=chl.mmolm2, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("Chl")["area"]*" (mmol m"^"-2"*")")))
+  labs(x = expression("Treatment"), y = expression("Chl"["area"]*" (mmol m"^"-2"*")"))
 total_chloro_plot
 
 ### carbon 13 #########c13
@@ -659,11 +661,12 @@ c13_plot <- ggplot(aes(x = treatment, y = emmean),
   geom_point() +
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=c13, x = treatment, color = treatment, shape = treatment), data = all_data2, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=c13, x = treatment, color = treatment, shape = treatment), 
+              data = all_data2, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = expression(bold("Treatment")), y = expression(bold("13 C")*" ("*mu*"g"*")"))
+  labs(x = expression("Treatment"), y = expression("??"^"13"*"C (???)"))
 c13_plot
 
 ### total nitrogen #########nitrogen_g.g
@@ -672,11 +675,12 @@ total_n_plot <- ggplot(aes(x = treatment, y = emmean),
   geom_point() +
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=nitrogen_g.g, x = treatment, color = treatment, shape = treatment), data = all_data2, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=nitrogen_g.g, x = treatment, color = treatment, shape = treatment), 
+              data = all_data2, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = expression(bold("Treatment")), y = expression(bold("N")["mass"]*" ("*"gN g"^"-1"*")"))
+  labs(x = expression("Treatment"), y = expression("N"["mass"]*" ("*"gN g"^"-1"*")"))
 total_n_plot
 
 graph1 <- ggarrange(c13_plot, total_n_plot, total_chloro_plot, sla_plot, labels = c("a)", "b)", "c)", "d)"))
@@ -699,14 +703,15 @@ vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=vcmax_tleaf_20, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=vcmax_tleaf_20, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
   scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(20, 180)) +
   scale_y_continuous(breaks = seq(20, 180, by = 20)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("V"["cmax,20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 vcmax_20_plot
 
 jpeg(filename = "Git/variability_ms_thesis/Graphs/vcmax20.jpg",
@@ -720,14 +725,15 @@ vcmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point(size = 2) +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=vcmax_tleaf_25, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=vcmax_tleaf_25, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(20, 140)) +
   scale_y_continuous(breaks = seq(20, 140, by = 20)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("V"["cmax,25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 vcmax_25_plot
 
 jpeg(filename = "Git/variability_ms_thesis/Graphs/vcmax25.jpg",
@@ -741,14 +747,15 @@ vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=vcmax_tleaf_31, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=vcmax_tleaf_31, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(20, 180)) +
   scale_y_continuous(breaks = seq(20, 180, by = 20)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("V")["cmax31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("V"["cmax,31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 vcmax_31_plot
 
 jpeg(filename = "Git/variability_ms_thesis/Graphs/vcmax31.jpg",
@@ -771,10 +778,8 @@ vcmax_25_plot2 <- ggplot(aes(x = TV, y = exp(emmean)),
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.4,
                 size = .7, position = position_dodge2()) +
   geom_point(aes(shape = LV), size = 2, position = position_dodge2(width = .4)) +
-  
-  geom_jitter(aes(x = TV, y=vcmax_tleaf_25,
-                  color = TV, shape = LV), data =  all_data, alpha = 0.6, size = 1.5) +
-  
+  geom_jitter(aes(x = TV, y=vcmax_tleaf_25, color = TV, shape = LV), 
+              data =  all_data, alpha = 0.6, size = 1.5, width = 0.25) +
   scale_shape_manual(values = c(17, 19)) +
   scale_fill_manual(values = c("red", "blue")) +
   theme(legend.title = element_text(size = 1)) +
@@ -803,14 +808,15 @@ jmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=jmax_tleaf_20, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=jmax_tleaf_20, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(35, 195)) +
   scale_y_continuous(breaks = seq(35, 195, by = 20)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("J")["max20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("J"["max,20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 jmax_20_plot
 
 jmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
@@ -818,14 +824,15 @@ jmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=jmax_tleaf_25, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=jmax_tleaf_25, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(35, 195)) +
   scale_y_continuous(breaks = seq(35, 195, by = 20)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("J")["mmax25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("J"["mmax,25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 jmax_25_plot
 
 jmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
@@ -833,14 +840,15 @@ jmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=jmax_tleaf_31, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=jmax_tleaf_31, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(35, 195)) +
   scale_y_continuous(breaks = seq(35, 195, by = 20)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("J")["max31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("J"["max,31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 jmax_31_plot
 
 jmax <- ggarrange(jmax_20_plot, jmax_25_plot, jmax_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
@@ -856,14 +864,15 @@ gsw_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=gsw_420_20, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=gsw_420_20, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 0.8)) +
   scale_y_continuous(breaks = seq(0, 0.8, by = 0.2)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("gsw")["420_20"]*" (mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("g"["sw,20"]*" (mol m"^"-2"*" s"^"-1"*")"))
 gsw_20_plot
 
 gsw_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
@@ -871,14 +880,15 @@ gsw_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=gsw_420_25, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=gsw_420_25, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 0.8)) +
   scale_y_continuous(breaks = seq(0, 0.8, by = 0.2)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("gsw")["420_25"]*" (mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("g"["sw,25"]*" (mol m"^"-2"*" s"^"-1"*")"))
 gsw_25_plot
 
 gsw_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
@@ -886,14 +896,15 @@ gsw_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=gsw_420_31, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=gsw_420_31, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 0.8)) +
   scale_y_continuous(breaks = seq(0, 0.8, by = 0.2)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("gsw")["420_31"]*" (mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("g"["sw,31"]*" (mol m"^"-2"*" s"^"-1"*")"))
 gsw_31_plot
 
 gsw <- ggarrange(gsw_20_plot, gsw_25_plot, gsw_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
@@ -909,14 +920,15 @@ anet_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=anet_420_20, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=anet_420_20, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 25)) +
   scale_y_continuous(breaks = seq(0, 25, by = 5)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("anet")["420_20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("A"["net,20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 anet_20_plot
 
 anet_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
@@ -924,14 +936,15 @@ anet_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=anet_420_25, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=anet_420_25, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 25)) +
   scale_y_continuous(breaks = seq(0, 25, by = 5)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("anet")["420_25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("A"["net,25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 anet_25_plot
 
 anet_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
@@ -939,14 +952,15 @@ anet_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=anet_420_31, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=anet_420_31, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 25)) +
   scale_y_continuous(breaks = seq(0, 25, by = 5)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("anet")["420_31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("A"["net,31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 anet_31_plot
 
 anet <- ggarrange(anet_20_plot, anet_25_plot, anet_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
@@ -963,14 +977,15 @@ resp_20_plot <- ggplot(aes(x = treatment, y = (emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = (emmean - SE), ymax = (emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=resp_20, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=resp_20, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(-3, 0)) +
   scale_y_continuous(breaks = seq(-3, .5, by = .5)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("R")["d_20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("R"["d,20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 resp_20_plot
 
 resp_25_plot <- ggplot(aes(x = treatment, y = (emmean)), 
@@ -978,14 +993,15 @@ resp_25_plot <- ggplot(aes(x = treatment, y = (emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = (emmean - SE), ymax = (emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=resp_25, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=resp_25, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(-3, 0)) +
   scale_y_continuous(breaks = seq(-3, .5, by = .5)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("R")["d_25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("R"["d,25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 resp_25_plot
 
 resp_31_plot <- ggplot(aes(x = treatment, y = (emmean)), 
@@ -993,14 +1009,15 @@ resp_31_plot <- ggplot(aes(x = treatment, y = (emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = (emmean - SE), ymax = (emmean + SE)), width = 0.31,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=resp_31, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
-  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  geom_jitter(aes(y=resp_31, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(-3, 0)) +
   scale_y_continuous(breaks = seq(-3, .5, by = .5)) +
-  labs(x = expression(bold("Treatment")), y = expression(bold(italic("R")["d_31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+  labs(x = expression("Treatment"), y = expression("R"["d,31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 resp_31_plot
 
 resp <- ggarrange(resp_20_plot, resp_25_plot, resp_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
