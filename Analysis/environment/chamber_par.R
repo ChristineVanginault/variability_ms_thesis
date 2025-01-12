@@ -2,6 +2,9 @@
 
 ## load packages
 library(tidyverse)
+library(reshape2)
+library(ggpubr)
+library(grid)
 
 ## load data
 par_data <- read.csv("Git/variability_ms_thesis/Data/environmental/par_sensors/cleaned_par.csv")
@@ -67,12 +70,16 @@ write.csv(LTVHLV_hour, "Git/variability_ms_thesis/Data/environmental/par_sensors
 LTVLLV_hour <- par_hour_avg_groupby %>% filter(grepl("all_par_mean_LTVLLV", treatment))
 write.csv(LTVLLV_hour, "Git/variability_ms_thesis/Data/environmental/par_sensors/LTVLLV_hour.csv")
 
-#filter#melt## Graph each treatment ########################################################
+## Graph each treatment ########################################################
 par_avg_hour_plot <- ggplot(par_hour_avg_groupby, aes(x = as.numeric(hour), y = par_mean, color = treatment)) + 
   geom_line() + theme_bw() + scale_x_continuous(breaks = seq(0, 23, 2)) +
-  labs(x = "Hours in a Day (00-23)", y = "Average PAR" ~ (µmol/m^{2}/s), color = "Treatments") +
+  labs(x = "Hours in a Day (00-23)", y = expression("PAR (µmol m"^"-2"*"s"^"-1"*")"), color = "Treatment") +
   scale_y_continuous(breaks = seq(0, 800, by = 100)) +
-  scale_color_hue(labels = c("HTVHLV", "HTVLLV", "LTVHLV", "LTVLLV"))+
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen"),labels = c("HTVHLV", "HTVLLV", "LTVHLV", "LTVLLV") ) +
+  geom_hline(aes(yintercept=386.97), color="red", linetype="dashed")+
+  geom_hline(aes(yintercept=347.26), color="orange", linetype="longdash")+
+  geom_hline(aes(yintercept=370.39), color="blue", linetype="dashed")+
+  geom_hline(aes(yintercept=347.88), color="lightseagreen", linetype="dashed")+
   theme(legend.title  = element_text(size = 7))+
   theme(legend.text = element_text(size = 5))
 par_avg_hour_plot
@@ -82,6 +89,8 @@ jpeg(filename = "Git/variability_ms_thesis/Graphs/par.jpg",
 grid.newpage()
 grid.draw(par_avg_hour_plot)
 dev.off()
+
+
 
 ##############################################################################
 # data for average by day ######

@@ -6,7 +6,8 @@ library(readxl)
 library(tidyr)
 library(tidyverse)
 library(reshape2)
-
+library(ggpubr)
+library(grid)
 
 
 ## load data
@@ -421,8 +422,12 @@ hour_avg_long <- melt(hour_avg, id = "hour", variable.name = "treatment", value.
 
 temp_hour_avg_plot <- ggplot(hour_avg_long, aes(x = as.numeric(hour), y = temp_average, color = treatment)) + 
   geom_line() + theme_bw() + scale_y_continuous(n.breaks = 8) + scale_x_continuous(breaks = seq(0, 23, 2)) +
-  labs(x = "Hours in a Day (00-23)", y = "Average Temperature (C)", color = "Treatments") +
-  scale_color_hue(labels = c("HTVHLV", "HTVLLV", "LTVHLV", "LTVLLV")) +
+  labs(x = "Hours in a Day (00-23)", y = "Temperature (°C)", color = "Treatments") +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen"),labels = c("HTVHLV", "HTVLLV", "LTVHLV", "LTVLLV") ) +
+  geom_hline(aes(yintercept=25.52), color="red", linetype="dashed")+
+  geom_hline(aes(yintercept=26.27), color="orange", linetype="dashed")+
+  geom_hline(aes(yintercept=23.98), color="blue", linetype="dashed")+
+  geom_hline(aes(yintercept=24.09 ), color="lightseagreen", linetype="longdash")+
   theme(legend.title  = element_text(size = 7))+
   theme(legend.text = element_text(size = 5))
 temp_hour_avg_plot

@@ -1,12 +1,5 @@
 # placeholder for description
 
-# TO DOs:
-## graphs to summarize how light is changing and temperature
-## aggregate PAR data over a larger time window
-## look for marginal sig less than 0.1
-## plot raw data
-## compare values at different temps
-
 
 ## load libraries
 library(lme4)
@@ -255,6 +248,9 @@ summary(resp_20_lmer)
 Anova(resp_20_lmer)
 emmeans(resp_20_lmer, ~TV)
 emmeans(resp_20_lmer, ~TV*LV)
+resp_20_means <- data.frame(emmeans(resp_20_lmer, ~TV*LV))
+resp_20_means$treatment <- paste(resp_20_means$TV, resp_20_means$LV, sep = "")
+resp_20_means
 
 ### resp_25
 hist(all_data$resp_25)
@@ -264,6 +260,9 @@ summary(resp_25_lmer)
 Anova(resp_25_lmer)
 emmeans(resp_25_lmer, ~TV)
 emmeans(resp_25_lmer, ~TV*LV)
+resp_25_means <- data.frame(emmeans(resp_25_lmer, ~TV*LV))
+resp_25_means$treatment <- paste(resp_25_means$TV, resp_25_means$LV, sep = "")
+resp_25_means
 
 ### resp_31
 hist(all_data$resp_31)
@@ -273,6 +272,9 @@ summary(resp_31_lmer)
 Anova(resp_31_lmer)
 emmeans(resp_31_lmer, ~TV)
 emmeans(resp_31_lmer, ~TV*LV)
+resp_31_means <- data.frame(emmeans(resp_31_lmer, ~TV*LV))
+resp_31_means$treatment <- paste(resp_31_means$TV, resp_31_means$LV, sep = "")
+resp_31_means
 
 
 #### Multispeq #################################################################
@@ -341,13 +343,13 @@ Anova(chlA.mmolm2_lmer)
 emmeans(chlA.mmolm2_lmer, ~TV)
 emmeans(chlA.mmolm2_lmer, ~TV*LV)
 
-### chlorophyll B (resp_lmer)
-resp_lmer_lmer <- lmer(resp_lmer ~ TV*LV + (1|chamber_fac), data = all_data)
-plot(resid(resp_lmer_lmer) ~ fitted(resp_lmer_lmer))
-summary(resp_lmer_lmer)
-Anova(resp_lmer_lmer)
-emmeans(resp_lmer_lmer, ~TV)
-emmeans(resp_lmer_lmer, ~TV*LV)
+### chlorophyll B (chlB.mmolm2)
+chlB.mmolm2_lmer <- lmer(chlB.mmolm2 ~ TV*LV + (1|chamber_fac), data = all_data)
+plot(resid(chlB.mmolm2_lmer) ~ fitted(chlB.mmolm2_lmer))
+summary(chlB.mmolm2_lmer)
+Anova(chlB.mmolm2_lmer)
+emmeans(chlB.mmolm2_lmer, ~TV)
+emmeans(chlB.mmolm2_lmer, ~TV*LV)
 
 
 
@@ -591,17 +593,26 @@ emmeans(resp_lmer, ~tleaf_fac)
 
 
 # graph results ###############################################################
-### biomass ####
+### biomass ####above_biomass_dry_weight
 above_biomass_plot <- ggplot(aes(x = treatment, y = emmean), 
                              data = biomass_means) +
   geom_point() +
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=above_biomass_dry_weight, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=above_biomass_dry_weight, x = treatment, color = treatment, shape = treatment), 
+              data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = expression(bold("Treatment")), y = expression(bold("Aboveground Biomass Dry Weight (g)")))
+  labs(x = expression("Treatment"), y = expression("Aboveground Biomass Dry Weight (g)"))
 above_biomass_plot
+
+jpeg(filename = "Git/variability_ms_thesis/Graphs/biomass.jpg",
+     width = 4.75, height = 3.8, units = "in", res = 300)
+grid.newpage()
+grid.draw(above_biomass_plot)
+dev.off()
+
 
 ### biomass 2 #####
 biomass_plot2 <- ggplot(aes(x = treatment, y = emmean), 
@@ -616,56 +627,67 @@ biomass_plot2 <- ggplot(aes(x = treatment, y = emmean),
        col = "Light Variability")
 biomass_plot2
 
-### sla #####
+### sla #####SLA_focal
 sla_plot <- ggplot(aes(x = treatment, y = emmean), 
                              data = sla_means) +
   geom_point() +
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=SLA_focal, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=SLA_focal, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   labs(x = expression(bold("Treatment")), y = expression(bold("SLA (cm"^"2"*"/g)")))
 sla_plot
 
-### total chlorophyll ####
+### total chlorophyll ####chl.mmolm2
 total_chloro_plot <- ggplot(aes(x = treatment, y = emmean), 
                    data = total_chloro_means) +
   geom_point() +
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=chl.mmolm2, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=chl.mmolm2, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   labs(x = expression(bold("Treatment")), y = expression(bold(italic("Chl")["area"]*" (mmol m"^"-2"*")")))
 total_chloro_plot
 
-### carbon 13 #########
+### carbon 13 #########c13
 c13_plot <- ggplot(aes(x = treatment, y = emmean), 
                             data = c13_means) +
   geom_point() +
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=c13, x = treatment, 
-                  color = treatment), data = all_data2, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=c13, x = treatment, color = treatment, shape = treatment), data = all_data2, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   labs(x = expression(bold("Treatment")), y = expression(bold("13 C")*" ("*mu*"g"*")"))
 c13_plot
 
-### total nitrogen #########
+### total nitrogen #########nitrogen_g.g
 total_n_plot <- ggplot(aes(x = treatment, y = emmean), 
                    data = total_n_means) +
   geom_point() +
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=nitrogen_g.g, x = treatment, 
-                  color = treatment), data = all_data2, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=nitrogen_g.g, x = treatment, color = treatment, shape = treatment), data = all_data2, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   labs(x = expression(bold("Treatment")), y = expression(bold("N")["mass"]*" ("*"gN g"^"-1"*")"))
 total_n_plot
 
 graph1 <- ggarrange(c13_plot, total_n_plot, total_chloro_plot, sla_plot, labels = c("a)", "b)", "c)", "d)"))
 graph1
+
+jpeg(filename = "Git/variability_ms_thesis/Graphs/4traits.jpg",
+     width = 6, height = 5, units = "in", res = 300)
+grid.newpage()
+grid.draw(graph1)
+dev.off()
+
 
 # photosynthesis graph #######################################################
 ### vcmax ##### 
@@ -674,10 +696,12 @@ graph1
 vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                              data = vcmax_20_means) +
   geom_point() +
+  
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=vcmax_tleaf_20, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=vcmax_tleaf_20, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(20, 180)) +
@@ -696,8 +720,9 @@ vcmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point(size = 2) +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=vcmax_tleaf_25, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=vcmax_tleaf_25, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(20, 140)) +
@@ -716,8 +741,9 @@ vcmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=vcmax_tleaf_31, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=vcmax_tleaf_31, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(20, 180)) +
@@ -771,14 +797,15 @@ dev.off()
 
 theme(legend.title = element_text(size))
 
-### jmax ########
+### jmax ######## jmax_tleaf_20
 jmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                         data = jmax_20_means) +
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=jmax_tleaf_20, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=jmax_tleaf_20, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(35, 195)) +
@@ -791,8 +818,9 @@ jmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=jmax_tleaf_25, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=jmax_tleaf_25, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(35, 195)) +
@@ -805,8 +833,9 @@ jmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=jmax_tleaf_31, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=jmax_tleaf_31, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(35, 195)) +
@@ -815,15 +844,21 @@ jmax_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
 jmax_31_plot
 
 jmax <- ggarrange(jmax_20_plot, jmax_25_plot, jmax_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
+jpeg(filename = "Git/variability_ms_thesis/Graphs/3jmax.jpg",
+     width = 8, height = 3, units = "in", res = 300)
+grid.newpage()
+grid.draw(jmax)
+dev.off()
 
-## gsw_420 ########
+## gsw_420 ######## gsw_420_20
 gsw_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                        data = gsw_20_means) +
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=gsw_420_20, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=gsw_420_20, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 0.8)) +
@@ -836,8 +871,9 @@ gsw_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=gsw_420_25, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=gsw_420_25, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 0.8)) +
@@ -850,8 +886,9 @@ gsw_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=gsw_420_31, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=gsw_420_31, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 0.8)) +
@@ -860,15 +897,21 @@ gsw_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
 gsw_31_plot
 
 gsw <- ggarrange(gsw_20_plot, gsw_25_plot, gsw_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
+jpeg(filename = "Git/variability_ms_thesis/Graphs/3gsw.jpg",
+     width = 8, height = 3, units = "in", res = 300)
+grid.newpage()
+grid.draw(gsw)
+dev.off()
 
-## anet_420 ########
+## anet_420 ######## anet_420_20
 anet_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                       data = anet_20_means) +
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=anet_420_20, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=anet_420_20, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 25)) +
@@ -881,8 +924,9 @@ anet_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=anet_420_25, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=anet_420_25, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 25)) +
@@ -895,8 +939,9 @@ anet_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   geom_point() +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.31,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=anet_420_31, x = treatment, 
-                  color = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  geom_jitter(aes(y=anet_420_31, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 25)) +
@@ -905,4 +950,62 @@ anet_31_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
 anet_31_plot
 
 anet <- ggarrange(anet_20_plot, anet_25_plot, anet_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
+jpeg(filename = "Git/variability_ms_thesis/Graphs/3anet.jpg",
+     width = 8, height = 3, units = "in", res = 300)
+grid.newpage()
+grid.draw(anet)
+dev.off()
 
+
+### resp ##################resp_20
+resp_20_plot <- ggplot(aes(x = treatment, y = (emmean)), 
+                       data = resp_20_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = (emmean - SE), ymax = (emmean + SE)), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=resp_20, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
+  theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(-3, 0)) +
+  scale_y_continuous(breaks = seq(-3, .5, by = .5)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("R")["d_20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+resp_20_plot
+
+resp_25_plot <- ggplot(aes(x = treatment, y = (emmean)), 
+                       data = resp_25_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = (emmean - SE), ymax = (emmean + SE)), width = 0.25,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=resp_25, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
+  theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(-3, 0)) +
+  scale_y_continuous(breaks = seq(-3, .5, by = .5)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("R")["d_25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+resp_25_plot
+
+resp_31_plot <- ggplot(aes(x = treatment, y = (emmean)), 
+                       data = resp_31_means) +
+  geom_point() +
+  geom_errorbar(aes(ymin = (emmean - SE), ymax = (emmean + SE)), width = 0.31,
+                position = position_dodge(width = 0.5)) +
+  geom_jitter(aes(y=resp_31, x = treatment, color = treatment, shape = treatment), data = all_data, alpha = 0.6, size = 1.5) +
+  scale_color_manual(values = c("red", "red", "blue", "blue")) +
+  scale_shape_manual(values = c(17, 16, 17, 16)) +
+  theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
+  coord_cartesian(ylim = c(-3, 0)) +
+  scale_y_continuous(breaks = seq(-3, .5, by = .5)) +
+  labs(x = expression(bold("Treatment")), y = expression(bold(italic("R")["d_31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")")))
+resp_31_plot
+
+resp <- ggarrange(resp_20_plot, resp_25_plot, resp_31_plot, ncol = 3, labels = c("a)", "b)", "c)"))
+jpeg(filename = "Git/variability_ms_thesis/Graphs/3resp.jpg",
+     width = 8, height = 3, units = "in", res = 300)
+grid.newpage()
+grid.draw(resp)
+dev.off()
