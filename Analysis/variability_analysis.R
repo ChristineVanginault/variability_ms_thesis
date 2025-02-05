@@ -972,51 +972,51 @@ dev.off()
 
 
 ### resp ##################resp_20
-resp_20_plot <- ggplot(aes(x = treatment, y = (emmean)), 
+resp_20_plot <- ggplot(aes(x = treatment, y = -1*(emmean)), 
                        data = resp_20_means) +
   geom_point() +
-  geom_errorbar(aes(ymin = (emmean - SE), ymax = (emmean + SE)), width = 0.25,
+  geom_errorbar(aes(ymin = -1*(emmean - SE), ymax = -1*(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=resp_20, x = treatment, color = treatment, shape = treatment), 
+  geom_jitter(aes(y=-1*resp_20, x = treatment, color = treatment, shape = treatment), 
               data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
   scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
-  coord_cartesian(ylim = c(-3, 0)) +
-  scale_y_continuous(breaks = seq(-3, .5, by = .5)) +
+  coord_cartesian(ylim = c(0, 3)) +
+  scale_y_continuous(breaks = seq(0, 3, by = .5)) +
   labs(x = expression("Treatment"), y = expression("R"["d,20"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 resp_20_plot
 
-resp_25_plot <- ggplot(aes(x = treatment, y = (emmean)), 
+resp_25_plot <- ggplot(aes(x = treatment, y = -1*(emmean)), 
                        data = resp_25_means) +
   geom_point() +
-  geom_errorbar(aes(ymin = (emmean - SE), ymax = (emmean + SE)), width = 0.25,
+  geom_errorbar(aes(ymin = -1*(emmean - SE), ymax = -1*(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=resp_25, x = treatment, color = treatment, shape = treatment), 
+  geom_jitter(aes(y=-1*resp_25, x = treatment, color = treatment, shape = treatment), 
               data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
   scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
-  coord_cartesian(ylim = c(-3, 0)) +
-  scale_y_continuous(breaks = seq(-3, .5, by = .5)) +
+  coord_cartesian(ylim = c(0, 3)) +
+  scale_y_continuous(breaks = seq(0, 3, by = .5)) +
   labs(x = expression("Treatment"), y = expression("R"["d,25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 resp_25_plot
 
-resp_31_plot <- ggplot(aes(x = treatment, y = (emmean)), 
+resp_31_plot <- ggplot(aes(x = treatment, y = -1*(emmean)), 
                        data = resp_31_means) +
   geom_point() +
-  geom_errorbar(aes(ymin = (emmean - SE), ymax = (emmean + SE)), width = 0.31,
+  geom_errorbar(aes(ymin = -1*(emmean - SE), ymax = -1*(emmean + SE)), width = 0.31,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=resp_31, x = treatment, color = treatment, shape = treatment), 
+  geom_jitter(aes(y=-1*resp_31, x = treatment, color = treatment, shape = treatment), 
               data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
   scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
-  coord_cartesian(ylim = c(-3, 0)) +
-  scale_y_continuous(breaks = seq(-3, .5, by = .5)) +
+  coord_cartesian(ylim = c(0, 3)) +
+  scale_y_continuous(breaks = seq(0, 3, by = .5)) +
   labs(x = expression("Treatment"), y = expression("R"["d,31"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 resp_31_plot
 
