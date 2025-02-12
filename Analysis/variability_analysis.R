@@ -318,6 +318,7 @@ emmeans(PhiNO_dark_lmer, ~TV*LV)
 
 #### Chlorophyll ###############################################################
 ### total chlorophyll content (chl.mmolm2)
+hist(all_data$chl.mmolm2)
 chl.mmolm2_lmer <- lmer(chl.mmolm2 ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(chl.mmolm2_lmer) ~ fitted(chl.mmolm2_lmer))
 summary(chl.mmolm2_lmer)
@@ -355,7 +356,9 @@ emmeans(chlB.mmolm2_lmer, ~TV*LV)
 
 #### Structural Traits #########################################################
 ### above_biomass_dry_weight
-above_biomass_dry_weight_lmer <- lmer(above_biomass_dry_weight ~ TV*LV + (1|chamber_fac), data = all_data)
+hist(all_data$above_biomass_dry_weight)
+hist(log(all_data$above_biomass_dry_weight))
+above_biomass_dry_weight_lmer <- lmer(log(above_biomass_dry_weight) ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(above_biomass_dry_weight_lmer) ~ fitted(above_biomass_dry_weight_lmer))
 summary(above_biomass_dry_weight_lmer)
 Anova(above_biomass_dry_weight_lmer)
@@ -372,6 +375,7 @@ above_biomass_dry_weight_plot <- ggplot(aes(y=above_biomass_dry_weight, x = trea
 above_biomass_dry_weight_plot
 
 ### SLA_focal
+hist(all_data$SLA_focal)
 SLA_focal_lmer <- lmer(SLA_focal ~ TV*LV + (1|chamber_fac), data = all_data)
 plot(resid(SLA_focal_lmer) ~ fitted(SLA_focal_lmer))
 summary(SLA_focal_lmer)
@@ -389,6 +393,7 @@ sla_means
 
 #### 13C and 15N ##############################################################
 ### carbon 13 (c13)
+hist(all_data2$c13)
 c13_lmer <- lmer(c13 ~ TV*LV + (1|chamber_fac), data = all_data2)
 plot(resid(c13_lmer) ~ fitted(c13_lmer))
 summary(c13_lmer)
@@ -420,7 +425,7 @@ Anova(total_c_lmer)
 emmeans(total_c_lmer, ~TV)
 emmeans(total_c_lmer, ~TV*LV)
 
-### nitrogen g/g (nitrogen_g.g)
+### nitrogen g/g (nitrogen_g.g) 
 total_n_lmer <- lmer(nitrogen_g.g ~ TV*LV + (1|chamber_fac), data = all_data2)
 plot(resid(total_n_lmer) ~ fitted(total_n_lmer))
 summary(total_n_lmer)
@@ -429,10 +434,30 @@ total_n_anova <- data.frame(Anova(total_n_lmer))
 total_n_anova
 write.csv(total_n_anova, "Git/variability_ms_thesis/Tables/total_n_anova.csv")
 emmeans(total_n_lmer, ~TV)
+emmeans(total_n_lmer, ~LV)
 emmeans(total_n_lmer, ~TV*LV)
 total_n_means <- data.frame(emmeans(total_n_lmer, ~TV*LV))
 total_n_means$treatment <- paste(total_n_means$TV, total_n_means$LV, sep = "")
 total_n_means
+
+### nitrogen g/area (nitrogen_area) *significance*
+hist(all_data2$nitrogen_area)
+n_area_lmer <- lmer(nitrogen_area ~ TV*LV + (1|chamber_fac), data = all_data2)
+  # if I remove the one very low value there is less significance [-c(47), ]
+plot(resid(n_area_lmer) ~ fitted(n_area_lmer))
+summary(n_area_lmer)
+Anova(n_area_lmer)
+n_area_anova <- data.frame(Anova(n_area_lmer))
+n_area_anova
+write.csv(n_area_anova, "Git/variability_ms_thesis/Tables/n_area_anova.csv")
+emmeans(n_area_lmer, ~TV)
+emmeans(n_area_lmer, ~LV)
+emmeans(n_area_lmer, ~TV*LV)
+n_area_means <- data.frame(emmeans(n_area_lmer, ~TV*LV))
+n_area_means$treatment <- paste(n_area_means$TV, n_area_means$LV, sep = "")
+n_area_means
+
+  
 
 
 # try new lme for photosynthesis traits #######################################
@@ -593,17 +618,19 @@ emmeans(resp_lmer, ~tleaf_fac)
 
 
 # graph results ###############################################################
-### biomass ####above_biomass_dry_weight
-above_biomass_plot <- ggplot(aes(x = treatment, y = emmean), 
+### biomass ####### 
+#above_biomass_dry_weight
+above_biomass_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                              data = biomass_means) +
   geom_point() +
-  geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
+  geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.25,
                 position = position_dodge(width = 0.5)) +
   geom_jitter(aes(y=above_biomass_dry_weight, x = treatment, color = treatment, shape = treatment), 
               data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
   scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
+  coord_cartesian(ylim = c(0, 8)) +
   labs(x = expression("Treatment"), y = expression("Aboveground Biomass Dry Weight (g)"))
 above_biomass_plot
 
@@ -627,7 +654,8 @@ biomass_plot2 <- ggplot(aes(x = treatment, y = emmean),
        col = "Light Variability")
 biomass_plot2
 
-### sla #####SLA_focal
+### sla #####
+#SLA_focal
 sla_plot <- ggplot(aes(x = treatment, y = emmean), 
                              data = sla_means) +
   geom_point() +
@@ -637,11 +665,13 @@ sla_plot <- ggplot(aes(x = treatment, y = emmean),
               data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
   scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
+  coord_cartesian(ylim = c(150, 400)) +
   theme_bw() + theme(legend.position="none") +
   labs(x = expression("Treatment"), y = expression("SLA (cm"^"2"*"g"^"-1"*")"))
 sla_plot
 
-### total chlorophyll ####chl.mmolm2
+### total chlorophyll ####
+#chl.mmolm2
 total_chloro_plot <- ggplot(aes(x = treatment, y = emmean), 
                    data = total_chloro_means) +
   geom_point() +
@@ -651,11 +681,14 @@ total_chloro_plot <- ggplot(aes(x = treatment, y = emmean),
               data = all_data, alpha = 0.6, size = 1.5, width = 0.25) +
   scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
+  coord_cartesian(ylim = c(.10, .22)) +
+  scale_y_continuous(breaks = seq(.10, .22, by = .02)) +
   theme_bw() + theme(legend.position="none") +
   labs(x = expression("Treatment"), y = expression("Chl"["area"]*" (mmol m"^"-2"*")"))
 total_chloro_plot
 
-### carbon 13 #########c13
+### carbon 13 #########
+#c13
 c13_plot <- ggplot(aes(x = treatment, y = emmean), 
                             data = c13_means) +
   geom_point() +
@@ -665,25 +698,29 @@ c13_plot <- ggplot(aes(x = treatment, y = emmean),
               data = all_data2, alpha = 0.6, size = 1.5, width = 0.25) +
   scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
+  coord_cartesian(ylim = c(-35, -29)) +
   theme_bw() + theme(legend.position="none") +
   labs(x = expression("Treatment"), y = expression("??"^"13"*"C (???)"))
 c13_plot
 
-### total nitrogen #########nitrogen_g.g
-total_n_plot <- ggplot(aes(x = treatment, y = emmean), 
-                   data = total_n_means) +
+### nitrogen per area #########
+#nitrogen_area
+n_area_plot <- ggplot(aes(x = treatment, y = emmean), 
+                   data = n_area_means) +
   geom_point() +
   geom_errorbar(aes(ymin = emmean - SE, ymax = emmean + SE), width = 0.25,
                 position = position_dodge(width = 0.5)) +
-  geom_jitter(aes(y=nitrogen_g.g, x = treatment, color = treatment, shape = treatment), 
+  geom_jitter(aes(y=nitrogen_area, x = treatment, color = treatment, shape = treatment), 
               data = all_data2, alpha = 0.6, size = 1.5, width = 0.25) +
   scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
+  coord_cartesian(ylim = c(0.00012, 0.00024)) +
+  scale_y_continuous(breaks = seq(0.00012, 0.00024, by = .00002)) +
   theme_bw() + theme(legend.position="none") +
-  labs(x = expression("Treatment"), y = expression("N"["mass"]*" ("*"gN g"^"-1"*")"))
-total_n_plot
+  labs(x = expression("Treatment"), y = expression("N"["area"]*" ("*"gN m"^"-2"*")"))
+n_area_plot
 
-graph1 <- ggarrange(c13_plot, total_n_plot, total_chloro_plot, sla_plot, labels = c("a)", "b)", "c)", "d)"))
+graph1 <- ggarrange(c13_plot, n_area_plot, total_chloro_plot, sla_plot, labels = c("a)", "b)", "c)", "d)"))
 graph1
 
 jpeg(filename = "Git/variability_ms_thesis/Graphs/4traits.jpg",
@@ -695,7 +732,6 @@ dev.off()
 
 # photosynthesis graph #######################################################
 ### vcmax ##### 
-# (make same y axis; separate temp and light variability)
 
 vcmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                              data = vcmax_20_means) +
@@ -731,8 +767,8 @@ vcmax_25_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
-  coord_cartesian(ylim = c(20, 140)) +
-  scale_y_continuous(breaks = seq(20, 140, by = 20)) +
+  coord_cartesian(ylim = c(20, 180)) +
+  scale_y_continuous(breaks = seq(20, 180, by = 20)) +
   labs(x = expression("Treatment"), y = expression("V"["cmax,25"]*" ("*mu*"mol m"^"-2"*" s"^"-1"*")"))
 vcmax_25_plot
 
@@ -772,7 +808,7 @@ grid.newpage()
 grid.draw(vcmax)
 dev.off()
 
-## vcmax 25 plot 2 #######
+## vcmax plot 2 #######
 vcmax_25_plot2 <- ggplot(aes(x = TV, y = exp(emmean)),
                      data = vcmax_25_means) +
   geom_errorbar(aes(ymin = exp(emmean - SE), ymax = exp(emmean + SE)), width = 0.4,
@@ -802,7 +838,7 @@ dev.off()
 
 theme(legend.title = element_text(size))
 
-### jmax ######## jmax_tleaf_20
+### jmax ########
 jmax_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                         data = jmax_20_means) +
   geom_point() +
@@ -858,7 +894,18 @@ grid.newpage()
 grid.draw(jmax)
 dev.off()
 
-## gsw_420 ######## gsw_420_20
+## combined Vcmax and Jmax graph #########
+vcmaxjmax <- ggarrange(vcmax_20_plot, vcmax_25_plot, vcmax_31_plot,
+                       jmax_20_plot, jmax_25_plot, jmax_31_plot,
+                       labels = c("a)", "b)", "c)", "d)", "e)", "f)"))
+jpeg(filename = "Git/variability_ms_thesis/Graphs/combined_vcmaxjmax.jpg",
+     width = 8, height = 6, units = "in", res = 300)
+grid.newpage()
+grid.draw(vcmaxjmax)
+dev.off()
+
+
+## gsw_420 ########
 gsw_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                        data = gsw_20_means) +
   geom_point() +
@@ -914,7 +961,7 @@ grid.newpage()
 grid.draw(gsw)
 dev.off()
 
-## anet_420 ######## anet_420_20
+## anet_420 ########
 anet_20_plot <- ggplot(aes(x = treatment, y = exp(emmean)), 
                       data = anet_20_means) +
   geom_point() +
@@ -971,7 +1018,7 @@ grid.draw(anet)
 dev.off()
 
 
-### resp ##################resp_20
+### resp ##################
 resp_20_plot <- ggplot(aes(x = treatment, y = -1*(emmean)), 
                        data = resp_20_means) +
   geom_point() +
@@ -1026,3 +1073,16 @@ jpeg(filename = "Git/variability_ms_thesis/Graphs/3resp.jpg",
 grid.newpage()
 grid.draw(resp)
 dev.off()
+
+## combined anet, gsw, rd #####
+anet_gsw_rd <- ggarrange(anet_20_plot, anet_25_plot, anet_31_plot,
+                         gsw_20_plot, gsw_25_plot, gsw_31_plot,
+                       resp_20_plot, resp_25_plot, resp_31_plot,
+                       labels = c("a)", "b)", "c)", "d)", "e)", "f)",
+                                  "g)", "h)", "i)"))
+jpeg(filename = "Git/variability_ms_thesis/Graphs/combined_anetgswrd.jpg",
+     width = 8, height = 9, units = "in", res = 300)
+grid.newpage()
+grid.draw(anet_gsw_rd)
+dev.off()
+
