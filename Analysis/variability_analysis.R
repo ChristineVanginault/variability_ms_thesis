@@ -384,6 +384,7 @@ sla_anova <- data.frame(Anova(SLA_focal_lmer))
 sla_anova
 write.csv(sla_anova, "Git/variability_ms_thesis/Tables/sla_anova.csv")
 emmeans(SLA_focal_lmer, ~TV)
+emmeans(SLA_focal_lmer, ~LV)
 emmeans(SLA_focal_lmer, ~TV*LV)
 sla_means <- data.frame(emmeans(SLA_focal_lmer, ~TV*LV))
 sla_means$treatment <- paste(sla_means$TV, sla_means$LV, sep = "")
@@ -443,7 +444,6 @@ total_n_means
 ### nitrogen g/area (nitrogen_area) *significance*
 hist(all_data2$nitrogen_area)
 n_area_lmer <- lmer(nitrogen_area ~ TV*LV + (1|chamber_fac), data = all_data2)
-  # if I remove the one very low value there is less significance [-c(47), ]
 plot(resid(n_area_lmer) ~ fitted(n_area_lmer))
 summary(n_area_lmer)
 Anova(n_area_lmer)
@@ -724,7 +724,7 @@ graph1 <- ggarrange(c13_plot, n_area_plot, total_chloro_plot, sla_plot, labels =
 graph1
 
 jpeg(filename = "Git/variability_ms_thesis/Graphs/4traits.jpg",
-     width = 6, height = 5, units = "in", res = 300)
+     width = 7, height = 5, units = "in", res = 300)
 grid.newpage()
 grid.draw(graph1)
 dev.off()
