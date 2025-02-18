@@ -8,6 +8,7 @@ library(emmeans)
 library(ggplot2)
 library(ggpubr)
 library(grid)
+library(cowplot)
 
 ## load data
 all_data <- read.csv('Git/variability_ms_thesis/Data/all_data.csv')
@@ -352,6 +353,14 @@ Anova(chlB.mmolm2_lmer)
 emmeans(chlB.mmolm2_lmer, ~TV)
 emmeans(chlB.mmolm2_lmer, ~TV*LV)
 
+## ratio of chla:chlb (chlA.chlB)
+hist(all_data$chlA.chlB)
+chlA.chlB_lmer <- lmer(chlA.chlB ~ TV*LV + (1|chamber_fac), data = all_data)
+plot(resid(chlA.chlB_lmer) ~ fitted(chlA.chlB_lmer))
+summary(chlA.chlB_lmer)
+Anova(chlA.chlB_lmer)
+emmeans(chlA.chlB_lmer, ~TV)
+emmeans(chlA.chlB_lmer, ~TV*LV)
 
 
 #### Structural Traits #########################################################
@@ -630,6 +639,7 @@ above_biomass_plot <- ggplot(aes(x = treatment, y = exp(emmean)),
   scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
   coord_cartesian(ylim = c(0, 8)) +
   labs(x = expression("Treatment"), y = expression("Aboveground Biomass Dry Weight (g)"))
 above_biomass_plot
@@ -666,9 +676,19 @@ sla_plot <- ggplot(aes(x = treatment, y = emmean),
   scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   coord_cartesian(ylim = c(150, 400)) +
+  theme(axis.text = element_text(size = 7)) +
   theme_bw() + theme(legend.position="none") +
   labs(x = expression("Treatment"), y = expression("SLA (cm"^"2"*"g"^"-1"*")"))
 sla_plot
+
+### biomass & sla plot #########
+biomass.sla <- ggarrange(above_biomass_plot, sla_plot, labels = c("a)", "b)"))
+biomass.sla
+jpeg(filename = "Git/variability_ms_thesis/Graphs/biomass_sla.jpg",
+     width = 9, height = 4, units = "in", res = 300)
+grid.newpage()
+grid.draw(biomass.sla)
+dev.off()
 
 ### total chlorophyll ####
 #chl.mmolm2
@@ -684,6 +704,7 @@ total_chloro_plot <- ggplot(aes(x = treatment, y = emmean),
   coord_cartesian(ylim = c(.10, .22)) +
   scale_y_continuous(breaks = seq(.10, .22, by = .02)) +
   theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
   labs(x = expression("Treatment"), y = expression("Chl"["area"]*" (mmol m"^"-2"*")"))
 total_chloro_plot
 
@@ -700,6 +721,7 @@ c13_plot <- ggplot(aes(x = treatment, y = emmean),
   scale_shape_manual(values = c(17, 16, 17, 16)) +
   coord_cartesian(ylim = c(-35, -29)) +
   theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
   labs(x = expression("Treatment"), y = expression("??"^"13"*"C (???)"))
 c13_plot
 
@@ -717,6 +739,7 @@ n_area_plot <- ggplot(aes(x = treatment, y = emmean),
   coord_cartesian(ylim = c(0.00012, 0.00024)) +
   scale_y_continuous(breaks = seq(0.00012, 0.00024, by = .00002)) +
   theme_bw() + theme(legend.position="none") +
+  theme(axis.text = element_text(size = 7)) +
   labs(x = expression("Treatment"), y = expression("N"["area"]*" ("*"gN m"^"-2"*")"))
 n_area_plot
 
@@ -1084,5 +1107,29 @@ jpeg(filename = "Git/variability_ms_thesis/Graphs/combined_anetgswrd.jpg",
      width = 8, height = 9, units = "in", res = 300)
 grid.newpage()
 grid.draw(anet_gsw_rd)
+dev.off()
+
+## biochemical traits; vcmax, jmax, chl, narea #######
+vcmax.jmax.chl.narea <- ggarrange(vcmax_20_plot, vcmax_25_plot, vcmax_31_plot,
+                       jmax_20_plot, jmax_25_plot, jmax_31_plot, 
+                       total_chloro_plot, n_area_plot,
+                       labels = c("a)", "b)", "c)", "d)", "e)", "f)", "g)", "h)"))
+jpeg(filename = "Git/variability_ms_thesis/Graphs/vcmax_jmax_chl_narea.jpg",
+     width = 8, height = 9, units = "in", res = 300)
+grid.newpage()
+grid.draw(vcmax.jmax.chl.narea)
+dev.off()
+
+## leaf gas exchange; anet gsw rd c13 #####
+anet.gsw.rd.c13 <- ggarrange(anet_20_plot, anet_25_plot, anet_31_plot,
+                         gsw_20_plot, gsw_25_plot, gsw_31_plot,
+                         resp_20_plot, resp_25_plot, resp_31_plot, c13_plot, 
+                         ncol = 3, nrow = 4,
+                         labels = c("a)", "b)", "c)", "d)", "e)", "f)",
+                                    "g)", "h)", "i)", "j)"))
+jpeg(filename = "Git/variability_ms_thesis/Graphs/anet_gsw_rd_c13.jpg",
+     width = 8, height = 10.5, units = "in", res = 300)
+grid.newpage()
+grid.draw(anet.gsw.rd.c13)
 dev.off()
 

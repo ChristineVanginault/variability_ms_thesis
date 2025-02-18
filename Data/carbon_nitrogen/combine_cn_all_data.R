@@ -37,6 +37,8 @@ cn_data
 mean <- mean(cn_data$cica)
 mean
 # [1] 0.7137657
-stde <- sd(cn_data$cica)/sqrt(length((cn_data$cica)))
-stde
+sterr <- sd(cn_data$cica)/sqrt(length((cn_data$cica)))
+sterr
 # [1] 0.006217974
+
+sd(cn_data$cica)
