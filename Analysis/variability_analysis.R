@@ -473,7 +473,8 @@ n_area_means
   # trait increased/decreased with increasing temperature but no significance in treatments
   # at each temperature
 
-### vcmax ** tleaf has a sig effect **
+### vcmax ########
+# ** tleaf has a sig effect **
 vcmax20_df <- all_data[ , c("chamber_fac", "unique_id", "vcmax_tleaf_20", "TV", "LV")]
 vcmax20_df$tleaf <- rep(20, each = 60)
 colnames(vcmax20_df)[3] <- "vcmax"
@@ -504,7 +505,8 @@ all_vcmax_means <- data.frame(emmeans(vcmax_lmer, ~TV*LV))
 all_vcmax_means
 emmeans(vcmax_lmer, ~tleaf_fac)
 
-### jmax ** tleaf has a significant effect **
+### jmax #######
+# ** tleaf has a significant effect **
 jmax20_df <- all_data[ , c("chamber_fac", "unique_id", "jmax_tleaf_20", "TV", "LV")]
 jmax20_df$tleaf <- rep(20, each = 60)
 colnames(jmax20_df)[3] <- "jmax"
@@ -534,7 +536,8 @@ write.csv(jmax_anova, "Git/variability_ms_thesis/Tables/jmax_anova.csv")
 emmeans(jmax_lmer, ~TV*LV)
 emmeans(jmax_lmer, ~tleaf_fac)
 
-### gsw_420 ** tleaf has a significant effect **
+### gsw_420 #####
+# ** tleaf has a significant effect **
 gsw_20_df <- all_data[ , c("chamber_fac", "unique_id", "gsw_420_20", "TV", "LV")]
 gsw_20_df$tleaf <- rep(20, each = 60)
 colnames(gsw_20_df)[3] <- "gsw_420"
@@ -564,7 +567,8 @@ write.csv(gsw_anova, "Git/variability_ms_thesis/Tables/gsw_anova.csv")
 emmeans(gsw_420_lmer, ~TV*LV)
 emmeans(gsw_420_lmer, ~tleaf_fac)
 
-### anet_420 ** tleaf has a significant effect **
+### anet_420 ####
+# ** tleaf has a significant effect **
 anet_20_df <- all_data[ , c("chamber_fac", "unique_id", "anet_420_20", "TV", "LV")]
 anet_20_df$tleaf <- rep(20, each = 60)
 colnames(anet_20_df)[3] <- "anet_420"
@@ -594,7 +598,8 @@ write.csv(anet_anova, "Git/variability_ms_thesis/Tables/anet_anova.csv")
 emmeans(anet_420_lmer, ~TV*LV)
 emmeans(anet_420_lmer, ~tleaf_fac)
 
-### resp ** tleaf has significant impact **
+### resp #####
+#  ** tleaf has significant impact **
 resp_20_df <- all_data[ , c("chamber_fac", "unique_id", "resp_20", "TV", "LV")]
 resp_20_df$tleaf <- rep(20, each = 60)
 colnames(resp_20_df)[3] <- "resp"
@@ -736,12 +741,17 @@ n_area_plot <- ggplot(aes(x = treatment, y = emmean),
               data = all_data2, alpha = 0.6, size = 1.5, width = 0.25) +
   scale_color_manual(values = c("red", "orange", "blue", "lightseagreen")) +
   scale_shape_manual(values = c(17, 16, 17, 16)) +
-  coord_cartesian(ylim = c(0.00012, 0.00024)) +
-  scale_y_continuous(breaks = seq(0.00012, 0.00024, by = .00002)) +
+  coord_cartesian(ylim = c(1.2, 2.4)) +
+  scale_y_continuous(breaks = seq(1.2, 2.4, by = .2)) +
   theme_bw() + theme(legend.position="none") +
   theme(axis.text = element_text(size = 7)) +
   labs(x = expression("Treatment"), y = expression("N"["area"]*" ("*"gN m"^"-2"*")"))
 n_area_plot
+jpeg(filename = "Git/variability_ms_thesis/Graphs/narea.jpg",
+     width = 4.75, height = 3.8, units = "in", res = 300)
+grid.newpage()
+grid.draw(n_area_plot)
+dev.off()
 
 graph1 <- ggarrange(c13_plot, n_area_plot, total_chloro_plot, sla_plot, labels = c("a)", "b)", "c)", "d)"))
 graph1

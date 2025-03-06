@@ -20,7 +20,7 @@ sla
 cn_data <- left_join(cn_data, sla, join_by(plant_id == unique_id))
 cn_data
 
-cn_data <- transform(cn_data, nitrogen_area = nitrogen_g.g * (1/SLA_focal))
+cn_data <- transform(cn_data, nitrogen_area = nitrogen_g.g * (1/(SLA_focal/10000)))
 cn_data
 
 ## join data frames together by unique_id (all_data) and plant_id (cn_data) ####
